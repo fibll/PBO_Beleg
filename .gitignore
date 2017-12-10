@@ -1,0 +1,13 @@
+*.pdf
+*.aux
+*.log
+*.nav
+*.out
+*.snm
+*.synctex.gz
+*.toc
+*.xcf
+js
+css
+fonts
+git_graph.png
