@@ -4,9 +4,11 @@
             <title>Bootstrap Example</title>
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1">
+
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
     </head>
 
 
@@ -14,35 +16,106 @@
         <div id=top>
             <h1>System</h1>
             <!--
-                
+
                 Hauptprozess: Name
             -->
         </div>
         <div id=searchbar>Searchbar</div>
+
+        <!-- Sidebar  -->
         <div class="row">
             <div class=col-md-2>
                 <nav id=menu>
-                        <ul class="nav nav-pills nav-stacked">
+                        <!--
+                            <ul class="nav nav-pills nav-stacked">
                                 <li class="active"><a href="#">Home</a></li>
                                 <li><a href="#">Menu 1</a></li>
                                 <li><a href="#">Menu 2</a></li>
                                 <li><a href="#">Menu 3</a></li>
                               </ul>
+                        -->
+                        <ul class="list-group">
+                            <li class="list-group-item">Kategorie 1</li>
+                            <li class="list-group-item">Kategorie 2</li>
+                            <li class="list-group-item active">Kategorie 3</li>
+                        </ul>
                 </nav>
             </div>
+            
+            <!-- Informationarea --> 
             <div class=col-md-10>
-                <div id=sortbar> 
-                    Sortieren nach:
-                    <ul class="nav nav-pills">
-                            <li class="active"><a href="#">Name</a></li>
-                            <li><a href="#">Location</a></li>
-                            <li><a href="#">Stakeholder</a></li>
-                    </ul> 
-                </div> 
-                
-                <div id=information class="container border">information</div>
+                <div class="row">
+
+                    <!-- Sortbar -->
+                    <div class="col-md-10">
+                        <div id=sortbar>
+                            <ul class="nav nav-pills">
+                                    <!-- <li><p>Sortiert nach:</p></li> -->
+                                    <li class=""><a href="#">Name</a></li>
+                                    <li class="active"><a href="#">Location</a></li>
+                                    <li class=""><a href="#">Stakeholder</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Information row 1 -->
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div id=information class="container border">
+
+                                <!-- multiple little articles in a grid or big articles in a list (full width) -->
+                                <div id=info1 class=col-md-2>
+                                    <littleArticle>
+                                        <header>Prozess 1</header>
+                                        <p>Information</p>
+                                    </littleArticle>
+                                </div>
+                                <div id=info2 class=col-md-2>
+                                    <littleArticle>
+                                        <header>Prozess 2</header>
+                                        <p>Information</p>
+                                    </littleArticle>
+                                </div>
+                                <div id=info3 class=col-md-2>
+                                    <littleArticle>
+                                        <header>Prozess 3</header>
+                                        <p>Information</p>
+                                    </littleArticle>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Information row 2 -->
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div id=information class="container border">
+
+                                <!-- multiple little articles in a grid or big articles in a list (full width) -->
+                                <div id=info1 class=col-md-2>
+                                    <littleArticle>
+                                        <header>Prozess 4</header>
+                                        <p>Information</p>
+                                    </littleArticle>
+                                </div>
+                                <div id=info2 class=col-md-2>
+                                    <littleArticle>
+                                        <header>Prozess 5</header>
+                                        <p>Information</p>
+                                    </littleArticle>
+                                </div>
+                                <div id=info3 class=col-md-2>
+                                    <littleArticle>
+                                        <header>Prozess 6</header>
+                                        <p>Information</p>
+                                    </littleArticle>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        
+
     </body>
 </html>
