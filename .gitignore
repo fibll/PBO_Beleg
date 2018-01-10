@@ -11,3 +11,5 @@ js
 css
 fonts
 git_graph.png
+node_modules
+dist
