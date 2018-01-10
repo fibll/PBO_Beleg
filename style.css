@@ -3,16 +3,21 @@ h1{
 }
 
 littleArticle {
+    border-style: solid;
+
+    /*
     clear: right;
     margin: 20px 10px;
     width: 80%;
     height: 100%;
     box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.29);
     border: 2px solid #af0e0e;
+    */
   }
-  header {
+  /*
+    header {
     padding-left: 10px;
     font-family: Arial, Helvetica, sans-serif;
     word-spacing: .05em;
     color: black;
-}
+}*/
