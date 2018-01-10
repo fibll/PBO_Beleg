@@ -6,21 +6,19 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy"
-        crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4"
-        crossorigin="anonymous"></script>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="src/bootstrap.min.css">
+    <script src="src/jquery.slim.min.js"></script>
+    <script src="src/popper.min.js"></script>
+    <script src="src/bootstrap2.min.js"></script>
 
-    <!--
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-            -->
+    <!-- CSS file -->
     <!-- <link type="text/css" rel="stylesheet" href="style.css"> -->
+
+    <!-- VUE -->
+    <script src="src/vue.js"></script>
+
+
 </head>
 
 
@@ -46,9 +44,9 @@
                               </ul>
                         -->
                 <ul class="list-group">
-                    <li class="list-group-item">Kategorie 1</li>
-                    <li class="list-group-item">Kategorie 2</li>
-                    <li class="list-group-item active">Kategorie 3</li>
+                    <li class="list-group-item">Prozesse</li>
+                    <li class="list-group-item">Locations</li>
+                    <li class="list-group-item active">Stakeholder</li>
                 </ul>
             </nav>
         </div>
@@ -58,20 +56,20 @@
             <div class="row">
 
                 <!-- Sortbar -->
-                    <div id="sortbar">
-                        <ul class="nav nav-pills">
-                            <!-- <li><p>Sortiert nach:</p></li> -->
-                            <li class="nav-item">
-                                <a class="nav-link active" href="#">Name</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Location</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Stakeholder</a>
-                            </li>
-                        </ul>
-                    </div>
+                <div id="sortbar">
+                    <ul class="nav nav-pills">
+                        <!-- <li><p>Sortiert nach:</p></li> -->
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">Name</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Location</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Stakeholder</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
             <!-- Information row 1 -->
@@ -103,6 +101,12 @@
             </div>
         </div>
     </div>
+
+    <div id="tmp">
+        <p>{{name}}</p>
+    </div>
 </body>
+
+<script src="source.js"></script>
 
 </html>
