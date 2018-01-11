@@ -2,7 +2,7 @@ var vue = new Vue({
     el: "#app",
     data: {
         name: "foo",
-        
+
         // data
         jsonData: {},
         children: [],
@@ -50,7 +50,7 @@ var vue = new Vue({
     methods: {
 
         // click handler
-        clickHandlerProcesses: function (event){
+        clickHandlerProcesses: function (event) {
             this.listElement1 = true;
             this.listElement2 = false;
             this.listElement3 = false;
@@ -61,7 +61,7 @@ var vue = new Vue({
             console.log("clickHandler-Processes");
         },
 
-        clickHandlerLocations: function (event){
+        clickHandlerLocations: function (event) {
             this.listElement1 = false;
             this.listElement2 = true;
             this.listElement3 = false;
@@ -72,7 +72,7 @@ var vue = new Vue({
             console.log("clickHandler-Locations");
         },
 
-        clickHandlerStakeholder: function (event){
+        clickHandlerStakeholder: function (event) {
             this.listElement1 = false;
             this.listElement2 = false;
             this.listElement3 = true;
@@ -83,7 +83,7 @@ var vue = new Vue({
             console.log("clickHandler-Stakeholder");
         },
 
-        clickHandlerArticle: function (event){
+        clickHandlerArticle: function (event) {
             console.log(event.target.id);
         }
     }

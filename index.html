@@ -46,7 +46,7 @@
         <div class="row">
 
             <!-- Sidebar  -->
-            <div class=col-md-2>
+            <div class=col-md-3>
                 <nav id=menu>
                     <div class="list-group">
                         <a href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement1}" v-on:click="clickHandlerProcesses">Prozesse</a>
@@ -63,6 +63,7 @@
                     <!-- Sortbar -->
                     <div id="sortbar">
                         <ul class="nav nav-pills">
+
                             <!-- <li><p>Sortiert nach:</p></li> -->
                             <li class="nav-item">
                                 <a class="nav-link" href="#">ID</a>
@@ -85,35 +86,17 @@
 
                     <!-- multiple little articles in a grid or big articles in a list (full width) -->
                     <div class="col-md-3 mt-5 mr-5" v-for="(item, index) in listToShow" :key="item.id">
-                        <!-- <div class="col-md-3 border border-info rounded mt-5 mr-5" v-on:click="clickHandlerArticle" v-for="(item, index) in listToShow"> -->
 
-                        <!-- The a tag and the list-group-item-action make it clickabel -->
+                        <!-- The a tag and the list-group-item-action make the little arctile clickabel -->
                         <a id="link" href="#" class="list-group-item-action" v-on:click="clickHandlerArticle">
                             <div id="card" class="card border-primary mb-3 text-black" style="min-width: 10rem; max-width: 18rem;">
-                                
+
                                 <!-- Set the id with v-bind="{id: 'some text or' stringVariable}"-->
                                 <div class="card-header" v-bind="{ id: item.id}">{{item.id}}</div>
-                                <div id="cardBody" class="card-body">Lorem ipsum dolor sit amet consectetur adipisicing.</div>
+                                <div id="cardBody" class="card-body" v-bind="{ id: item.id}">Lorem ipsum dolor sit amet consectetur adipisicing.</div>
                             </div>
                         </a>
-                        <!--
-                        
-                        <p>Parent: {{item.parent}}</p>
-                        <p>Description: {{item.description}}</p>
-                        -->
                     </div>
-                </div>
-
-                <!-- Information row 1 -->
-                <div class="row">
-
-                    <!-- multiple little articles in a grid or one big detailed article and a back button (full width) -->
-                    <!--
-                    <div id="info4" class="col-md border rounded mt-2">
-                        <h5 align="center">Prozess 4</h5>
-                        <p>Information</p>
-                    </div>
-                -->
                 </div>
             </div>
         </div>
