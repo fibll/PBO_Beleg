@@ -12,23 +12,8 @@
     <script src="lib/popper.min.js"></script>
     <script src="lib/bootstrap2.min.js"></script>
 
-    <!-- Latest compiled and minified CSS -->
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"> -->
-    <!-- jQuery library -->
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
-    <!-- Popper JS -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script> -->
-    <!-- Latest compiled JavaScript -->
-    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script> -->
-
-    <!-- CSS file -->
-    <!-- <link type="text/css" rel="stylesheet" href="style.css"> -->
-
     <!-- VUE -->
     <script src="lib/vue.js"></script>
-    <!-- <script src="https://unpkg.com/vue"></script> -->
-
-
 </head>
 
 
@@ -85,15 +70,18 @@
                 <div class="row">
 
                     <!-- multiple little articles in a grid or big articles in a list (full width) -->
-                    <div class="col-md-3 mt-5 mr-5" v-for="(item, index) in listToShow" :key="item.id">
+                    <div class="col-md-3 mt-5 mr-5" v-for="(item, index) in listToShow">
 
                         <!-- The a tag and the list-group-item-action make the little arctile clickabel -->
-                        <a id="link" href="#" class="list-group-item-action" v-on:click="clickHandlerArticle">
-                            <div id="card" class="card border-primary mb-3 text-black" style="min-width: 10rem; max-width: 18rem;">
+                        <a href="#" class="list-group-item-action" v-on:click="clickHandlerArticle">
+                            <div class="card border-primary mb-3 text-black" style="min-width: 10rem; max-width: 18rem;">
 
                                 <!-- Set the id with v-bind="{id: 'some text or' stringVariable}"-->
                                 <div class="card-header" v-bind="{ id: item.id}">{{item.id}}</div>
-                                <div id="cardBody" class="card-body" v-bind="{ id: item.id}">Lorem ipsum dolor sit amet consectetur adipisicing.</div>
+                                <div class="card-body" v-bind="{ id: item.id}">
+                                    <div v-if="showType==='locations'">Stadt: {{item.city}}</div>
+                                    <div v-else>Name: {{item.name}}</div>
+                                </div>
                             </div>
                         </a>
                     </div>

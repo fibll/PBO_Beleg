@@ -15,6 +15,7 @@ var vue = new Vue({
         listElement3: false,
 
         // show
+        showType: "processes",
         listToShow: [],
         title: "",
         info1: "",
@@ -55,8 +56,9 @@ var vue = new Vue({
             this.listElement2 = false;
             this.listElement3 = false;
 
-            // change list to show
+            // show settings
             this.listToShow = this.children;
+            this.showType = "processes";
 
             console.log("clickHandler-Processes");
         },
@@ -66,8 +68,9 @@ var vue = new Vue({
             this.listElement2 = true;
             this.listElement3 = false;
 
-            // change list to show
+            // show settings
             this.listToShow = this.locations;
+            this.showType = "locations";
 
             console.log("clickHandler-Locations");
         },
@@ -77,8 +80,9 @@ var vue = new Vue({
             this.listElement2 = false;
             this.listElement3 = true;
 
-            // change list to show
+            // show settings
             this.listToShow = this.stakeholder;
+            this.showType = "stakeholder";
 
             console.log("clickHandler-Stakeholder");
         },
