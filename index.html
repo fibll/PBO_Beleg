@@ -88,11 +88,13 @@
                 <div class="row">
 
                     <!-- multiple little articles in a grid or big articles in a list (full width) -->
-                    <div class="col-md border border-info rounded mt-5 mr-5" v-for="(item, index) in children">
-                        <h5 align="center">{{item.name}}</h5>
+                    <div class="col-md-3 border border-info rounded mt-5 mr-5" v-for="(item, index) in listToShow">
+                        <h5 align="center">{{item.id}}</h5>
+                        <!--
                         <p>ID: {{item.id}}</p>
                         <p>Parent: {{item.parent}}</p>
                         <p>Description: {{item.description}}</p>
+                        -->
                     </div>
                 </div>
 

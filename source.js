@@ -14,6 +14,11 @@ var vue = new Vue({
         listElement2: false,
         listElement3: false,
 
+        // show
+        listToShow: [],
+        info1: "",
+        info2: "",
+
         // test
         text: "Prozesse",
         text1: "Prozesse",
@@ -33,6 +38,9 @@ var vue = new Vue({
             self.locations = self.jsonData.process.locations;
             self.stakeholder = self.jsonData.process.stakeholder;
 
+            // set default showed list
+            self.listToShow = self.children;
+
             console.log("reading of json file was successfull");
         });
     },
@@ -45,6 +53,10 @@ var vue = new Vue({
             this.listElement1 = true;
             this.listElement2 = false;
             this.listElement3 = false;
+
+            // change list to show
+            this.listToShow = this.children;
+
             console.log("clickHandler-Processes");
         },
 
@@ -52,6 +64,10 @@ var vue = new Vue({
             this.listElement1 = false;
             this.listElement2 = true;
             this.listElement3 = false;
+
+            // change list to show
+            this.listToShow = this.locations;
+
             console.log("clickHandler-Locations");
         },
 
@@ -59,6 +75,10 @@ var vue = new Vue({
             this.listElement1 = false;
             this.listElement2 = false;
             this.listElement3 = true;
+
+            // change list to show
+            this.listToShow = this.stakeholder;
+
             console.log("clickHandler-Stakeholder");
         }
     }
