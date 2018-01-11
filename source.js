@@ -2,10 +2,24 @@ var vue = new Vue({
     el: "#app",
     data: {
         name: "foo",
+        
+        // data
         jsonData: {},
         children: [],
         locations: [],
-        stakeholder: []
+        stakeholder: [],
+
+        // active
+        listElement1: true,
+        listElement2: false,
+        listElement3: false,
+
+        // test
+        text: "Prozesse",
+        text1: "Prozesse",
+        text2: "change",
+        active: "active",
+
     },
 
     // get json stuff
@@ -19,11 +33,33 @@ var vue = new Vue({
             self.locations = self.jsonData.process.locations;
             self.stakeholder = self.jsonData.process.stakeholder;
 
-            console.log(self.children);
-
-            // test
-            self.name = self.jsonData.process.childs[0].name;
             console.log("reading of json file was successfull");
         });
+    },
+
+    // methods
+    methods: {
+
+        // click handler
+        clickHandlerProcesses: function (event){
+            this.listElement1 = true;
+            this.listElement2 = false;
+            this.listElement3 = false;
+            console.log("clickHandler-Processes");
+        },
+
+        clickHandlerLocations: function (event){
+            this.listElement1 = false;
+            this.listElement2 = true;
+            this.listElement3 = false;
+            console.log("clickHandler-Locations");
+        },
+
+        clickHandlerStakeholder: function (event){
+            this.listElement1 = false;
+            this.listElement2 = false;
+            this.listElement3 = true;
+            console.log("clickHandler-Stakeholder");
+        }
     }
 })

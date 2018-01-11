@@ -33,100 +33,80 @@
 
 
 <body class="mx-2 my-2">
-    <div id=top>
-        <h1>System</h1>
-        <!--
-                Hauptprozess: Name
-            -->
-    </div>
-    <div id=searchbar>Searchbar</div>
-
-    <!-- Sidebar  -->
-    <div class="row">
-        <div class=col-md-2>
-            <nav id=menu>
-                <!--
-                            <ul class="nav nav-pills nav-stacked">
-                                <li class="active"><a href="#">Home</a></li>
-                                <li><a href="#">Menu 1</a></li>
-                                <li><a href="#">Menu 2</a></li>
-                                <li><a href="#">Menu 3</a></li>
-                              </ul>
-                        -->
-                <ul class="list-group">
-                    <li class="list-group-item">Prozesse</li>
-                    <li class="list-group-item">Locations</li>
-                    <li class="list-group-item active">Stakeholder</li>
-                </ul>
-            </nav>
-        </div>
-
-        <!-- Informationarea -->
-        <div class=col-md-9>
-            <div class="row">
-
-                <!-- Sortbar -->
-                <div id="sortbar">
-                    <ul class="nav nav-pills">
-                        <!-- <li><p>Sortiert nach:</p></li> -->
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#">Name</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Location</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Stakeholder</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Information row 1 -->
-            <div class="row">
-
-                <!-- multiple little articles in a grid or big articles in a list (full width) -->
-                <div id="info1" class="col-md border rounded mt-2">
-                    <h5 align="center">Prozess 1</h5>
-                    <p>Information</p>
-                </div>
-                <div id="info2" class="col-md border rounded mt-2">
-                    <h5 align="center">Prozess 2</h5>
-                    <p>Information</p>
-                </div>
-                <div id="info3" class="col-md border rounded mt-2">
-                    <h5 align="center">Prozess 3</h5>
-                    <p>Information</p>
-                </div>
-            </div>
-
-            <!-- Information row 1 -->
-            <div class="row">
-
-                <!-- multiple little articles in a grid or big articles in a list (full width) -->
-                <div id="info4" class="col-md border rounded mt-2">
-                    <h5 align="center">Prozess 4</h5>
-                    <p>Information</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div id="app">
-        <p>{{name}}</p>
-        <!--
-        <ul>
-            <li v-for="(item, index) in children">
-                {{item.name}}
-            </li>
-        </ul>
-    -->
+        <div id=top>
+            <h1 class="display1">{{jsonData.system.name}}</h1>
+            <h2 class="display2">Prozess: {{jsonData.process.name}}</h2>
+        </div>
+        <br>
+
+        <!-- Searchbar  -->
+        <!-- <div id=searchbar>Searchbar</div> -->
+
         <div class="row">
-            <div class="col-md border rounded mt-2 mx-1" v-for="(item, index) in children">
-                <h5 align="center">{{item.name}}</h5>
-                <p>ID: {{item.id}}</p>
-                <p>Parent: {{item.parent}}</p>
-                <p>Description: {{item.description}}</p>
+
+            <!-- Sidebar  -->
+            <div class=col-md-2>
+                <nav id=menu>
+                    <div class="list-group">
+                        <a href="#" class="list-group-item list-group-item-action" 
+                            v-bind:class="{ active: listElement1}" 
+                            v-on:click="clickHandlerProcesses">{{text}}</a>
+                        <a href="#" class="list-group-item list-group-item-action"
+                            v-bind:class="{ active: listElement2}"
+                            v-on:click="clickHandlerLocations">Locations</a>
+                        <a href="#" class="list-group-item list-group-item-action"
+                            v-bind:class="{ active: listElement3}"
+                            v-on:click="clickHandlerStakeholder"
+                            >Stakeholder</a>
+                    </div>
+                </nav>
+            </div>
+
+            <!-- Informationarea -->
+            <div class=col-md-9>
+                <div class="row">
+
+                    <!-- Sortbar -->
+                    <div id="sortbar">
+                        <ul class="nav nav-pills">
+                            <!-- <li><p>Sortiert nach:</p></li> -->
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#">Name</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Location</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Stakeholder</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Information row 1 -->
+                <div class="row">
+
+                    <!-- multiple little articles in a grid or big articles in a list (full width) -->
+                    <div class="col-md border border-info rounded mt-5 mr-5" v-for="(item, index) in children">
+                        <h5 align="center">{{item.name}}</h5>
+                        <p>ID: {{item.id}}</p>
+                        <p>Parent: {{item.parent}}</p>
+                        <p>Description: {{item.description}}</p>
+                    </div>
+                </div>
+
+                <!-- Information row 1 -->
+                <div class="row">
+
+                    <!-- multiple little articles in a grid or one big detailed article and a back button (full width) -->
+                    <!--
+                    <div id="info4" class="col-md border rounded mt-2">
+                        <h5 align="center">Prozess 4</h5>
+                        <p>Information</p>
+                    </div>
+                -->
+                </div>
             </div>
         </div>
     </div>
