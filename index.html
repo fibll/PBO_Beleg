@@ -49,16 +49,9 @@
             <div class=col-md-2>
                 <nav id=menu>
                     <div class="list-group">
-                        <a href="#" class="list-group-item list-group-item-action" 
-                            v-bind:class="{ active: listElement1}" 
-                            v-on:click="clickHandlerProcesses">{{text}}</a>
-                        <a href="#" class="list-group-item list-group-item-action"
-                            v-bind:class="{ active: listElement2}"
-                            v-on:click="clickHandlerLocations">Locations</a>
-                        <a href="#" class="list-group-item list-group-item-action"
-                            v-bind:class="{ active: listElement3}"
-                            v-on:click="clickHandlerStakeholder"
-                            >Stakeholder</a>
+                        <a href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement1}" v-on:click="clickHandlerProcesses">Prozesse</a>
+                        <a href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement2}" v-on:click="clickHandlerLocations">Locations</a>
+                        <a href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement3}" v-on:click="clickHandlerStakeholder">Stakeholder</a>
                     </div>
                 </nav>
             </div>
@@ -71,6 +64,9 @@
                     <div id="sortbar">
                         <ul class="nav nav-pills">
                             <!-- <li><p>Sortiert nach:</p></li> -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">ID</a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link active" href="#">Name</a>
                             </li>
@@ -88,10 +84,20 @@
                 <div class="row">
 
                     <!-- multiple little articles in a grid or big articles in a list (full width) -->
-                    <div class="col-md-3 border border-info rounded mt-5 mr-5" v-for="(item, index) in listToShow">
-                        <h5 align="center">{{item.id}}</h5>
+                    <div class="col-md-3 mt-5 mr-5" v-for="(item, index) in listToShow" :key="item.id">
+                        <!-- <div class="col-md-3 border border-info rounded mt-5 mr-5" v-on:click="clickHandlerArticle" v-for="(item, index) in listToShow"> -->
+
+                        <!-- The a tag and the list-group-item-action make it clickabel -->
+                        <a id="link" href="#" class="list-group-item-action" v-on:click="clickHandlerArticle">
+                            <div id="card" class="card border-primary mb-3 text-black" style="min-width: 10rem; max-width: 18rem;">
+                                
+                                <!-- Set the id with v-bind="{id: 'some text or' stringVariable}"-->
+                                <div class="card-header" v-bind="{ id: item.id}">{{item.id}}</div>
+                                <div id="cardBody" class="card-body">Lorem ipsum dolor sit amet consectetur adipisicing.</div>
+                            </div>
+                        </a>
                         <!--
-                        <p>ID: {{item.id}}</p>
+                        
                         <p>Parent: {{item.parent}}</p>
                         <p>Description: {{item.description}}</p>
                         -->

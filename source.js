@@ -16,14 +16,13 @@ var vue = new Vue({
 
         // show
         listToShow: [],
+        title: "",
         info1: "",
         info2: "",
 
         // test
-        text: "Prozesse",
-        text1: "Prozesse",
-        text2: "change",
-        active: "active",
+        text1: "Information",
+        text2: "test"
 
     },
 
@@ -40,6 +39,8 @@ var vue = new Vue({
 
             // set default showed list
             self.listToShow = self.children;
+            // self.info1 = self.children.name;
+            // self.info2 = self.children.parent;
 
             console.log("reading of json file was successfull");
         });
@@ -80,6 +81,10 @@ var vue = new Vue({
             this.listToShow = this.stakeholder;
 
             console.log("clickHandler-Stakeholder");
+        },
+
+        clickHandlerArticle: function (event){
+            console.log(event.target.id);
         }
     }
 })
