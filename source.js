@@ -1,18 +1,29 @@
 var vue = new Vue({
-    el: "#tmp",
+    el: "#app",
     data: {
-        name: "bla",
-        jsonData: {system:[] , process:[]},
+        name: "foo",
+        jsonData: {},
+        children: [],
+        locations: [],
+        stakeholder: []
     },
 
     // get json stuff
-    mounted(){
-        var itself = this;
-        $.getJSON("../src/process.json", function(data) {
-            itself.jsonData = data;
-            itself.json_tmp  = self.json_data.process.childs;
-            itself.child_num = JsonCount(self.json_data.process.childs);
-            //alert(JsonCount(self.json_data.process.childs));
+    mounted() {
+        var self = this;
+        $.getJSON("/src/process.json", function (data) {
+
+            // read in data
+            self.jsonData = data;
+            self.children = self.jsonData.process.childs;
+            self.locations = self.jsonData.process.locations;
+            self.stakeholder = self.jsonData.process.stakeholder;
+
+            console.log(self.children);
+
+            // test
+            self.name = self.jsonData.process.childs[0].name;
+            console.log("reading of json file was successfull");
         });
     }
 })

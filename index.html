@@ -12,11 +12,21 @@
     <script src="lib/popper.min.js"></script>
     <script src="lib/bootstrap2.min.js"></script>
 
+    <!-- Latest compiled and minified CSS -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"> -->
+    <!-- jQuery library -->
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <!-- Popper JS -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script> -->
+    <!-- Latest compiled JavaScript -->
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script> -->
+
     <!-- CSS file -->
     <!-- <link type="text/css" rel="stylesheet" href="style.css"> -->
 
     <!-- VUE -->
-    <script src="src/vue.js"></script>
+    <script src="lib/vue.js"></script>
+    <!-- <script src="https://unpkg.com/vue"></script> -->
 
 
 </head>
@@ -102,12 +112,26 @@
         </div>
     </div>
 
-    <div id="tmp">
+    <div id="app">
         <p>{{name}}</p>
+        <!--
+        <ul>
+            <li v-for="(item, index) in children">
+                {{item.name}}
+            </li>
+        </ul>
+    -->
+        <div class="row">
+            <div class="col-md border rounded mt-2 mx-1" v-for="(item, index) in children">
+                <h5 align="center">{{item.name}}</h5>
+                <p>ID: {{item.id}}</p>
+                <p>Parent: {{item.parent}}</p>
+                <p>Description: {{item.description}}</p>
+            </div>
+        </div>
     </div>
 </body>
 
 <script src="source.js"></script>
-<script src="/dist/build.js"></script>
 
 </html>
