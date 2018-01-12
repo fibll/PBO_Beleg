@@ -66,9 +66,10 @@
                     </div>
                 </div>
 
-                <!-- Information row 1 -->
-                <div class="row">
-
+                <!-- Content -->
+                <!-- <div id="content" v-html="contentMessage" class="row"> -->
+                <div id="content" class="row">
+                <!-- <div ></div> -->
                     <!-- multiple little articles in a grid or big articles in a list (full width) -->
                     <div class="col-md-3 mt-5 mr-5" v-for="(item, index) in listToShow">
 
@@ -86,6 +87,7 @@
                         </a>
                     </div>
                 </div>
+                <!-- <button style="min-width: 5rem; min-height: 5rem;" v-on:click="clickHandlerMultipleArticles"></button> -->
             </div>
         </div>
     </div>

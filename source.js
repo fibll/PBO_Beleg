@@ -16,6 +16,8 @@ var vue = new Vue({
 
         // show
         showType: "processes",
+        // grid of little articles as default contentMessage
+        contentMessage: "",
         listToShow: [],
         title: "",
         info1: "",
@@ -85,6 +87,34 @@ var vue = new Vue({
             this.showType = "stakeholder";
 
             console.log("clickHandler-Stakeholder");
+        },
+
+        clickHandlerMultipleArticles: function (event) {
+            var tmp = this.listToShow;
+            console.log(event.target);
+
+            for (index in this.listToShow){
+                this.contentMessage += 
+                `<div class="col-md-3 mt-5 mr-5">
+                    <!-- The a tag and the list-group-item-action make the little arctile clickabel -->
+                    <a href="#" class="list-group-item-action" v-on:click="clickHandlerSingleArticle">
+                    <div class="card border-primary mb-3 text-black" style="min-width: 10rem; max-width: 18rem;">
+
+                        <!-- Set the id with v-bind="{id: 'some text or' stringVariable}"-->
+                        <div class="card-header" v-bind="{ id: '`
+                        + this.listToShow[index].id
+                        + `'}">`
+                        + this.listToShow[index].id
+                        + `</div><div class="card-body" v-bind="{ id: text2`
+                        //+ this.listToShow[index].id
+                        + `}">
+                                <div v-if="showType==='locations'">Stadt: {{item.city}}</div>
+                                <div v-else>Name: {{item.name}}</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>`;
+            }
         },
 
         clickHandlerArticle: function (event) {
