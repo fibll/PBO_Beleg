@@ -1,3 +1,9 @@
+
+/* to do:
++ Suche
++ Sortierung
+*/
+
 var vue = new Vue({
     el: "#app",
     data: {
@@ -16,17 +22,10 @@ var vue = new Vue({
 
         // show
         showType: "processes",
-        // grid of little articles as default contentMessage
-        listToShow: [1],
-        title: "",
-        info1: "",
-        info2: "",
+        listToShow: [],
+        contentList: [],
 
         // test
-        text1: "Information",
-        text2: "test",
-        contentMessage: "bla",
-        contentList: []
 
     },
 
@@ -35,12 +34,10 @@ var vue = new Vue({
 
         fillContent: function () {
             this.contentList = [];
-
-            console.log(this.listToShow);
-            //this.listToShow = this.children;
             var newListItem = "";
 
             for (var i = 0; i < this.listToShow.length; i++) {
+                // get the html code together
                 newListItem = `
                 <div class="card border-primary mb-3 text-black" style="width: 20rem">
                     <div id="`
@@ -60,13 +57,82 @@ var vue = new Vue({
                     newListItem += this.listToShow[i].name;
                 }
                 newListItem += `</div><div>`
+
+                // add it to list
                 this.contentList.push(newListItem);
             }
         },
         
         // click handler
         clickHandlerArticle: function (event) {
-            console.log(event.target.id);
+            var tmpList;
+            var tmpItem = null;
+            // begin of html phrase
+            var tmpContent = `<div class="card border-primary mb-3 text-black">`;
+
+            // test
+            for(item in this.children[0]){
+                console.log(item);                
+            }
+            console.log(this.children);
+
+            // still in single article view?
+            if(event.target.id == "singleArticle"){
+                // then do nothing
+                return;
+            }
+
+            // set the correct source for the search
+            // in search case: save search List in a different variable
+            if(this.showType == "processes"){
+                tmpList = this.children;
+            }
+            else if(this.showType == "locations") {
+                tmpList = this.locations;
+            }
+            else {
+                tmpList = this.stakeholder;
+            }
+
+            // search for element in data source
+            // necessary cause it could be sorted
+            for(var i = 0; i < tmpList.length; i ++){
+                if(tmpList[i].id == event.target.id){
+                    tmpItem = tmpList[i];
+                    break;
+                }
+            }
+
+            // fill content
+            if(tmpItem != null){
+                tmpContent += `
+                    <div id="singleArticle" class="card-header">`
+                    + tmpItem.id
+                    + `</div><div id="singleArticle" class="card-body">`;
+
+                for(item in this.children[0]){
+                    tmpContent += item + ": <br>";
+                }
+                tmpContent += `</div>`;
+            }
+            else{
+                console.log("Nothing was found");
+
+                tmpContent += `
+                <div class="card-header">`
+                + "Error"
+                + `</div>
+                    <div class="card-body">`
+                + "Something did go wrong, please reload the page."
+                + `</div>`;
+            }
+
+            // end of html phrase
+            tmpContent += `</div>`;
+
+            // set content as item in the contentList
+            this.contentList = [];
+            this.contentList.push(tmpContent);
         },
 
         clickHandlerProcesses: function (event) {

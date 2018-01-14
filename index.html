@@ -51,10 +51,10 @@
 
                             <!-- <li><p>Sortiert nach:</p></li> -->
                             <li class="nav-item">
-                                <a class="nav-link" href="#">ID</a>
+                                <a class="nav-link active" href="#">ID</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" href="#">Name</a>
+                                <a class="nav-link" href="#">Name</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Location</a>
@@ -73,6 +73,7 @@
                         </a>
                     </div>
                 </div>
+                <button v-on:click="fillContent" style="min-width: 5rem; min-height: 5rem;">Back</button>
             </div>
         </div>
     </div>
@@ -81,5 +82,3 @@
 <script src="source.js"></script>
 
 </html>
-
-<!-- <button v-on:click="fillContent" style="min-width: 5rem; min-height: 5rem;"></button> -->
