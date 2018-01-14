@@ -17,42 +17,58 @@ var vue = new Vue({
         // show
         showType: "processes",
         // grid of little articles as default contentMessage
-        contentMessage: "",
-        listToShow: [],
+        listToShow: [1],
         title: "",
         info1: "",
         info2: "",
 
         // test
         text1: "Information",
-        text2: "test"
+        text2: "test",
+        contentMessage: "bla",
+        contentList: []
 
-    },
-
-    // get json stuff
-    mounted() {
-        var self = this;
-        $.getJSON("/src/process.json", function (data) {
-
-            // read in data
-            self.jsonData = data;
-            self.children = self.jsonData.process.childs;
-            self.locations = self.jsonData.process.locations;
-            self.stakeholder = self.jsonData.process.stakeholder;
-
-            // set default showed list
-            self.listToShow = self.children;
-            // self.info1 = self.children.name;
-            // self.info2 = self.children.parent;
-
-            console.log("reading of json file was successfull");
-        });
     },
 
     // methods
     methods: {
 
+        fillContent: function () {
+            this.contentList = [];
+
+            console.log(this.listToShow);
+            //this.listToShow = this.children;
+            var newListItem = "";
+
+            for (var i = 0; i < this.listToShow.length; i++) {
+                newListItem = `
+                <div class="card border-primary mb-3 text-black" style="width: 20rem">
+                    <div id="`
+                    + this.listToShow[i].id
+                    + `" class="card-header">`
+                    + this.listToShow[i].id
+                    + `</div><div id="`
+                    + this.listToShow[i].id
+                    + `" class="card-body">`;
+
+                if(this.showType=='locations'){
+                    newListItem += "Stadt: ";
+                    newListItem += this.listToShow[i].city;
+                }
+                else {
+                    newListItem += "Name: ";
+                    newListItem += this.listToShow[i].name;
+                }
+                newListItem += `</div><div>`
+                this.contentList.push(newListItem);
+            }
+        },
+        
         // click handler
+        clickHandlerArticle: function (event) {
+            console.log(event.target.id);
+        },
+
         clickHandlerProcesses: function (event) {
             this.listElement1 = true;
             this.listElement2 = false;
@@ -61,6 +77,8 @@ var vue = new Vue({
             // show settings
             this.listToShow = this.children;
             this.showType = "processes";
+
+            this.fillContent();
 
             console.log("clickHandler-Processes");
         },
@@ -74,6 +92,8 @@ var vue = new Vue({
             this.listToShow = this.locations;
             this.showType = "locations";
 
+            this.fillContent();
+
             console.log("clickHandler-Locations");
         },
 
@@ -86,39 +106,33 @@ var vue = new Vue({
             this.listToShow = this.stakeholder;
             this.showType = "stakeholder";
 
+            this.fillContent();
+
             console.log("clickHandler-Stakeholder");
         },
+    },
 
-        clickHandlerMultipleArticles: function (event) {
-            var tmp = this.listToShow;
-            console.log(event.target);
+    // function called in the beginning
+    mounted() {
 
-            for (index in this.listToShow){
-                this.contentMessage += 
-                `<div class="col-md-3 mt-5 mr-5">
-                    <!-- The a tag and the list-group-item-action make the little arctile clickabel -->
-                    <a href="#" class="list-group-item-action" v-on:click="clickHandlerSingleArticle">
-                    <div class="card border-primary mb-3 text-black" style="min-width: 10rem; max-width: 18rem;">
+        // get json stuff
+        var self = this;
+        $.getJSON("/src/process.json", function (data) {
 
-                        <!-- Set the id with v-bind="{id: 'some text or' stringVariable}"-->
-                        <div class="card-header" v-bind="{ id: '`
-                        + this.listToShow[index].id
-                        + `'}">`
-                        + this.listToShow[index].id
-                        + `</div><div class="card-body" v-bind="{ id: text2`
-                        //+ this.listToShow[index].id
-                        + `}">
-                                <div v-if="showType==='locations'">Stadt: {{item.city}}</div>
-                                <div v-else>Name: {{item.name}}</div>
-                            </div>
-                        </div>
-                    </a>
-                </div>`;
-            }
-        },
+            // read in data
+            self.jsonData = data;
+            self.children = self.jsonData.process.childs;
+            self.locations = self.jsonData.process.locations;
+            self.stakeholder = self.jsonData.process.stakeholder;
 
-        clickHandlerArticle: function (event) {
-            console.log(event.target.id);
-        }
-    }
+            console.log("reading of json file was successfull");
+
+            // init
+            self.listToShow = self.children;
+
+            // fill with content
+            self.fillContent();
+        });
+    },
+
 })
