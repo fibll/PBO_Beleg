@@ -34,9 +34,9 @@
             <div class=col-md-3>
                 <nav id=menu>
                     <div class="list-group">
-                        <a href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement1}" v-on:click="clickHandlerProcesses">Prozesse</a>
-                        <a href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement2}" v-on:click="clickHandlerLocations">Locations</a>
-                        <a href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement3}" v-on:click="clickHandlerStakeholder">Stakeholder</a>
+                        <a id="sidebarProcesses" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement1}" v-on:click="clickHandlerSidebar">Prozesse</a>
+                        <a id="sidebarLocations" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement2}" v-on:click="clickHandlerSidebar">Locations</a>
+                        <a id="sidebarStakeholder" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement3}" v-on:click="clickHandlerSidebar">Stakeholder</a>
                     </div>
                 </nav>
             </div>
@@ -51,16 +51,16 @@
 
                             <!-- <li><p>Sortiert nach:</p></li> -->
                             <li class="nav-item">
-                                <a class="nav-link active" href="#">ID</a>
+                                <a id="sortbarId" class="nav-link" href="#" v-bind:class="{ active: sortElement1}" v-on:click="clickHandlerSortbar">ID</a>
+                            </li>
+                            <li class="nav-itemName">
+                                <a id="sortbarName" class="nav-link" href="#" v-bind:class="{ active: sortElement2}" v-on:click="clickHandlerSortbar">Name</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Name</a>
+                                <a id="sortbarLocation" class="nav-link" href="#" v-bind:class="{ active: sortElement3}" v-on:click="clickHandlerSortbar">Location</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Location</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Stakeholder</a>
+                                <a id="sortbarStakeholder" class="nav-link" href="#" v-bind:class="{ active: sortElement4}" v-on:click="clickHandlerSortbar">Stakeholder</a>
                             </li>
                         </ul>
                     </div>
@@ -73,7 +73,7 @@
                         </a>
                     </div>
                 </div>
-                <button v-on:click="fillContent" style="min-width: 5rem; min-height: 5rem;">Back</button>
+                <button type="button" class="btn btn-primary" v-on:click="fillContent">Back</button>
             </div>
         </div>
     </div>

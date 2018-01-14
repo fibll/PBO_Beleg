@@ -20,6 +20,11 @@ var vue = new Vue({
         listElement2: false,
         listElement3: false,
 
+        sortElement1: true,
+        sortElement2: false,
+        sortElement3: false,
+        sortElement4: false,
+
         // show
         showType: "processes",
         listToShow: [],
@@ -65,7 +70,7 @@ var vue = new Vue({
         
         // click handler
         clickHandlerArticle: function (event) {
-            var tmpList;
+            var tmpList = this.listToShow;
             var tmpItem = null;
             // begin of html phrase
             var tmpContent = `<div class="card border-primary mb-3 text-black">`;
@@ -80,18 +85,6 @@ var vue = new Vue({
             if(event.target.id == "singleArticle"){
                 // then do nothing
                 return;
-            }
-
-            // set the correct source for the search
-            // in search case: save search List in a different variable
-            if(this.showType == "processes"){
-                tmpList = this.children;
-            }
-            else if(this.showType == "locations") {
-                tmpList = this.locations;
-            }
-            else {
-                tmpList = this.stakeholder;
             }
 
             // search for element in data source
@@ -110,7 +103,8 @@ var vue = new Vue({
                     + tmpItem.id
                     + `</div><div id="singleArticle" class="card-body">`;
 
-                for(item in this.children[0]){
+                // fill with all the attributes
+                for(item in this.listToShow[0]){
                     tmpContent += item + ": <br>";
                 }
                 tmpContent += `</div>`;
@@ -135,46 +129,53 @@ var vue = new Vue({
             this.contentList.push(tmpContent);
         },
 
-        clickHandlerProcesses: function (event) {
-            this.listElement1 = true;
+        clickHandlerSidebar: function (event) {
+            // do a reset
+            this.listElement1 = false;
             this.listElement2 = false;
             this.listElement3 = false;
 
-            // show settings
-            this.listToShow = this.children;
-            this.showType = "processes";
+            if (event.target.id == "sidebarProcesses"){
+                this.listElement1 = true;
+                this.listToShow = this.children;
+                this.showType = "processes";
+            }
+            else if (event.target.id == "sidebarLocations"){
+                this.listElement2 = true;
+                this.listToShow = this.locations;
+                this.showType = "locations";
+            }
+            else {
+                this.listElement3 = true;
+                this.listToShow = this.stakeholder;
+                this.showType = "stakeholder";
+            }
 
             this.fillContent();
-
-            console.log("clickHandler-Processes");
         },
 
-        clickHandlerLocations: function (event) {
-            this.listElement1 = false;
-            this.listElement2 = true;
-            this.listElement3 = false;
+        clickHandlerSortbar: function (event) {
+            // do a reset
+            this.sortElement1 = false;
+            this.sortElement2 = false;
+            this.sortElement3 = false;
+            this.sortElement4 = false;
 
-            // show settings
-            this.listToShow = this.locations;
-            this.showType = "locations";
-
-            this.fillContent();
-
-            console.log("clickHandler-Locations");
-        },
-
-        clickHandlerStakeholder: function (event) {
-            this.listElement1 = false;
-            this.listElement2 = false;
-            this.listElement3 = true;
-
-            // show settings
-            this.listToShow = this.stakeholder;
-            this.showType = "stakeholder";
+            if (event.target.id == "sortbarId"){
+                this.sortElement1 = true;
+                // sort current view            
+            }
+            else if (event.target.id == "sortbarName"){
+                this.sortElement2 = true;            
+            }
+            else if (event.target.id == "sortbarLocation"){
+                this.sortElement3 = true;            
+            }
+            else {
+                this.sortElement4 = true;
+            }
 
             this.fillContent();
-
-            console.log("clickHandler-Stakeholder");
         },
     },
 
