@@ -5,6 +5,17 @@
     - Sortiermöglichkeiten ändern!
     - id richtig sortieren
 
++ Sidebar:
+    - System Eintrag
+    - Entrypoint Eintrag
+    - Hauptprozess Eintrag
+
++ Informationsfeld:
+    - table sollte clickbar sein
+    - angepasste kleine Infofelder
+    - Stadt anstatt location-id
+    - Name anstatt initiator-id
+
 questions:
 + Wie iteriert man durch ein Objekt?
 + Aufruf einer Computed Funktion?
@@ -83,53 +94,30 @@ var vue = new Vue({
             }
         },
 
-        /*
-        setSortCondition: function (sortCol){
-            if(this.showType == "locations") {
-                if(sortCol == "sortbarCol2") {
-                    this.sortBy = this.sortbarListLocations[1];
-                }                
-                else if(sortCol == "sortbarCol3") {
-                    this.sortBy = this.sortbarListLocations[2];
-                }                
-                else if(sortCol == "sortbarCol4") {
-                    this.sortBy = this.sortbarListLocations[3];
-                }
-                else {
-                    this.sortBy = this.sortbarListLocations[0];
-                }
-            }            
-            else if(this.showType == "stakeholder") {
-                if(sortCol == "sortbarCol2") {
-                    this.sortBy = this.sortbarListStakeholder[1];
-                }                
-                else if(sortCol == "sortbarCol3") {
-                    this.sortBy = this.sortbarListStakeholder[2];
-                }                
-                else if(sortCol == "sortbarCol4") {
-                    this.sortBy = this.sortbarListStakeholder[3];
-                }
-                else {
-                    this.sortBy = this.sortbarListStakeholder[0];
-                }
-            }
-            else {
-                // processes
-                if(sortCol == "sortbarCol2") {
-                    this.sortBy = this.sortbarListProcesses[1];
-                }                
-                else if(sortCol == "sortbarCol3") {
-                    this.sortBy = this.sortbarListProcesses[2];
-                }                
-                else if(sortCol == "sortbarCol4") {
-                    this.sortBy = this.sortbarListProcesses[3];
-                }
-                else {
-                    this.sortBy = this.sortbarListStakeholder[0];
-                }
-            }
+        fillContentProcesses: function (i, newListItem) {
+            var tmpLocation;
+            var tmpStakeholder;
+
+            newListItem = `
+            <div class="card border-primary mb-3 text-black" style="width: 25rem;">
+                <div id="`
+                + this.listToShow[i].id
+                + `" class="card-header">`
+                + this.listToShow[i].id
+                + `</div><div id="`
+                + this.listToShow[i].id
+                + `" class="card-body">`
+                + `<table class="table">`
+                + "<tr><th>Name</th><td>"
+                + this.listToShow[i].name
+                + "</td></tr><tr><th>Location</th><td>"
+                + this.listToShow[i].location
+                + "</td></tr><tr><th>Initiator</th><td>"
+                + this.listToShow[i].initiator
+                + `</td></tr></table></div><div>`;
+
+            return newListItem;
         },
-        */
 
         fillContent: function () {
             this.contentList = [];
@@ -141,7 +129,7 @@ var vue = new Vue({
             for (var i = 0; i < this.listToShow.length; i++) {
                 // get the html code together
                 newListItem = `
-                <div class="card border-primary mb-3 text-black" style="width: 20rem">
+                <div class="card border-primary mb-3 text-black" style="width: 25rem">
                     <div id="`
                     + this.listToShow[i].id
                     + `" class="card-header">`
@@ -150,7 +138,7 @@ var vue = new Vue({
                     + this.listToShow[i].id
                     + `" class="card-body">`;
 
-                if (this.showType == 'locations') {
+                if (this.showType == "locations") {
                     newListItem += "Stadt: ";
                     newListItem += this.listToShow[i].city;
                 }
@@ -159,6 +147,10 @@ var vue = new Vue({
                     newListItem += this.listToShow[i].name;
                 }
                 newListItem += `</div><div>`;
+
+                if(this.showType == "processes") {
+                    newListItem = this.fillContentProcesses(i, newListItem);
+                }
 
                 // add it to list
                 this.contentList.push(newListItem);
