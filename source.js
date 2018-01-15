@@ -1,8 +1,9 @@
 
 /* to do:
 + Suche
-+ Sortierung
-+ Sortiermöglichkeiten ändern!
++ Sortierung:
+    - Sortiermöglichkeiten ändern!
+    - id richtig sortieren
 
 questions:
 + Wie iteriert man durch ein Objekt?
@@ -30,6 +31,15 @@ var vue = new Vue({
         activeSort3: false,
         activeSort4: false,
 
+        sortLabel1: "ID",
+        sortLabel2: "Name",
+        sortLabel3: "Location",
+        sortLabel4: "Stakeholder",
+
+        sortbarListProcesses: ["ID", "Name"],
+        sortbarListLocations: ["ID", "Stadt"],
+        sortbarListStakeholder: ["ID", "Name"],
+
         // show
         showType: "processes",
         sortAfter: "id",
@@ -41,6 +51,7 @@ var vue = new Vue({
     },
 
     // stuff that takes more logic power
+    /*
     computed: {
         sortArray: function () {
             function compare(a, b) {
@@ -54,22 +65,71 @@ var vue = new Vue({
             return this.listToShow.sort(compare);
         },
     },
+    */
 
     // methods
     methods: {
 
         setDefaultListToShow: function (){
-            if(this.showType == "processes") {
-                this.listToShow = this.children;
+            if(this.showType == "stakeholder") {
+                this.listToShow = this.stakeholder;
             }
             else if(this.showType == "locations") {
                 this.listToShow = this.locations;
             }
             else {
-                this.listToShow = this.stakeholder;
+                // processes
+                this.listToShow = this.children;
             }
-        
         },
+
+        /*
+        setSortCondition: function (sortCol){
+            if(this.showType == "locations") {
+                if(sortCol == "sortbarCol2") {
+                    this.sortAfter = this.sortbarListLocations[1];
+                }                
+                else if(sortCol == "sortbarCol3") {
+                    this.sortAfter = this.sortbarListLocations[2];
+                }                
+                else if(sortCol == "sortbarCol4") {
+                    this.sortAfter = this.sortbarListLocations[3];
+                }
+                else {
+                    this.sortAfter = this.sortbarListLocations[0];
+                }
+            }            
+            else if(this.showType == "stakeholder") {
+                if(sortCol == "sortbarCol2") {
+                    this.sortAfter = this.sortbarListStakeholder[1];
+                }                
+                else if(sortCol == "sortbarCol3") {
+                    this.sortAfter = this.sortbarListStakeholder[2];
+                }                
+                else if(sortCol == "sortbarCol4") {
+                    this.sortAfter = this.sortbarListStakeholder[3];
+                }
+                else {
+                    this.sortAfter = this.sortbarListStakeholder[0];
+                }
+            }
+            else {
+                // processes
+                if(sortCol == "sortbarCol2") {
+                    this.sortAfter = this.sortbarListProcesses[1];
+                }                
+                else if(sortCol == "sortbarCol3") {
+                    this.sortAfter = this.sortbarListProcesses[2];
+                }                
+                else if(sortCol == "sortbarCol4") {
+                    this.sortAfter = this.sortbarListProcesses[3];
+                }
+                else {
+                    this.sortAfter = this.sortbarListStakeholder[0];
+                }
+            }
+        },
+        */
 
         fillContent: function () {
             this.contentList = [];
@@ -109,7 +169,7 @@ var vue = new Vue({
             function compareID(a, b) {
                 if (a.id < b.id)
                     return -1;
-                if (a.id > b.id)
+                if (a.id >= b.id)
                     return 1;
                 return 0;
             }
@@ -117,7 +177,15 @@ var vue = new Vue({
             function compareName(a, b) {
                 if (a.name < b.name)
                     return -1;
-                if (a.name > b.name)
+                if (a.name >= b.name)
+                    return 1;
+                return 0;
+            }
+
+            function compareCity(a, b) {
+                if (a.city < b.city)
+                    return -1;
+                if (a.city >= b.city)
                     return 1;
                 return 0;
             }
@@ -125,7 +193,7 @@ var vue = new Vue({
             function compareLocation(a, b) {
                 if (a.location < b.location)
                     return -1;
-                if (a.location > b.location)
+                if (a.location >= b.location)
                     return 1;
                 return 0;
             }
@@ -133,29 +201,24 @@ var vue = new Vue({
             function compareStakeholder(a, b) {
                 if (a.stakeholder < b.stakeholder)
                     return -1;
-                if (a.stakeholder > b.stakeholder)
+                if (a.stakeholder >= b.stakeholder)
                     return 1;
                 return 0;
             }
 
             if(this.sortAfter == "name"){
-
-                console.log("sort name");
                 return this.listToShow.sort(compareName);
             }
             else if(this.sortAfter == "location"){
-
-                console.log("sort loc");
                 return this.listToShow.sort(compareLocation);
             }
-
             else if(this.sortAfter == "stakeholder"){
-
-                console.log("sort stake");
                 return this.listToShow.sort(compareStakeholder);
             }
+            else if(this.sortAfter == "city"){
+                return this.listToShow.sort(compareCity);
+            }
 
-            console.log("sort id");
             return this.listToShow.sort(compareID);
         },
 
@@ -223,14 +286,17 @@ var vue = new Vue({
             if (event.target.id == "sidebarProcesses") {
                 this.listElement1 = true;
                 this.showType = "processes";
+                this.sortLabel2 = "Name";
             }
             else if (event.target.id == "sidebarLocations") {
                 this.listElement2 = true;
                 this.showType = "locations";
+                this.sortLabel2 = "Stadt";
             }
             else {
                 this.listElement3 = true;
                 this.showType = "stakeholder";
+                this.sortLabel2 = "Name";
             }
 
             this.setDefaultListToShow();            
@@ -244,23 +310,29 @@ var vue = new Vue({
             this.activeSort3 = false;
             this.activeSort4 = false;
 
-            if (event.target.id == "sortbarId1") {
-                this.activeSort1 = true;
-                this.sortAfter =  "id";
-
-            }
-            else if (event.target.id == "sortbarId2") {
+            if (event.target.id == "sortbarCol2") {
                 this.activeSort2 = true;
                 this.sortAfter =  "name";
+
+                // special case - shouldn't be so
+                if(this.showType == "locations") {
+                    this.sortAfter =  "city";
+                }
             }
-            else if (event.target.id == "sortbarId3") {
+            else if (event.target.id == "sortbarCol3") {
                 this.activeSort3 = true;
                 this.sortAfter =  "location";
             }
-            else {
+            else if (event.target.id == "sortbarCol4") {
                 this.activeSort4 = true;
                 this.sortAfter =  "stakeholder";
             }
+            else {
+                this.activeSort1 = true;
+                this.sortAfter =  "id";
+            }
+
+            console.log(this.sortAfter);
 
             // show new sorted CURRENT content
             // nothing should happen in the single article view
