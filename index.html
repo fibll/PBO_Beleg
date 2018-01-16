@@ -37,6 +37,9 @@
                         <a id="sidebarProcesses" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement1}" v-on:click="clickHandlerSidebar">Prozesse</a>
                         <a id="sidebarLocations" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement2}" v-on:click="clickHandlerSidebar">Locations</a>
                         <a id="sidebarStakeholder" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement3}" v-on:click="clickHandlerSidebar">Stakeholder</a>
+                        <a id="sidebarSystem" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement4}" v-on:click="clickHandlerSidebar">System</a>
+                        <a id="sidebarEntrypoint" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement5}" v-on:click="clickHandlerSidebar">Entrypoint</a>
+                        <a id="sidebarMainprocess" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement6}" v-on:click="clickHandlerSidebar">Hauptprozess</a>
                     </div>
                 </nav>
             </div>
@@ -75,7 +78,7 @@
                         </a>
                     </div>
                 </div>
-                <button type="button" class="btn btn-primary" v-on:click="fillContent">Back</button>
+                <button class="btn btn-primary" v-bind:class="{ invisible: backButton}" v-on:click="fillContent">Back</button>
             </div>
         </div>
     </div>

@@ -3,11 +3,22 @@
 + Suche
 + Sortierung:
     - Sortiermöglichkeiten ändern!
+    - Sortieren nach - Schriftzug
 
 + Sidebar:
     - System Eintrag
     - Entrypoint Eintrag
     - Hauptprozess Eintrag
+
++ Detailansicht:
+    - Backbutton nur bei Detailansicht!
+    - Unterpunkte in der Detailansicht behandeln
+    - Table Ansicht wie bei ContentProcess
+    - Keine Sortier Option anzeigen (invisible)
+
++ littleArticle Ansicht, die überflüssige Zeile am Schluss entfernen
+
++ Kontakt Leiste mit Infos aus json file
 
 questions:
 + Wie iteriert man durch ein Objekt?
@@ -17,8 +28,6 @@ questions:
 var vue = new Vue({
     el: "#app",
     data: {
-        name: "foo",
-
         // data
         jsonData: {},
         children: [],
@@ -29,20 +38,21 @@ var vue = new Vue({
         listElement1: true,
         listElement2: false,
         listElement3: false,
+        listElement4: false,
+        listElement5: false,
+        listElement6: false,
 
         activeSort1: true,
         activeSort2: false,
         activeSort3: false,
         activeSort4: false,
 
+        backButton: true,
+
         sortLabel1: "ID",
         sortLabel2: "Name",
         sortLabel3: "Location",
         sortLabel4: "Stakeholder",
-
-        sortbarListProcesses: ["ID", "Name"],
-        sortbarListLocations: ["ID", "Stadt"],
-        sortbarListStakeholder: ["ID", "Name"],
 
         // show
         showType: "processes",
@@ -51,7 +61,10 @@ var vue = new Vue({
         contentList: [],
 
         // test
-
+        sortbarListProcesses: ["ID", "Name"],
+        sortbarListLocations: ["ID", "Stadt"],
+        sortbarListStakeholder: ["ID", "Name"],
+        name: "foo",
     },
 
     // stuff that takes more logic power
@@ -74,12 +87,21 @@ var vue = new Vue({
     // methods
     methods: {
 
-        setDefaultListToShow: function (){
-            if(this.showType == "stakeholder") {
+        setDefaultListToShow: function () {
+            if (this.showType == "stakeholder") {
                 this.listToShow = this.stakeholder;
             }
-            else if(this.showType == "locations") {
+            else if (this.showType == "locations") {
                 this.listToShow = this.locations;
+            }
+            else if (this.showType == "system") {
+                this.listToShow = [this.jsonData.system];
+            }
+            else if (this.showType == "entrypoint") {
+                this.listToShow = [this.jsonData.entrypoint];
+            }
+            else if (this.showType == "mainprocess") {
+                this.listToShow = [this.jsonData.mainprocess];
             }
             else {
                 // processes
@@ -110,12 +132,12 @@ var vue = new Vue({
                 }
             }
 
-            var tmpContentList =  ["Name", this.listToShow[i].name, 
-                                "Location", tmpLocation, 
-                                "Initiator", tmpInitiator];
+            var tmpContentList = ["Name", this.listToShow[i].name,
+                "Location", tmpLocation,
+                "Initiator", tmpInitiator];
 
             newListItem = `
-            <div class="card border-primary mb-3 text-black" style="width: 25rem;">
+            <div class="card border-primary mb-3 text-black" style="width: 20rem;">
                 <div id="`
                 + this.listToShow[i].id
                 + `" class="card-header">`
@@ -128,26 +150,27 @@ var vue = new Vue({
                 + this.listToShow[i].id
                 + `">`;
 
-                // set content in for loop cause it would look to complicated in the code with setting the id all the time
-                // pretty dirty way :(
-                for(var index = 0; index < tmpContentList.length; index += 2) {
-                    newListItem += tmpContentList[index]
-                        + `</th><td id="`
-                        + this.listToShow[i].id
-                        + `">`
-                        + tmpContentList[index+1]
-                        + `</td></tr id="`
-                        + this.listToShow[i].id
-                        + `"><tr><th id="`
-                        + this.listToShow[i].id
-                        + `">`;
-                }
+            // set content in for loop cause it would look to complicated in the code with setting the id all the time
+            // pretty dirty way :(
+            for (var index = 0; index < tmpContentList.length; index += 2) {
+                newListItem += tmpContentList[index]
+                    + `</th><td id="`
+                    + this.listToShow[i].id
+                    + `">`
+                    + tmpContentList[index + 1]
+                    + `</td></tr id="`
+                    + this.listToShow[i].id
+                    + `"><tr><th id="`
+                    + this.listToShow[i].id
+                    + `">`;
+            }
 
-                newListItem += `</td></tr></table></div><div>`;
+            newListItem += `</th></tr></table></div><div>`;
             return newListItem;
         },
 
         fillContent: function () {
+            this.backButton = true;
             this.contentList = [];
             var newListItem = "";
 
@@ -176,7 +199,7 @@ var vue = new Vue({
                 }
                 newListItem += `</div><div>`;
 
-                if(this.showType == "processes") {
+                if (this.showType == "processes") {
                     newListItem = this.fillContentProcesses(i, newListItem);
                 }
 
@@ -189,10 +212,9 @@ var vue = new Vue({
             function compareID(a, b) {
                 // get id number from id string
                 var tmpListA = a.id.split("/");
-                var aId = tmpListA[tmpListA.length-1];
+                var aId = tmpListA[tmpListA.length - 1];
                 var tmpListB = b.id.split("/");
-                var bId = tmpListB[tmpListB.length-1];
-                
+                var bId = tmpListB[tmpListB.length - 1];
 
                 if (aId < bId)
                     return -1;
@@ -216,7 +238,7 @@ var vue = new Vue({
                     return 1;
                 return 0;
             }
-            
+
             function compareLocation(a, b) {
                 if (a.location < b.location)
                     return -1;
@@ -233,41 +255,60 @@ var vue = new Vue({
                 return 0;
             }
 
-            if(this.sortBy == "name"){
+            if (this.sortBy == "name") {
                 return this.listToShow.sort(compareName);
             }
-            else if(this.sortBy == "location"){
+            else if (this.sortBy == "location") {
                 return this.listToShow.sort(compareLocation);
             }
-            else if(this.sortBy == "stakeholder"){
+            else if (this.sortBy == "stakeholder") {
                 return this.listToShow.sort(compareStakeholder);
             }
-            else if(this.sortBy == "city"){
+            else if (this.sortBy == "city") {
                 return this.listToShow.sort(compareCity);
             }
-
-            return this.listToShow.sort(compareID);
+            else {
+                return this.listToShow.sort(compareID);
+            }
         },
 
         // click handler
         clickHandlerArticle: function (event) {
+            this.backButton = false;
             var tmpList = this.listToShow;
             var tmpItem = null;
+            var tmpTypeSingle = false;
+
             // begin of html phrase
             var tmpContent = `<div class="card border-primary mb-3 text-black">`;
 
+            // if one of the single article sidebar items like 'system'
+            if(event == "single") {
+                this.backButton = true;
+
+                if(this.showType == "system") {
+                    tmpItem = this.jsonData.system;
+                }
+                else if(this.showType == "entrypoint") {
+                    tmpItem = this.jsonData.entrypoint;
+                }
+                else {
+                    tmpItem = this.jsonData.process;
+                }
+            }
             // still in single article view?
-            if (event.target.id == "singleArticle") {
+            else if (event.target.id == "singleArticle") {
                 // then do nothing
                 return;
             }
-
-            // search for element in data source
-            // necessary cause it could be sorted
-            for (var i = 0; i < tmpList.length; i++) {
-                if (tmpList[i].id == event.target.id) {
-                    tmpItem = tmpList[i];
-                    break;
+            else {
+                // search for element in data source
+                // necessary cause it could be differently sorted
+                for (var i = 0; i < tmpList.length; i++) {
+                    if (tmpList[i].id == event.target.id) {
+                        tmpItem = tmpList[i];
+                        break;
+                    }
                 }
             }
 
@@ -279,7 +320,7 @@ var vue = new Vue({
                     + `</div><div id="singleArticle" class="card-body">`;
 
                 // fill with all the attributes
-                for (item in this.listToShow[0]) {
+                for (item in tmpItem) {
                     //console.log(this.listToShow[0]);
                     //console.log(item);
                     tmpContent += item + ": <br>";
@@ -311,25 +352,57 @@ var vue = new Vue({
             this.listElement1 = false;
             this.listElement2 = false;
             this.listElement3 = false;
+            this.listElement4 = false;
+            this.listElement5 = false;
+            this.listElement6 = false;
 
-            if (event.target.id == "sidebarProcesses") {
-                this.listElement1 = true;
-                this.showType = "processes";
-                this.sortLabel2 = "Name";
-            }
-            else if (event.target.id == "sidebarLocations") {
+            if (event.target.id == "sidebarLocations") {
                 this.listElement2 = true;
                 this.showType = "locations";
                 this.sortLabel2 = "Stadt";
+                // FIX
+                if (this.sortBy == "name") {
+                    this.sortBy = "city"
+                }
             }
-            else {
+            else if (event.target.id == "sidebarStakeholder") {
                 this.listElement3 = true;
                 this.showType = "stakeholder";
                 this.sortLabel2 = "Name";
+                // FIX
+                if (this.sortBy == "city") {
+                    this.sortBy = "name"
+                }
             }
-
-            this.setDefaultListToShow();            
-            this.fillContent();
+            else if (event.target.id == "sidebarSystem") {
+                this.listElement4 = true;
+                this.showType = "system";
+            }
+            else if (event.target.id == "sidebarEntrypoint") {
+                this.listElement5 = true;
+                this.showType = "entrypoint";
+            }
+            else if (event.target.id == "sidebarMainprocess") {
+                this.listElement6 = true;
+                this.showType = "mainprocess";
+            }
+            else {
+                this.listElement1 = true;
+                this.showType = "processes";
+                this.sortLabel2 = "Name";
+                // FIX
+                if (this.sortBy == "city") {
+                    this.sortBy = "name"
+                }
+            }
+            this.setDefaultListToShow();
+            if(this.listElement4 | this.listElement5 | this.listElement6) {
+                this.clickHandlerArticle("single");
+            }
+            else {
+                // FIX: enable back button
+                this.fillContent();
+            }
         },
 
         clickHandlerSortbar: function (event) {
@@ -341,31 +414,31 @@ var vue = new Vue({
 
             if (event.target.id == "sortbarCol2") {
                 this.activeSort2 = true;
-                this.sortBy =  "name";
+                this.sortBy = "name";
 
                 // special case - shouldn't be so
-                if(this.showType == "locations") {
-                    this.sortBy =  "city";
+                if (this.showType == "locations") {
+                    this.sortBy = "city";
                 }
             }
             else if (event.target.id == "sortbarCol3") {
                 this.activeSort3 = true;
-                this.sortBy =  "location";
+                this.sortBy = "location";
             }
             else if (event.target.id == "sortbarCol4") {
                 this.activeSort4 = true;
-                this.sortBy =  "stakeholder";
+                this.sortBy = "stakeholder";
             }
             else {
                 this.activeSort1 = true;
-                this.sortBy =  "id";
+                this.sortBy = "id";
             }
 
             console.log(this.sortBy);
 
             // show new sorted CURRENT content
             // nothing should happen in the single article view
-            if(this.showType != "singleArticle"){
+            if (this.showType != "singleArticle") {
                 this.fillContent();
             }
         },
