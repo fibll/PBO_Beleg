@@ -3,16 +3,11 @@
 + Suche
 + Sortierung:
     - Sortiermöglichkeiten ändern!
-    - id richtig sortieren
 
 + Sidebar:
     - System Eintrag
     - Entrypoint Eintrag
     - Hauptprozess Eintrag
-
-+ Informationsfeld:
-    - Stadt anstatt location-id
-    - Name anstatt initiator-id
 
 questions:
 + Wie iteriert man durch ein Objekt?
@@ -199,9 +194,9 @@ var vue = new Vue({
                 var bId = tmpListB[tmpListB.length-1];
                 
 
-                if (aId < b.id)
+                if (aId < bId)
                     return -1;
-                if (aId >= b.id)
+                if (aId >= bId)
                     return 1;
                 return 0;
             }
