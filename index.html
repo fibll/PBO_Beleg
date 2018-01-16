@@ -49,7 +49,7 @@
                 <div class="row">
 
                     <!-- Sortbar -->
-                    <div id="sortbar">
+                    <div id="sortbar" v-bind:class="{ invisible: noSortbar}">
                         <ul class="nav nav-pills">
 
                             <!-- <li><p>Sortiert nach:</p></li> -->
@@ -78,7 +78,7 @@
                         </a>
                     </div>
                 </div>
-                <button class="btn btn-primary" v-bind:class="{ invisible: backButton}" v-on:click="fillContent">Back</button>
+                <button class="btn btn-primary" v-bind:class="{ invisible: noBackButton}" v-on:click="fillContent">Back</button>
             </div>
         </div>
     </div>

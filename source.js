@@ -11,7 +11,7 @@
     - Hauptprozess Eintrag
 
 + Detailansicht:
-    - Backbutton nur bei Detailansicht!
+    - unklickbar machen!
     - Unterpunkte in der Detailansicht behandeln
     - Table Ansicht wie bei ContentProcess
     - Keine Sortier Option anzeigen (invisible)
@@ -47,7 +47,8 @@ var vue = new Vue({
         activeSort3: false,
         activeSort4: false,
 
-        backButton: true,
+        noBackButton: true,
+        noSortbar: false,
 
         sortLabel1: "ID",
         sortLabel2: "Name",
@@ -170,7 +171,8 @@ var vue = new Vue({
         },
 
         fillContent: function () {
-            this.backButton = true;
+            this.noBackButton = true;
+            this.noSortbar = false;
             this.contentList = [];
             var newListItem = "";
 
@@ -274,7 +276,8 @@ var vue = new Vue({
 
         // click handler
         clickHandlerArticle: function (event) {
-            this.backButton = false;
+
+            this.noSortbar = true;
             var tmpList = this.listToShow;
             var tmpItem = null;
             var tmpTypeSingle = false;
@@ -284,7 +287,7 @@ var vue = new Vue({
 
             // if one of the single article sidebar items like 'system'
             if(event == "single") {
-                this.backButton = true;
+                this.noBackButton = true;
 
                 if(this.showType == "system") {
                     tmpItem = this.jsonData.system;
@@ -302,6 +305,8 @@ var vue = new Vue({
                 return;
             }
             else {
+                this.noBackButton = false;
+
                 // search for element in data source
                 // necessary cause it could be differently sorted
                 for (var i = 0; i < tmpList.length; i++) {
@@ -323,6 +328,10 @@ var vue = new Vue({
                 for (item in tmpItem) {
                     //console.log(this.listToShow[0]);
                     //console.log(item);
+                    
+                    //tmpContent += item + ": ";
+                    //tmpContent += tmpItem[item] + "<br>";
+                    
                     tmpContent += item + ": <br>";
                 }
                 tmpContent += `</div>`;
@@ -458,6 +467,8 @@ var vue = new Vue({
             self.stakeholder = self.jsonData.process.stakeholder;
 
             console.log("reading of json file was successfull");
+
+            console.log(self.children[4]["end (optional)"]);
 
             // init
             self.listToShow = self.children;
