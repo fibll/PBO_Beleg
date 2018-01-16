@@ -2,8 +2,9 @@
 /* to do:
 + Suche
 + Sortierung:
-    - Sortiermöglichkeiten ändern!
-    - Sortieren nach - Schriftzug
+    - fix id sort
+    - Sortiermöglichkeiten ändern
+    - "Sortieren nach" ein erklärender Schriftzug)
 
 + Sidebar:
     - System Eintrag
@@ -11,10 +12,8 @@
     - Hauptprozess Eintrag
 
 + Detailansicht:
-    - unklickbar machen!
     - Unterpunkte in der Detailansicht behandeln
     - Table Ansicht wie bei ContentProcess
-    - Keine Sortier Option anzeigen (invisible)
 
 + littleArticle Ansicht, die überflüssige Zeile am Schluss entfernen
 
@@ -214,9 +213,9 @@ var vue = new Vue({
             function compareID(a, b) {
                 // get id number from id string
                 var tmpListA = a.id.split("/");
-                var aId = tmpListA[tmpListA.length - 1];
+                var aId = Number(tmpListA[tmpListA.length - 1]);
                 var tmpListB = b.id.split("/");
-                var bId = tmpListB[tmpListB.length - 1];
+                var bId = Number(tmpListB[tmpListB.length - 1]);
 
                 if (aId < bId)
                     return -1;
@@ -329,10 +328,10 @@ var vue = new Vue({
                     //console.log(this.listToShow[0]);
                     //console.log(item);
                     
-                    //tmpContent += item + ": ";
-                    //tmpContent += tmpItem[item] + "<br>";
+                    tmpContent += item + ": ";
+                    tmpContent += tmpItem[item] + "<br>";
                     
-                    tmpContent += item + ": <br>";
+                    //tmpContent += item + ": <br>";
                 }
                 tmpContent += `</div>`;
             }
@@ -443,11 +442,10 @@ var vue = new Vue({
                 this.sortBy = "id";
             }
 
-            console.log(this.sortBy);
-
             // show new sorted CURRENT content
             // nothing should happen in the single article view
             if (this.showType != "singleArticle") {
+                console.log(this.sortBy);
                 this.fillContent();
             }
         },
