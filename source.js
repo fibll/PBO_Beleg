@@ -11,8 +11,6 @@
     - Hauptprozess Eintrag
 
 + Informationsfeld:
-    - table sollte clickbar sein
-    - angepasste kleine Infofelder
     - Stadt anstatt location-id
     - Name anstatt initiator-id
 
@@ -97,9 +95,29 @@ var vue = new Vue({
         fillContentProcesses: function (i, newListItem) {
             var tmpLocation;
             var tmpStakeholder;
+
+            var tmpLocation = "";
+            var tmpInitiator = "";
+
+            // get city out of location object
+            for (var k = 0; k < this.locations.length; k++) {
+                if (this.locations[k].id == this.listToShow[i].location) {
+                    tmpLocation = this.locations[k].city;
+                    break;
+                }
+            }
+
+            // get city out of location object
+            for (var k = 0; k < this.stakeholder.length; k++) {
+                if (this.stakeholder[k].id == this.listToShow[i].initiator) {
+                    tmpInitiator = this.stakeholder[k].name;
+                    break;
+                }
+            }
+
             var tmpContentList =  ["Name", this.listToShow[i].name, 
-                                "Location", this.listToShow[i].location, 
-                                "Initiator", this.listToShow[i].initiator];
+                                "Location", tmpLocation, 
+                                "Initiator", tmpInitiator];
 
             newListItem = `
             <div class="card border-primary mb-3 text-black" style="width: 25rem;">
