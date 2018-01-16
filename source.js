@@ -97,6 +97,9 @@ var vue = new Vue({
         fillContentProcesses: function (i, newListItem) {
             var tmpLocation;
             var tmpStakeholder;
+            var tmpContentList =  ["Name", this.listToShow[i].name, 
+                                "Location", this.listToShow[i].location, 
+                                "Initiator", this.listToShow[i].initiator];
 
             newListItem = `
             <div class="card border-primary mb-3 text-black" style="width: 25rem;">
@@ -108,14 +111,26 @@ var vue = new Vue({
                 + this.listToShow[i].id
                 + `" class="card-body">`
                 + `<table class="table">`
-                + "<tr><th>Name</th><td>"
-                + this.listToShow[i].name
-                + "</td></tr><tr><th>Location</th><td>"
-                + this.listToShow[i].location
-                + "</td></tr><tr><th>Initiator</th><td>"
-                + this.listToShow[i].initiator
-                + `</td></tr></table></div><div>`;
+                + `<tr><th id="`
+                + this.listToShow[i].id
+                + `">`;
 
+                // set content in for loop cause it would look to complicated in the code with setting the id all the time
+                // pretty dirty way :(
+                for(var index = 0; index < tmpContentList.length; index += 2) {
+                    newListItem += tmpContentList[index]
+                        + `</th><td id="`
+                        + this.listToShow[i].id
+                        + `">`
+                        + tmpContentList[index+1]
+                        + `</td></tr id="`
+                        + this.listToShow[i].id
+                        + `"><tr><th id="`
+                        + this.listToShow[i].id
+                        + `">`;
+                }
+
+                newListItem += `</td></tr></table></div><div>`;
             return newListItem;
         },
 
@@ -252,6 +267,8 @@ var vue = new Vue({
 
                 // fill with all the attributes
                 for (item in this.listToShow[0]) {
+                    //console.log(this.listToShow[0]);
+                    //console.log(item);
                     tmpContent += item + ": <br>";
                 }
                 tmpContent += `</div>`;
