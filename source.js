@@ -2,14 +2,8 @@
 /* to do:
 + Suche
 + Sortierung:
-    - fix id sort
     - Sortiermöglichkeiten ändern
     - "Sortieren nach" ein erklärender Schriftzug)
-
-+ Sidebar:
-    - System Eintrag
-    - Entrypoint Eintrag
-    - Hauptprozess Eintrag
 
 + Detailansicht:
     - Unterpunkte in der Detailansicht behandeln
@@ -181,7 +175,7 @@ var vue = new Vue({
             for (var i = 0; i < this.listToShow.length; i++) {
                 // get the html code together
                 newListItem = `
-                <div class="card border-primary mb-3 text-black" style="width: 25rem">
+                <div class="card border-primary mb-3 text-black" style="width: 20rem">
                     <div id="`
                     + this.listToShow[i].id
                     + `" class="card-header">`
@@ -321,17 +315,18 @@ var vue = new Vue({
                 tmpContent += `
                     <div id="singleArticle" class="card-header">`
                     + tmpItem.id
-                    + `</div><div id="singleArticle" class="card-body">`;
+                    + `</div><div id="singleArticle" class="card-body">`
+                    + `<table class="table">`;
+                    
+                    tmpContent += `<tr><th id="singleArticle">`
 
                 // fill with all the attributes
                 for (item in tmpItem) {
-                    //console.log(this.listToShow[0]);
-                    //console.log(item);
-                    
-                    tmpContent += item + ": ";
-                    tmpContent += tmpItem[item] + "<br>";
-                    
-                    //tmpContent += item + ": <br>";
+                    tmpContent += `<tr><th id="singleArticle">`
+                        + item
+                        + `</th><td id="singleArticle">`
+                        + tmpItem[item]
+                        + `</td></tr>`;
                 }
                 tmpContent += `</div>`;
             }
@@ -408,7 +403,6 @@ var vue = new Vue({
                 this.clickHandlerArticle("single");
             }
             else {
-                // FIX: enable back button
                 this.fillContent();
             }
         },
@@ -445,7 +439,6 @@ var vue = new Vue({
             // show new sorted CURRENT content
             // nothing should happen in the single article view
             if (this.showType != "singleArticle") {
-                console.log(this.sortBy);
                 this.fillContent();
             }
         },
@@ -465,8 +458,6 @@ var vue = new Vue({
             self.stakeholder = self.jsonData.process.stakeholder;
 
             console.log("reading of json file was successfull");
-
-            console.log(self.children[4]["end (optional)"]);
 
             // init
             self.listToShow = self.children;
