@@ -7,15 +7,10 @@
 
 + Detailansicht:
     - Unterpunkte in der Detailansicht behandeln
-    - Table Ansicht wie bei ContentProcess
-
-+ littleArticle Ansicht, die überflüssige Zeile am Schluss entfernen
 
 + Kontakt Leiste mit Infos aus json file
 
 questions:
-+ Wie iteriert man durch ein Objekt?
-+ Aufruf einer Computed Funktion?
 */
 
 var vue = new Vue({
@@ -139,13 +134,43 @@ var vue = new Vue({
                 + `</div><div id="`
                 + this.listToShow[i].id
                 + `" class="card-body">`
-                + `<table class="table">`
+                + `<table class="table">`;
+                /*
                 + `<tr><th id="`
                 + this.listToShow[i].id
-                + `">`;
+                + `">`;*/
 
             // set content in for loop cause it would look to complicated in the code with setting the id all the time
             // pretty dirty way :(
+            
+            for (var index = 0; index < tmpContentList.length; index += 2) {
+                newListItem += `<tr><th id="`
+                + this.listToShow[i].id
+                + `">`
+                + tmpContentList[index]
+                + `</th><td id="`
+                + this.listToShow[i].id
+                + `">`
+                + tmpContentList[index + 1]
+                + `</td></tr>`;
+                
+                /*
+                tmpContentList[index]
+                    + `</th><td id="`
+                    + this.listToShow[i].id
+                    + `">`
+                    //+ tmpContentList[index + 1]
+                    + `</td></tr id="`
+                    + this.listToShow[i].id
+                    + `"><tr><th id="`
+                    + this.listToShow[i].id
+                    + `">`;
+                    */
+            }
+
+            newListItem += `</table></div><div>`;
+
+            /*
             for (var index = 0; index < tmpContentList.length; index += 2) {
                 newListItem += tmpContentList[index]
                     + `</th><td id="`
@@ -158,8 +183,28 @@ var vue = new Vue({
                     + this.listToShow[i].id
                     + `">`;
             }
+            */
 
-            newListItem += `</th></tr></table></div><div>`;
+            /*
+                            + `<table class="table">`;
+
+            // set content in for loop cause it would look to complicated in the code with setting the id all the time
+            // pretty dirty way :(
+            for (var index = 0; index < tmpContentList.length; index += 2) {
+                newListItem += `<tr><th id="`
+                    + this.listToShow[i].id
+                    + `">`;
+                    + tmpContentList[index]
+                    + `</th><td id="`
+                    + this.listToShow[i].id
+                    + `">`
+                    + tmpContentList[index + 1]
+                    + `</td></tr>`;
+            }
+
+            newListItem += `</table></div><div>`;
+            */
+
             return newListItem;
         },
 
@@ -279,13 +324,13 @@ var vue = new Vue({
             var tmpContent = `<div class="card border-primary mb-3 text-black">`;
 
             // if one of the single article sidebar items like 'system'
-            if(event == "single") {
+            if (event == "single") {
                 this.noBackButton = true;
 
-                if(this.showType == "system") {
+                if (this.showType == "system") {
                     tmpItem = this.jsonData.system;
                 }
-                else if(this.showType == "entrypoint") {
+                else if (this.showType == "entrypoint") {
                     tmpItem = this.jsonData.entrypoint;
                 }
                 else {
@@ -317,8 +362,8 @@ var vue = new Vue({
                     + tmpItem.id
                     + `</div><div id="singleArticle" class="card-body">`
                     + `<table class="table">`;
-                    
-                    tmpContent += `<tr><th id="singleArticle">`
+
+                tmpContent += `<tr><th id="singleArticle">`
 
                 // fill with all the attributes
                 for (item in tmpItem) {
@@ -399,7 +444,7 @@ var vue = new Vue({
                 }
             }
             this.setDefaultListToShow();
-            if(this.listElement4 | this.listElement5 | this.listElement6) {
+            if (this.listElement4 | this.listElement5 | this.listElement6) {
                 this.clickHandlerArticle("single");
             }
             else {
