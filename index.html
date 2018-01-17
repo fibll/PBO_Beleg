@@ -36,10 +36,13 @@
                     <div class="list-group">
                         <a id="sidebarProcesses" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement1}" v-on:click="clickHandlerSidebar">Prozesse</a>
                         <a id="sidebarLocations" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement2}" v-on:click="clickHandlerSidebar">Locations</a>
-                        <a id="sidebarStakeholder" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement3}" v-on:click="clickHandlerSidebar">Stakeholder</a>
+                        <a id="sidebarStakeholder" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement3}"
+                            v-on:click="clickHandlerSidebar">Stakeholder</a>
                         <a id="sidebarSystem" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement4}" v-on:click="clickHandlerSidebar">System</a>
-                        <a id="sidebarEntrypoint" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement5}" v-on:click="clickHandlerSidebar">Entrypoint</a>
-                        <a id="sidebarMainprocess" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement6}" v-on:click="clickHandlerSidebar">Hauptprozess</a>
+                        <a id="sidebarEntrypoint" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement5}"
+                            v-on:click="clickHandlerSidebar">Entrypoint</a>
+                        <a id="sidebarMainprocess" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement6}"
+                            v-on:click="clickHandlerSidebar">Hauptprozess</a>
                     </div>
                 </nav>
             </div>
@@ -48,14 +51,12 @@
             <div class="col-md">
                 <div class="row">
 
-                    <!-- Back Button -->
-                    <button class="btn btn-primary ml-3" v-bind:class="{ invisible: noBackButton}" v-on:click="fillContent">Back</button>
-
                     <!-- Sortbar -->
-                    <div id="sortbar" v-bind:class="{ invisible: noSortbar}" class="ml-3">
+                    <div id="sortbar" v-bind:class="{ invisible: noSortbar}">
                         <ul class="nav nav-pills">
-
-                            <!-- <li><p>Sortiert nach:</p></li> -->
+                            <li>
+                                <a class="nav-link">Sortiert nach:</a>
+                            </li>
                             <li class="nav-item">
                                 <a id="sortbarCol1" class="nav-link" href="#" v-bind:class="{ active: activeSort1}" v-on:click="clickHandlerSortbar">{{sortLabel1}}</a>
                             </li>
@@ -74,9 +75,15 @@
                     </div>
                 </div>
 
+                <!-- new row for button -->
+                <div class="row">
+                    <!-- Back Button -->
+                    <button class="btn btn-primary ml-3" v-bind:class="{ invisible: noBackButton}" v-on:click="fillContent" style="width: 5rem">Back</button>
+                </div>
+
                 <!-- content-->
                 <div id="content" class="row">
-                    <div class="col-md-auto mt-5" v-for="item in contentList">
+                    <div class="col-md-auto mt-1" v-for="item in contentList">
                         <a id="bla" href="#" class="list-group-item-action" v-on:click="clickHandlerArticle" v-html="item">
                         </a>
                     </div>
