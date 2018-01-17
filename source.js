@@ -9,9 +9,8 @@
     - Zusatzinfos:
         * Prozesse: Wie viele Arbeiten daran + Zeitraum + Kurze Info wann das nächste Projekt ausläuft.
         * Stakeholder: An wie vielen Projekten sind sie beteiligt
-    - Unterpunkte in der Detailansicht behandeln
+    - Unterpunkte in der Detailansicht behandeln, id sollte name oder city anzeigen
     - Punkte mit mehreren Antworten (Hauptprozess-> Children) nicht anzeigen
-    - Bei Prozessen nicht alle Details zeigen
 
 + Kontakt Leiste mit Infos aus json file
 
@@ -216,7 +215,7 @@ var vue = new Vue({
                 else {
                     newListItem = this.fillContentProcesses(i, newListItem);
                 }
-                
+
                 // add it to list
                 this.contentList.push(newListItem);
             }
@@ -331,21 +330,31 @@ var vue = new Vue({
 
             // fill content
             if (tmpItem != null) {
+                var blockList = ["childs", "reference (optional)", "transformation", "connection", "contact (optional)", "geoCoords (optional)", "parent", "stakeholder", "locations"];
+                var show = true;
                 tmpContent += `
-                    <div id="singleArticle" class="card-header">`
-                    + tmpItem.id
-                    + `</div><div id="singleArticle" class="card-body">`
-                    + `<table class="table">`;
-
-                tmpContent += `<tr><th id="singleArticle">`
+                    <div id="singleArticle" class="card-header">` + tmpItem.id + `</div>
+                    <div id="singleArticle" class="card-body">
+                        <table class="table">`;
 
                 // fill with all the attributes
                 for (item in tmpItem) {
-                    tmpContent += `<tr><th id="singleArticle">`
-                        + item
-                        + `</th><td id="singleArticle">`
-                        + tmpItem[item]
-                        + `</td></tr>`;
+
+                    // filter the detailes view
+                    for(var i = 0; i < blockList.length; i++) {
+                        if(blockList[i] == item) {
+                            show = false;
+                            break;
+                        }
+                    }
+                    if(show){
+                        tmpContent += `
+                                <tr>
+                                    <th id="singleArticle">` + item + `</th>
+                                    <td id="singleArticle">` + tmpItem[item] + `</td>
+                                </tr>`;
+                    }
+                    show = true;
                 }
                 tmpContent += `</div>`;
             }
@@ -353,12 +362,8 @@ var vue = new Vue({
                 console.log("Nothing was found");
 
                 tmpContent += `
-                <div class="card-header">`
-                    + "Error"
-                    + `</div>
-                    <div class="card-body">`
-                    + "Something did go wrong, please reload the page."
-                    + `</div>`;
+                <div class="card-header">Error</div>
+                <div class="card-body">Something did go wrong, please reload the page.</div>`;
             }
 
             // end of html phrase
