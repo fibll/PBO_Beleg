@@ -6,7 +6,12 @@
     - "Sortieren nach" ein erklärender Schriftzug)
 
 + Detailansicht:
+    - Zusatzinfos:
+        * Prozesse: Wie viele Arbeiten daran + Zeitraum + Kurze Info wann das nächste Projekt ausläuft.
+        * Stakeholder: An wie vielen Projekten sind sie beteiligt
     - Unterpunkte in der Detailansicht behandeln
+    - Punkte mit mehreren Antworten (Hauptprozess-> Children) nicht anzeigen
+    - Bei Prozessen nicht alle Details zeigen
 
 + Kontakt Leiste mit Infos aus json file
 
@@ -127,84 +132,67 @@ var vue = new Vue({
 
             newListItem = `
             <div class="card border-primary mb-3 text-black" style="width: 20rem;">
-                <div id="`
-                + this.listToShow[i].id
-                + `" class="card-header">`
-                + this.listToShow[i].id
-                + `</div><div id="`
-                + this.listToShow[i].id
-                + `" class="card-body">`
-                + `<table class="table">`;
-                /*
-                + `<tr><th id="`
-                + this.listToShow[i].id
-                + `">`;*/
+                <div id="` + this.listToShow[i].id + `" class="card-header">` + this.listToShow[i].id + `</div>
+                <div id="` + this.listToShow[i].id + `" class="card-body">
+                    <table class="table">`;
 
             // set content in for loop cause it would look to complicated in the code with setting the id all the time
-            // pretty dirty way :(
-            
             for (var index = 0; index < tmpContentList.length; index += 2) {
-                newListItem += `<tr><th id="`
-                + this.listToShow[i].id
-                + `">`
-                + tmpContentList[index]
-                + `</th><td id="`
-                + this.listToShow[i].id
-                + `">`
-                + tmpContentList[index + 1]
-                + `</td></tr>`;
-                
-                /*
-                tmpContentList[index]
-                    + `</th><td id="`
-                    + this.listToShow[i].id
-                    + `">`
-                    //+ tmpContentList[index + 1]
-                    + `</td></tr id="`
-                    + this.listToShow[i].id
-                    + `"><tr><th id="`
-                    + this.listToShow[i].id
-                    + `">`;
-                    */
+                newListItem += `
+                        <tr>
+                            <th id="` + this.listToShow[i].id + `">` + tmpContentList[index] + `</th>
+                            <td id="`+ this.listToShow[i].id + `">` + tmpContentList[index + 1] + `</td>
+                        </tr>`;
+            }
+            newListItem += `
+                    </table>
+                </div>
+            <div>`;
+
+            return newListItem;
+        },
+
+        fillContentLocations: function (i, newListItem) {
+            newListItem = `
+            <div class="card border-primary mb-3 text-black" style="width: 20rem">
+                <div id="` + this.listToShow[i].id + `" class="card-header">` + this.listToShow[i].id + `</div>
+                <div id="` + this.listToShow[i].id + `" class="card-body">
+                    <table class="table">
+                        <tr>
+                            <th id="` + this.listToShow[i].id + `">Stadt</th>
+                            <td id="` + this.listToShow[i].id + `">` + this.listToShow[i].city + `</td>
+                        </tr>
+                    </table>
+                </div>
+            <div>`;
+            return newListItem;
+        },
+
+        fillContentStakeholder: function (i, newListItem) {
+            var color = "";
+            if (this.listToShow[i].type == "group closed") {
+                color = `text-danger">`
+            }
+            else {
+                color = `text-success">`;
             }
 
-            newListItem += `</table></div><div>`;
-
-            /*
-            for (var index = 0; index < tmpContentList.length; index += 2) {
-                newListItem += tmpContentList[index]
-                    + `</th><td id="`
-                    + this.listToShow[i].id
-                    + `">`
-                    + tmpContentList[index + 1]
-                    + `</td></tr id="`
-                    + this.listToShow[i].id
-                    + `"><tr><th id="`
-                    + this.listToShow[i].id
-                    + `">`;
-            }
-            */
-
-            /*
-                            + `<table class="table">`;
-
-            // set content in for loop cause it would look to complicated in the code with setting the id all the time
-            // pretty dirty way :(
-            for (var index = 0; index < tmpContentList.length; index += 2) {
-                newListItem += `<tr><th id="`
-                    + this.listToShow[i].id
-                    + `">`;
-                    + tmpContentList[index]
-                    + `</th><td id="`
-                    + this.listToShow[i].id
-                    + `">`
-                    + tmpContentList[index + 1]
-                    + `</td></tr>`;
-            }
-
-            newListItem += `</table></div><div>`;
-            */
-
+            newListItem = `
+            <div class="card border-primary mb-3 text-black" style="width: 20rem">
+                <div id="` + this.listToShow[i].id + `" class="card-header">` + this.listToShow[i].id + `</div>
+                <div id="` + this.listToShow[i].id + `" class="card-body">
+                    <table class="table">
+                        <tr>
+                            <th id="` + this.listToShow[i].id + `">Name</th>
+                            <td id="` + this.listToShow[i].id + `">` + this.listToShow[i].name + `</td>
+                        </tr>
+                        <tr>
+                            <th id="` + this.listToShow[i].id + `">Typ</th>
+                            <td id="` + this.listToShow[i].id + `" class="` + color + this.listToShow[i].type + `</td>
+                        </tr>
+                    </table>
+                </div>
+            <div>`;
             return newListItem;
         },
 
@@ -218,31 +206,17 @@ var vue = new Vue({
             this.listToShow = this.sortArray();
 
             for (var i = 0; i < this.listToShow.length; i++) {
-                // get the html code together
-                newListItem = `
-                <div class="card border-primary mb-3 text-black" style="width: 20rem">
-                    <div id="`
-                    + this.listToShow[i].id
-                    + `" class="card-header">`
-                    + this.listToShow[i].id
-                    + `</div><div id="`
-                    + this.listToShow[i].id
-                    + `" class="card-body">`;
 
-                if (this.showType == "locations") {
-                    newListItem += "Stadt: ";
-                    newListItem += this.listToShow[i].city;
+                if(this.showType == "locations") {
+                    newListItem = this.fillContentLocations(i, newListItem);
+                }
+                else if(this.showType == "stakeholder") {
+                    newListItem = this.fillContentStakeholder(i, newListItem);
                 }
                 else {
-                    newListItem += "Name: ";
-                    newListItem += this.listToShow[i].name;
-                }
-                newListItem += `</div><div>`;
-
-                if (this.showType == "processes") {
                     newListItem = this.fillContentProcesses(i, newListItem);
                 }
-
+                
                 // add it to list
                 this.contentList.push(newListItem);
             }
