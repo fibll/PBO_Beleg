@@ -383,23 +383,22 @@ var vue = new Vue({
             this.listElement5 = false;
             this.listElement6 = false;
 
+            this.activeSort1 = true,
+            this.activeSort2 = false,
+            this.activeSort3 = false,
+            this.activeSort4 = false,
+            this.sortBy = "id";
+
+            // set showType and sidebar item active
             if (event.target.id == "sidebarLocations") {
                 this.listElement2 = true;
                 this.showType = "locations";
                 this.sortLabel2 = "Stadt";
-                // FIX
-                if (this.sortBy == "name") {
-                    this.sortBy = "city"
-                }
             }
             else if (event.target.id == "sidebarStakeholder") {
                 this.listElement3 = true;
                 this.showType = "stakeholder";
                 this.sortLabel2 = "Name";
-                // FIX
-                if (this.sortBy == "city") {
-                    this.sortBy = "name"
-                }
             }
             else if (event.target.id == "sidebarSystem") {
                 this.listElement4 = true;
@@ -417,16 +416,14 @@ var vue = new Vue({
                 this.listElement1 = true;
                 this.showType = "processes";
                 this.sortLabel2 = "Name";
-                // FIX
-                if (this.sortBy == "city") {
-                    this.sortBy = "name"
-                }
             }
+            // set the data source for the content
             this.setDefaultListToShow();
             if (this.listElement4 | this.listElement5 | this.listElement6) {
                 this.clickHandlerArticle("single");
             }
             else {
+                // fill the content space
                 this.fillContent();
             }
         },
