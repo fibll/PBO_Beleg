@@ -2,8 +2,7 @@
 /* to do:
 + Suche
 + Sortierung:
-    - Sortiermöglichkeiten ändern
-    - "Sortieren nach" ein erklärender Schriftzug)
+    - Mehrere eigene Sortiermöglichkeiten
 
 + Detailansicht:
     - Zusatzinfos:
@@ -44,8 +43,12 @@ var vue = new Vue({
 
         sortLabel1: "ID",
         sortLabel2: "Name",
-        sortLabel3: "Location",
-        sortLabel4: "Stakeholder",
+        sortLabel3: "Enddatum",
+        sortLabel4: "Participation",
+
+        hideSortItem3: false,
+        hideSortItem4: false,
+
 
         // show
         showType: "processes",
@@ -206,10 +209,10 @@ var vue = new Vue({
 
             for (var i = 0; i < this.listToShow.length; i++) {
 
-                if(this.showType == "locations") {
+                if (this.showType == "locations") {
                     newListItem = this.fillContentLocations(i, newListItem);
                 }
-                else if(this.showType == "stakeholder") {
+                else if (this.showType == "stakeholder") {
                     newListItem = this.fillContentStakeholder(i, newListItem);
                 }
                 else {
@@ -268,6 +271,16 @@ var vue = new Vue({
                 return 0;
             }
 
+            /*
+            function compareEndDate(a, b) {
+                if (a.id < b.id)
+                    return -1;
+                if (a.id >= b.id)
+                    return 1;
+                return 0;
+            }
+            */
+
             if (this.sortBy == "name") {
                 return this.listToShow.sort(compareName);
             }
@@ -280,9 +293,36 @@ var vue = new Vue({
             else if (this.sortBy == "city") {
                 return this.listToShow.sort(compareCity);
             }
+            /*
+            else if (this.sortBy == "sortbarCol3") {
+                return this.listToShow.sort(compareCity);
+            }
+            else if (this.sortBy == "sortbarCol4") {
+                return this.listToShow.sort(compareCity);
+            }
+            */
             else {
                 return this.listToShow.sort(compareID);
             }
+        },
+
+        resetBars: function() {
+            // do a reset
+            this.listElement1 = false;
+            this.listElement2 = false;
+            this.listElement3 = false;
+            this.listElement4 = false;
+            this.listElement5 = false;
+            this.listElement6 = false;
+
+            this.activeSort1 = true,
+            this.activeSort2 = false,
+            this.activeSort3 = false,
+            this.activeSort4 = false,
+
+            this.hideSortItem3 = true;
+            this.hideSortItem4 = true;
+            this.sortBy = "id";
         },
 
         // click handler
@@ -294,7 +334,7 @@ var vue = new Vue({
             var tmpTypeSingle = false;
 
             // begin of html phrase
-            var tmpContent = `<div class="card border-primary mb-3 text-black">`;
+            var tmpContent = `<div class="card border-primary mb-3 text-black" style="max-width: 45rem">`;
 
             // if one of the single article sidebar items like 'system'
             if (event == "single") {
@@ -341,13 +381,13 @@ var vue = new Vue({
                 for (item in tmpItem) {
 
                     // filter the detailes view
-                    for(var i = 0; i < blockList.length; i++) {
-                        if(blockList[i] == item) {
+                    for (var i = 0; i < blockList.length; i++) {
+                        if (blockList[i] == item) {
                             show = false;
                             break;
                         }
                     }
-                    if(show){
+                    if (show) {
                         tmpContent += `
                                 <tr>
                                     <th id="singleArticle">` + item + `</th>
@@ -375,19 +415,7 @@ var vue = new Vue({
         },
 
         clickHandlerSidebar: function (event) {
-            // do a reset
-            this.listElement1 = false;
-            this.listElement2 = false;
-            this.listElement3 = false;
-            this.listElement4 = false;
-            this.listElement5 = false;
-            this.listElement6 = false;
-
-            this.activeSort1 = true,
-            this.activeSort2 = false,
-            this.activeSort3 = false,
-            this.activeSort4 = false,
-            this.sortBy = "id";
+            this.resetBars();
 
             // set showType and sidebar item active
             if (event.target.id == "sidebarLocations") {
@@ -399,6 +427,8 @@ var vue = new Vue({
                 this.listElement3 = true;
                 this.showType = "stakeholder";
                 this.sortLabel2 = "Name";
+                this.sortLabel3 = "Type";
+                this.hideSortItem3 = false;
             }
             else if (event.target.id == "sidebarSystem") {
                 this.listElement4 = true;
@@ -416,6 +446,10 @@ var vue = new Vue({
                 this.listElement1 = true;
                 this.showType = "processes";
                 this.sortLabel2 = "Name";
+                this.sortLabel3 = "Enddatum";
+                this.sortLabel4 = "Participation";
+                this.hideSortItem3 = false;
+                this.hideSortItem4 = false;
             }
             // set the data source for the content
             this.setDefaultListToShow();
@@ -444,6 +478,7 @@ var vue = new Vue({
                     this.sortBy = "city";
                 }
             }
+            /*
             else if (event.target.id == "sortbarCol3") {
                 this.activeSort3 = true;
                 this.sortBy = "location";
@@ -451,6 +486,15 @@ var vue = new Vue({
             else if (event.target.id == "sortbarCol4") {
                 this.activeSort4 = true;
                 this.sortBy = "stakeholder";
+            }
+            */
+            else if(event.target.id == "sortbarCol3") {
+                this.activeSort3 = true;
+                this.sortBy = "sortbarCol3";
+            }
+            else if(event.target.id == "sortbarCol4") {
+                this.activeSort4 = true;
+                this.sortBy = "sortbarCol4";
             }
             else {
                 this.activeSort1 = true;

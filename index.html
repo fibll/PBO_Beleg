@@ -63,6 +63,12 @@
                             <li class="nav-itemName">
                                 <a id="sortbarCol2" class="nav-link" href="#" v-bind:class="{ active: activeSort2}" v-on:click="clickHandlerSortbar">{{sortLabel2}}</a>
                             </li>
+                            <li class="nav-itemName" v-bind:class="{ invisible: hideSortItem3}">
+                                <a id="sortbarCol3" class="nav-link" href="#" v-bind:class="{ active: activeSort3}" v-on:click="clickHandlerSortbar">{{sortLabel3}}</a>
+                            </li>
+                            <li class="nav-itemName" v-bind:class="{ invisible: hideSortItem4}">
+                                <a id="sortbarCol4" class="nav-link" href="#" v-bind:class="{ active: activeSort4}" v-on:click="clickHandlerSortbar">{{sortLabel4}}</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
