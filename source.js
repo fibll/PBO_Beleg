@@ -58,8 +58,10 @@ var vue = new Vue({
         noSortItem4: true,
 
         // filter
-        filterLabel1: "Offene Prozesse",
+        filterLabel1: "Offen",
+        filterLabel2: "Aktiv",
         activeFilter1: false,
+        activeFilter2: false,
         noFilter: false,
 
         // show
@@ -359,14 +361,15 @@ var vue = new Vue({
             this.listElement6 = false;
 
             this.activeSort1 = true,
-            this.activeSort2 = false,
-            this.activeSort3 = false,
-            this.activeSort4 = false,
+                this.activeSort2 = false,
+                this.activeSort3 = false,
+                this.activeSort4 = false,
 
-            this.noSortItem3 = true;
+                this.noSortItem3 = true;
             this.noSortItem4 = true;
 
             this.activeFilter1 = false;
+            this.activeFilter2 = false;
             this.noFilter = true;
 
             this.sortBy = "id";
@@ -559,22 +562,61 @@ var vue = new Vue({
         },
 
         clickHandlerFilter: function (event) {
-            if (this.activeFilter1) {
-                this.activeFilter1 = false;
-                this.listToShow = this.children;
-            }
-            else {
-                this.activeFilter1 = true;
+            if (event.target.id == "filter1") {
+                if (this.activeFilter1) {
+                    this.activeFilter1 = false;
+                    if (this.showType == "processes")
 
-                // build new listToShow
-                if (this.showType == "processes") {
-                    var tmpList = [];
-                    for (item in this.children) {
-                        if (this.children[item].participation != "closed")
-                            tmpList.push(this.children[item]);
-                    }
+                        // FIX: not that easy, should just add the outfiltered back to the listToShow
+                        this.listToShow = this.children;
                 }
-                this.listToShow = tmpList;
+                else {
+                    this.activeFilter1 = true;
+
+                    // build new listToShow
+                    if (this.showType == "processes") {
+                        var tmpList = [];
+                        for (item in this.listToShow) {
+                            if (this.listToShow[item].participation != "closed")
+                                tmpList.push(this.listToShow[item]);
+                        }
+                    }
+                    this.listToShow = tmpList;
+                }
+            }
+
+            if (event.target.id == "filter2") {
+                if (this.activeFilter2) {
+                    this.activeFilter2 = false;
+                    if (this.showType == "processes")
+                        this.listToShow = this.children;
+                }
+                else {
+                    this.activeFilter2 = true;
+
+                    // build new listToShow
+                    if (this.showType == "processes") {
+                        var tmpList = [];
+
+                        // get current date
+                        var currentDate = new Date();
+                        var itemDate;
+                        
+                        for (item in this.listToShow) {
+                            itemDate = new Date(this.listToShow[item]["end (optional)"]);
+                            
+                            if(!isNaN(itemDate.getTime()))
+                                console.log(itemDate.getTime() + "   " + currentDate.getTime());
+
+                            if (isNaN(itemDate.getTime()) | itemDate.getTime() > currentDate.getTime()) {
+                                console.log(itemDate.getFullYear());
+                                tmpList.push(this.listToShow[item]);
+                            }
+
+                        }
+                    }
+                    this.listToShow = tmpList;
+                }
             }
 
             // show new content
