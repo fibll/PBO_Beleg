@@ -38,6 +38,7 @@ var vue = new Vue({
         listElement5: false,
         listElement6: false,
 
+        // sort active
         activeSort1: true,
         activeSort2: false,
         activeSort3: false,
@@ -46,14 +47,20 @@ var vue = new Vue({
         noBackButton: true,
         noSortbar: false,
 
+        // labels
         sortLabel1: "ID",
         sortLabel2: "Name",
         sortLabel3: "Enddatum",
         sortLabel4: "Initiator",
 
-        hideSortItem3: false,
-        hideSortItem4: true,
+        // hiding
+        noSortItem3: false,
+        noSortItem4: true,
 
+        // filter
+        filterLabel1: "Offene Prozesse",
+        activeFilter1: false,
+        noFilter: false,
 
         // show
         showType: "processes",
@@ -205,16 +212,10 @@ var vue = new Vue({
 
         fillContent: function () {
 
-            // this.setDefaultListToShow();
-            // console.log(this.listToShow[0].id);
-
-
             this.noBackButton = true;
             this.noSortbar = false;
             this.contentList = [];
             var newListItem = "";
-
-            //console.log(this.sortBy + "  " + this.showType);
 
             // sort listToShow
             this.listToShow = this.sortArray();
@@ -295,10 +296,9 @@ var vue = new Vue({
                 // convert do date
                 var dateA = new Date(a["end (optional)"]);
                 var dateB = new Date(b["end (optional)"]);
-                //console.log(dateA.getTime() + "  ID: " + a.id);
 
                 // compare dates
-                if (isNaN(dateA.getTime()))// && dateB.getTime != "NaN")
+                if (isNaN(dateA.getTime()))
                     return 1;
                 if (dateA.getTime() < dateB.getTime())
                     return -1;
@@ -308,7 +308,7 @@ var vue = new Vue({
                     return 0;
             }
 
-            
+
             function compareInitiator(a, b) {
                 if (a.initiator < b.initiator)
                     return -1;
@@ -316,7 +316,7 @@ var vue = new Vue({
                     return 1;
                 return 0;
             }
-            
+
 
             if (this.sortBy == "name") {
                 return this.listToShow.sort(compareName);
@@ -337,8 +337,6 @@ var vue = new Vue({
                 }
                 else {
                     return this.listToShow.sort(compareEndDate)
-                    // return this.listToShow.sort(compareID);
-                    // return this.listToShow.sort(compareInitiator)
                 }
             }
             /*
@@ -361,12 +359,16 @@ var vue = new Vue({
             this.listElement6 = false;
 
             this.activeSort1 = true,
-                this.activeSort2 = false,
-                this.activeSort3 = false,
-                this.activeSort4 = false,
+            this.activeSort2 = false,
+            this.activeSort3 = false,
+            this.activeSort4 = false,
 
-                this.hideSortItem3 = true;
-            this.hideSortItem4 = true;
+            this.noSortItem3 = true;
+            this.noSortItem4 = true;
+
+            this.activeFilter1 = false;
+            this.noFilter = true;
+
             this.sortBy = "id";
         },
 
@@ -482,7 +484,7 @@ var vue = new Vue({
                 this.showType = "stakeholder";
                 this.sortLabel2 = "Name";
                 this.sortLabel3 = "Type";
-                this.hideSortItem3 = false;
+                this.noSortItem3 = false;
             }
             else if (event.target.id == "sidebarSystem") {
                 this.listElement4 = true;
@@ -500,10 +502,14 @@ var vue = new Vue({
                 this.listElement1 = true;
                 this.showType = "processes";
                 this.sortLabel2 = "Name";
+                this.sortLabel3 = "Enddatum";
+                this.noSortItem3 = false;
+                this.noFilter = false;
+                this.filterLabel1 = "Offene Prozesse";
                 // this.sortLabel3 = "Enddatum";
                 // this.sortLabel4 = "Initiator";
-                // this.hideSortItem3 = false;
-                // this.hideSortItem4 = false;
+                // this.noSortItem3 = false;
+                // this.noSortItem4 = false;
             }
             // set the data source for the content
             this.setDefaultListToShow();
@@ -551,6 +557,29 @@ var vue = new Vue({
                 this.fillContent();
             }
         },
+
+        clickHandlerFilter: function (event) {
+            if (this.activeFilter1) {
+                this.activeFilter1 = false;
+                this.listToShow = this.children;
+            }
+            else {
+                this.activeFilter1 = true;
+
+                // build new listToShow
+                if (this.showType == "processes") {
+                    var tmpList = [];
+                    for (item in this.children) {
+                        if (this.children[item].participation != "closed")
+                            tmpList.push(this.children[item]);
+                    }
+                }
+                this.listToShow = tmpList;
+            }
+
+            // show new content
+            this.fillContent();
+        },
     },
 
     // function called in the beginning
@@ -567,11 +596,6 @@ var vue = new Vue({
             self.stakeholder = self.jsonData.process.stakeholder;
 
             console.log("reading of json file was successfull");
-
-            var date1 = new Date(self.children[43]["end (optional)"]);
-            var date2 = new Date(self.children[30]["end (optional)"]);
-
-            console.log("131: " + date2.getTime() + "  " + "141: " + date1.getTime());
 
             // init
             self.listToShow = self.children;
