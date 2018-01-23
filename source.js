@@ -58,11 +58,13 @@ var vue = new Vue({
         noSortItem4: true,
 
         // filter
-        filterLabel1: "Offen",
+        filterLabel1: "Offen für Mitarbeiter",
         filterLabel2: "Aktiv",
         activeFilter1: false,
         activeFilter2: false,
         noFilter: false,
+        outtakenFilter1: [],
+        outtakenFilter2: [],
 
         // show
         showType: "processes",
@@ -508,7 +510,7 @@ var vue = new Vue({
                 this.sortLabel3 = "Enddatum";
                 this.noSortItem3 = false;
                 this.noFilter = false;
-                this.filterLabel1 = "Offene Prozesse";
+                this.filterLabel1 = "Offen für Mitarbeiter";
                 // this.sortLabel3 = "Enddatum";
                 // this.sortLabel4 = "Initiator";
                 // this.noSortItem3 = false;
@@ -565,10 +567,14 @@ var vue = new Vue({
             if (event.target.id == "filter1") {
                 if (this.activeFilter1) {
                     this.activeFilter1 = false;
-                    if (this.showType == "processes")
 
-                        // FIX: not that easy, should just add the outfiltered back to the listToShow
-                        this.listToShow = this.children;
+                    // get old item back into list
+                    // this.listToShow.concat(this.outtakenFilter1);
+                    for(item in this.outtakenFilter1){
+                        this.listToShow.push(this.outtakenFilter1[item]);
+                    }
+                    // reset list
+                    this.outtakenFilter1 = [];
                 }
                 else {
                     this.activeFilter1 = true;
@@ -579,17 +585,27 @@ var vue = new Vue({
                         for (item in this.listToShow) {
                             if (this.listToShow[item].participation != "closed")
                                 tmpList.push(this.listToShow[item]);
+                            else {
+                                this.outtakenFilter1.push(this.listToShow[item]);
+                            }
                         }
                     }
                     this.listToShow = tmpList;
                 }
+
             }
 
             if (event.target.id == "filter2") {
                 if (this.activeFilter2) {
                     this.activeFilter2 = false;
-                    if (this.showType == "processes")
-                        this.listToShow = this.children;
+
+                    // get old item back into list
+                    //this.listToShow.concat(this.outtakenFilter2);
+                    for(item in this.outtakenFilter2){
+                        this.listToShow.push(this.outtakenFilter2[item]);
+                    }
+                    // reset list
+                    this.outtakenFilter2 = [];
                 }
                 else {
                     this.activeFilter2 = true;
@@ -601,16 +617,15 @@ var vue = new Vue({
                         // get current date
                         var currentDate = new Date();
                         var itemDate;
-                        
+
                         for (item in this.listToShow) {
                             itemDate = new Date(this.listToShow[item]["end (optional)"]);
                             
-                            if(!isNaN(itemDate.getTime()))
-                                console.log(itemDate.getTime() + "   " + currentDate.getTime());
-
                             if (isNaN(itemDate.getTime()) | itemDate.getTime() > currentDate.getTime()) {
-                                console.log(itemDate.getFullYear());
                                 tmpList.push(this.listToShow[item]);
+                            }
+                            else {
+                                this.outtakenFilter2.push(this.listToShow[item]);
                             }
 
                         }
@@ -618,7 +633,6 @@ var vue = new Vue({
                     this.listToShow = tmpList;
                 }
             }
-
             // show new content
             this.fillContent();
         },
