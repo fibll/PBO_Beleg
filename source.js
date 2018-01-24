@@ -1,4 +1,3 @@
-
 /* to do:
 + Suche
 + Sortierung:
@@ -19,6 +18,8 @@
 + ids nicht so kryptisch, durch hover wird dann aber die richtige ID angezeigt
 
 + Bilder hinzufügen
+
++ Back Button sollte auf gleiche Höhe wie Sortbar
 
 questions:
 */
@@ -484,34 +485,48 @@ var vue = new Vue({
                                     <td id="singleArticle">` + readableID + `</td>
                                 </tr>`;
                     }
-                    /*
                     // replace id with name
                     else if (item == "initiator") {
-                        var tmpList = tmpItem.initiator.split("/");
-                        var readableID = this.capitalFirstLetter(tmpList[tmpList.length - 2]) + "/" + Number(tmpList[tmpList.length - 1]);
+                        var initiatorName;
+
+                        // search in stakeholder for id
+                        for(i in this.stakeholder){
+                            if(tmpItem.initiator == this.stakeholder[i].id){
+                                // save name
+                                initiatorName = this.stakeholder[i].name;
+                                break;
+                            }
+                        }
 
                         // fill
                         tmpContent += `
                                 <tr>
                                     <th id="singleArticle">` + this.capitalFirstLetter(item) + `</th>
-                                    <td id="singleArticle">` + readableID + `</td>
+                                    <td id="singleArticle">` + initiatorName + `</td>
                                 </tr>`;
                     }
                     // replace id with city
                     else if (item == "location") {
-                        var tmpList = tmpItem.location[0].split("/");
-                        var readableID = this.capitalFirstLetter(tmpList[tmpList.length - 2]) + "/" + Number(tmpList[tmpList.length - 1]);
+                        var locationCity;
+
+                        // search in locations for id
+                        for(i in this.locations){
+                            if(tmpItem.location == this.locations[i].id){
+                                // save city name
+                                locationCity = this.locations[i].city;
+                                break;
+                            }
+                        }
 
                         // fill
                         tmpContent += `
                                 <tr>
                                     <th id="singleArticle">` + this.capitalFirstLetter(item) + `</th>
-                                    <td id="singleArticle">` + readableID + `</td>
+                                    <td id="singleArticle">` + locationCity + `</td>
                                 </tr>`;
-                    }*/
+                    }
                     // change color of type
                     else if (item == "type") {
-                        console.log(tmpItem.type)
                         var color;
                         if (tmpItem.type == "group closed") {
                             color = `text-danger`
