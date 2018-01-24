@@ -16,7 +16,9 @@
 
 + Kontakt Leiste mit Infos aus json file
 
-+ Nur aktive, abgeschlossene oder alle Prozesse anzeigen
++ ids nicht so kryptisch, durch hover wird dann aber die richtige ID angezeigt
+
++ Bilder hinzufügen
 
 questions:
 */
@@ -128,6 +130,10 @@ var vue = new Vue({
             var tmpLocation = "";
             var tmpInitiator = "";
 
+            // convert id to readableId
+            var tmpList = this.listToShow[i].id.split("/");
+            var readableID = this.capitalFirstLetter(tmpList[tmpList.length - 2]) + "/" + Number(tmpList[tmpList.length - 1]);
+
             // get city out of location object
             for (var k = 0; k < this.locations.length; k++) {
                 if (this.locations[k].id == this.listToShow[i].location) {
@@ -144,13 +150,13 @@ var vue = new Vue({
                 }
             }
 
-            var tmpContentList = ["Name", this.listToShow[i].name,
+            var tmpContentList = ["ID", readableID,
                 "Location", tmpLocation,
                 "Initiator", tmpInitiator];
 
             newListItem = `
             <div class="card border-primary mb-3 text-black" style="width: 20rem;">
-                <div id="` + this.listToShow[i].id + `" class="card-header">` + this.listToShow[i].id + `</div>
+                <div id="` + this.listToShow[i].id + `" class="card-header">` + this.listToShow[i].name + `</div>
                 <div id="` + this.listToShow[i].id + `" class="card-body">
                     <table class="table">`;
 
@@ -171,14 +177,18 @@ var vue = new Vue({
         },
 
         fillContentLocations: function (i, newListItem) {
+            // convert id to readableId
+            var tmpList = this.listToShow[i].id.split("/");
+            var readableID = this.capitalFirstLetter(tmpList[tmpList.length - 2]) + "/" + Number(tmpList[tmpList.length - 1]);
+
             newListItem = `
             <div class="card border-primary mb-3 text-black" style="width: 20rem">
-                <div id="` + this.listToShow[i].id + `" class="card-header">` + this.listToShow[i].id + `</div>
+                <div id="` + this.listToShow[i].id + `" class="card-header">` + this.listToShow[i].city + `</div>
                 <div id="` + this.listToShow[i].id + `" class="card-body">
                     <table class="table">
                         <tr>
-                            <th id="` + this.listToShow[i].id + `">Stadt</th>
-                            <td id="` + this.listToShow[i].id + `">` + this.listToShow[i].city + `</td>
+                            <th id="` + this.listToShow[i].id + `">ID</th>
+                            <td id="` + this.listToShow[i].id + `">` + readableID + `</td>
                         </tr>
                     </table>
                 </div>
@@ -188,25 +198,30 @@ var vue = new Vue({
 
         fillContentStakeholder: function (i, newListItem) {
             var color = "";
+
+            // convert id to readableId
+            var tmpList = this.listToShow[i].id.split("/");
+            var readableID = this.capitalFirstLetter(tmpList[tmpList.length - 2]) + "/" + Number(tmpList[tmpList.length - 1]);
+
             if (this.listToShow[i].type == "group closed") {
-                color = `text-danger">`
+                color = `text-danger`
             }
             else {
-                color = `text-success">`;
+                color = `text-success`;
             }
 
             newListItem = `
             <div class="card border-primary mb-3 text-black" style="width: 20rem">
-                <div id="` + this.listToShow[i].id + `" class="card-header">` + this.listToShow[i].id + `</div>
+                <div id="` + this.listToShow[i].id + `" class="card-header">` + this.listToShow[i].name + `</div>
                 <div id="` + this.listToShow[i].id + `" class="card-body">
                     <table class="table">
                         <tr>
-                            <th id="` + this.listToShow[i].id + `">Name</th>
-                            <td id="` + this.listToShow[i].id + `">` + this.listToShow[i].name + `</td>
+                            <th id="` + this.listToShow[i].id + `">ID</th>
+                            <td id="` + this.listToShow[i].id + `">` + readableID + `</td>
                         </tr>
                         <tr>
-                            <th id="` + this.listToShow[i].id + `">Typ</th>
-                            <td id="` + this.listToShow[i].id + `" class="` + color + this.listToShow[i].type + `</td>
+                            <th id="` + this.listToShow[i].id + `">Type</th>
+                            <td id="` + this.listToShow[i].id + `" class="` + color + `">` + this.listToShow[i].type + `</td>
                         </tr>
                     </table>
                 </div>
@@ -424,8 +439,16 @@ var vue = new Vue({
             if (tmpItem != null) {
                 var blockList = ["childs", "reference (optional)", "transformation", "connection", "contact (optional)", "geoCoords (optional)", "parent", "stakeholder", "locations"];
                 var show = true;
+                var header;
+
+                // name or city
+                if(this.showType == "location")
+                    header = tmpItem.city;
+                else
+                    header = tmpItem.name
+
                 tmpContent += `
-                    <div id="singleArticle" class="card-header">` + tmpItem.id + `</div>
+                    <div id="singleArticle" class="card-header">` + header + `</div>
                     <div id="singleArticle" class="card-body">
                         <table class="table">`;
 
@@ -440,6 +463,7 @@ var vue = new Vue({
                         }
                     }
 
+                    /*
                     if (item == "participants") {
                         tmpContent += `
                                 <tr>
@@ -447,10 +471,67 @@ var vue = new Vue({
                                     <td id="sidebarStakeholder">` + tmpItem[item] + `</td>
                                 </tr>`;
                     }
-                    else if (show) {
+
+                    // get readable ids
+                    else */if (item == "id") {
+                        var tmpList = tmpItem.id.split("/");
+                        var readableID = this.capitalFirstLetter(tmpList[tmpList.length - 2]) + "/" + Number(tmpList[tmpList.length - 1]);
+
+                        // fill
                         tmpContent += `
                                 <tr>
-                                    <th id="singleArticle">` + item + `</th>
+                                    <th id="singleArticle">ID</th>
+                                    <td id="singleArticle">` + readableID + `</td>
+                                </tr>`;
+                    }
+                    /*
+                    // replace id with name
+                    else if (item == "initiator") {
+                        var tmpList = tmpItem.initiator.split("/");
+                        var readableID = this.capitalFirstLetter(tmpList[tmpList.length - 2]) + "/" + Number(tmpList[tmpList.length - 1]);
+
+                        // fill
+                        tmpContent += `
+                                <tr>
+                                    <th id="singleArticle">` + this.capitalFirstLetter(item) + `</th>
+                                    <td id="singleArticle">` + readableID + `</td>
+                                </tr>`;
+                    }
+                    // replace id with city
+                    else if (item == "location") {
+                        var tmpList = tmpItem.location[0].split("/");
+                        var readableID = this.capitalFirstLetter(tmpList[tmpList.length - 2]) + "/" + Number(tmpList[tmpList.length - 1]);
+
+                        // fill
+                        tmpContent += `
+                                <tr>
+                                    <th id="singleArticle">` + this.capitalFirstLetter(item) + `</th>
+                                    <td id="singleArticle">` + readableID + `</td>
+                                </tr>`;
+                    }*/
+                    // change color of type
+                    else if (item == "type") {
+                        console.log(tmpItem.type)
+                        var color;
+                        if (tmpItem.type == "group closed") {
+                            color = `text-danger`
+                        }
+                        else {
+                            color = `text-success`;
+                        }
+
+                        // fill
+                        tmpContent += `
+                                <tr>
+                                    <th id="singleArticle">Type</th>
+                                    <td id="singleArticle" class="` + color + `">` + tmpItem.type + `</td>
+                                </tr>`;
+                    }
+                    else if (show) {
+                    
+                        tmpContent += `
+                                <tr>
+                                    <th id="singleArticle">` + this.capitalFirstLetter(item) + `</th>
                                     <td id="singleArticle">` + tmpItem[item] + `</td>
                                 </tr>`;
                     }
@@ -636,6 +717,10 @@ var vue = new Vue({
             // show new content
             this.fillContent();
         },
+
+        capitalFirstLetter: function (string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        },
     },
 
     // function called in the beginning
@@ -643,7 +728,7 @@ var vue = new Vue({
 
         // get json stuff
         var self = this;
-        $.getJSON("/data/process.json", function (data) {
+        $.getJSON("data/process.json", function (data) {
 
             // read in data
             self.jsonData = data;
