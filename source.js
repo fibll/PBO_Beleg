@@ -442,7 +442,7 @@ var vue = new Vue({
                 var header;
 
                 // name or city
-                if(this.showType == "location")
+                if (this.showType == "location")
                     header = tmpItem.city;
                 else
                     header = tmpItem.name
@@ -490,8 +490,8 @@ var vue = new Vue({
                         var initiatorName;
 
                         // search in stakeholder for id
-                        for(i in this.stakeholder){
-                            if(tmpItem.initiator == this.stakeholder[i].id){
+                        for (i in this.stakeholder) {
+                            if (tmpItem.initiator == this.stakeholder[i].id) {
                                 // save name
                                 initiatorName = this.stakeholder[i].name;
                                 break;
@@ -510,8 +510,8 @@ var vue = new Vue({
                         var locationCity;
 
                         // search in locations for id
-                        for(i in this.locations){
-                            if(tmpItem.location == this.locations[i].id){
+                        for (i in this.locations) {
+                            if (tmpItem.location == this.locations[i].id) {
                                 // save city name
                                 locationCity = this.locations[i].city;
                                 break;
@@ -542,8 +542,25 @@ var vue = new Vue({
                                     <td id="singleArticle" class="` + color + `">` + tmpItem.type + `</td>
                                 </tr>`;
                     }
+                    // change color of type
+                    else if (item == "participation") {
+                        var color;
+                        if (tmpItem.participation == "closed") {
+                            color = `text-danger`
+                        }
+                        else {
+                            color = `text-success`;
+                        }
+
+                        // fill
+                        tmpContent += `
+                                <tr>
+                                    <th id="singleArticle">Participation</th>
+                                    <td id="singleArticle" class="` + color + `">` + tmpItem.participation + `</td>
+                                </tr>`;
+                    }
                     else if (show) {
-                    
+
                         tmpContent += `
                                 <tr>
                                     <th id="singleArticle">` + this.capitalFirstLetter(item) + `</th>
@@ -666,7 +683,7 @@ var vue = new Vue({
 
                     // get old item back into list
                     // this.listToShow.concat(this.outtakenFilter1);
-                    for(item in this.outtakenFilter1){
+                    for (item in this.outtakenFilter1) {
                         this.listToShow.push(this.outtakenFilter1[item]);
                     }
                     // reset list
@@ -697,7 +714,7 @@ var vue = new Vue({
 
                     // get old item back into list
                     //this.listToShow.concat(this.outtakenFilter2);
-                    for(item in this.outtakenFilter2){
+                    for (item in this.outtakenFilter2) {
                         this.listToShow.push(this.outtakenFilter2[item]);
                     }
                     // reset list
@@ -716,7 +733,7 @@ var vue = new Vue({
 
                         for (item in this.listToShow) {
                             itemDate = new Date(this.listToShow[item]["end (optional)"]);
-                            
+
                             if (isNaN(itemDate.getTime()) | itemDate.getTime() > currentDate.getTime()) {
                                 tmpList.push(this.listToShow[item]);
                             }
