@@ -19,7 +19,6 @@
 
 + Bilder hinzufügen
 
-+ Back Button sollte auf gleiche Höhe wie Sortbar
 
 questions:
 */
@@ -472,9 +471,10 @@ var vue = new Vue({
                                     <td id="sidebarStakeholder">` + tmpItem[item] + `</td>
                                 </tr>`;
                     }
+                    else */
 
                     // get readable ids
-                    else */if (item == "id") {
+                    if (item == "id") {
                         var tmpList = tmpItem.id.split("/");
                         var readableID = this.capitalFirstLetter(tmpList[tmpList.length - 2]) + "/" + Number(tmpList[tmpList.length - 1]);
 
