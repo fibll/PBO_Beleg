@@ -28,7 +28,7 @@
     <div id="app">
         <div id="top">
             <h1 class="display1">{{jsonData.system.name}}</h1>
-            <h2 class="display2">Prozess: {{jsonData.process.name}}</h2>
+            <h2 class="display2">Process: {{jsonData.process.name}}</h2>
         </div>
         <br>
 
@@ -49,7 +49,7 @@
                         <a id="sidebarEntrypoint" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement5}"
                             v-on:click="clickHandlerSidebar">Entrypoint</a>
                         <a id="sidebarMainprocess" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement6}"
-                            v-on:click="clickHandlerSidebar">Hauptprozess</a>
+                            v-on:click="clickHandlerSidebar">Mainprocess</a>
                     </div>
                 </nav>
             </div>
@@ -62,7 +62,7 @@
                     <div id="sortbar" v-if="!noSortbar">
                         <ul class="nav nav-pills">
                             <li>
-                                <a class="nav-link">Sortiert nach:</a>
+                                <a class="nav-link">Sort by:</a>
                             </li>
                             <li class="nav-item">
                                 <a id="sortbarCol1" class="nav-link" href="#" v-bind:class="{ active: activeSort1}" v-on:click="clickHandlerSortbar">{{sortLabel1}}</a>
@@ -76,13 +76,13 @@
                             <li class="nav-itemName" v-if="!noSortItem4">
                                 <a id="sortbarCol4" class="nav-link" href="#" v-bind:class="{ active: activeSort4}" v-on:click="clickHandlerSortbar">{{sortLabel4}}</a>
                             </li>
-                            <li v-if="!noFilter">
+                            <li v-if="!noFilter1">
                                 <a class="nav-link">Filter:</a>
                             </li>
-                            <li class="nav-item" v-if="!noFilter">
+                            <li class="nav-item" v-if="!noFilter1">
                                 <a id="filter1" class="nav-link" href="#" v-bind:class="{ active: activeFilter1}" v-on:click="clickHandlerFilter">{{filterLabel1}}</a>
                             </li>
-                            <li class="nav-item ml-1" v-if="!noFilter">
+                            <li class="nav-item ml-1" v-if="!noFilter2">
                                 <a id="filter2" class="nav-link" href="#" v-bind:class="{ active: activeFilter2}" v-on:click="clickHandlerFilter">{{filterLabel2}}</a>
                             </li>
                         </ul>

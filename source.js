@@ -55,7 +55,7 @@ var vue = new Vue({
         // labels
         sortLabel1: "ID",
         sortLabel2: "Name",
-        sortLabel3: "Enddatum",
+        sortLabel3: "Enddate",
         sortLabel4: "Initiator",
 
         // hiding
@@ -63,11 +63,12 @@ var vue = new Vue({
         noSortItem4: true,
 
         // filter
-        filterLabel1: "Offen für Mitarbeiter",
-        filterLabel2: "Aktiv",
+        filterLabel1: "Open for stakeholder",
+        filterLabel2: "Active",
         activeFilter1: false,
         activeFilter2: false,
-        noFilter: false,
+        noFilter1: false,
+        noFilter2: false,
         outtakenFilter1: [],
         outtakenFilter2: [],
 
@@ -388,7 +389,8 @@ var vue = new Vue({
 
             this.activeFilter1 = false;
             this.activeFilter2 = false;
-            this.noFilter = true;
+            this.noFilter1 = true;
+            this.noFilter2 = true;
 
             this.sortBy = "id";
         },
@@ -664,7 +666,7 @@ var vue = new Vue({
             if (event.target.id == "sidebarLocations") {
                 this.listElement2 = true;
                 this.showType = "locations";
-                this.sortLabel2 = "Stadt";
+                this.sortLabel2 = "City";
             }
             else if (event.target.id == "sidebarStakeholder") {
                 this.listElement3 = true;
@@ -672,6 +674,9 @@ var vue = new Vue({
                 this.sortLabel2 = "Name";
                 this.sortLabel3 = "Type";
                 this.noSortItem3 = false;
+                this.noFilter1 = false;
+                activeFilter1 = true;
+                this.filterLabel1 = "Open group";
             }
             else if (event.target.id == "sidebarSystem") {
                 this.listElement4 = true;
@@ -689,14 +694,13 @@ var vue = new Vue({
                 this.listElement1 = true;
                 this.showType = "processes";
                 this.sortLabel2 = "Name";
-                this.sortLabel3 = "Enddatum";
+                this.sortLabel3 = "Enddate";
                 this.noSortItem3 = false;
-                this.noFilter = false;
-                this.filterLabel1 = "Offen für Mitarbeiter";
-                // this.sortLabel3 = "Enddatum";
-                // this.sortLabel4 = "Initiator";
-                // this.noSortItem3 = false;
-                // this.noSortItem4 = false;
+                this.noFilter1 = false;
+                this.noFilter2 = false;
+                activeFilter1 = true;
+                activeFilter2 = true;
+                this.filterLabel1 = "Open for stakeholder";
             }
             // set the data source for the content
             this.setDefaultListToShow();
@@ -751,7 +755,6 @@ var vue = new Vue({
                     this.activeFilter1 = false;
 
                     // get old item back into list
-                    // this.listToShow.concat(this.outtakenFilter1);
                     for (item in this.outtakenFilter1) {
                         this.listToShow.push(this.outtakenFilter1[item]);
                     }
@@ -766,6 +769,18 @@ var vue = new Vue({
                         var tmpList = [];
                         for (item in this.listToShow) {
                             if (this.listToShow[item].participation != "closed")
+                                tmpList.push(this.listToShow[item]);
+                            else {
+                                this.outtakenFilter1.push(this.listToShow[item]);
+                            }
+                        }
+                    }
+
+                    // build new listToShow
+                    if (this.showType == "stakeholder") {
+                        var tmpList = [];
+                        for (item in this.listToShow) {
+                            if (this.listToShow[item].type != "group closed")
                                 tmpList.push(this.listToShow[item]);
                             else {
                                 this.outtakenFilter1.push(this.listToShow[item]);
