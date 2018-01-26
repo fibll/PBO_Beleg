@@ -15,7 +15,8 @@
 
 + Kontakt Leiste mit Infos aus json file
 
-+ ids nicht so kryptisch, durch hover wird dann aber die richtige ID angezeigt
++ durch hover wird die richtige ID angezeigt
+    -> ist problem, weil v-html nicht mit vue-html code (v-on="mouseover: ...") funktioniert
 
 + Bilder hinzufügen
 
@@ -203,12 +204,10 @@ var vue = new Vue({
             var tmpList = this.listToShow[i].id.split("/");
             var readableID = this.capitalFirstLetter(tmpList[tmpList.length - 2]) + "/" + Number(tmpList[tmpList.length - 1]);
 
-            if (this.listToShow[i].type == "group closed") {
+            if (this.listToShow[i].type == "group closed")
                 color = `text-danger`
-            }
-            else {
+            else
                 color = `text-success`;
-            }
 
             newListItem = `
             <div class="card border-primary mb-3 text-black" style="width: 20rem">
@@ -435,6 +434,23 @@ var vue = new Vue({
                 }
             }
 
+            // change to content view with the participants of the project
+            if (event.target.id == "showParticipants") {
+                // get all stakeholder which are participants into a tempArray
+                // go through stakeholder
+                /*
+                console.log(tmpList);
+
+                for (indexStake in this.stakeholder) {
+                    for (indexPart in tmpItem.participants) {
+                        ;
+                    }
+                }
+                */
+
+                return;
+            }
+
             // fill content
             if (tmpItem != null) {
                 var blockList = ["childs", "reference (optional)", "transformation", "connection", "contact (optional)", "geoCoords (optional)", "parent", "stakeholder", "locations"];
@@ -463,18 +479,16 @@ var vue = new Vue({
                         }
                     }
 
-                    /*
+                    // handle special properties
                     if (item == "participants") {
                         tmpContent += `
                                 <tr>
-                                    <th id="sidebarStakeholder">` + item + `</th>
-                                    <td id="sidebarStakeholder">` + tmpItem[item] + `</td>
+                                    <th id="showParticipants">` + item + `</th>
+                                    <td id="showParticipants">` + tmpItem[item] + `</td>
                                 </tr>`;
                     }
-                    else */
-
                     // get readable ids
-                    if (item == "id") {
+                    else if (item == "id") {
                         var tmpList = tmpItem.id.split("/");
                         var readableID = this.capitalFirstLetter(tmpList[tmpList.length - 2]) + "/" + Number(tmpList[tmpList.length - 1]);
 
@@ -528,12 +542,10 @@ var vue = new Vue({
                     // change color of type
                     else if (item == "type") {
                         var color;
-                        if (tmpItem.type == "group closed") {
+                        if (tmpItem.type == "group closed")
                             color = `text-danger`
-                        }
-                        else {
+                        else
                             color = `text-success`;
-                        }
 
                         // fill
                         tmpContent += `
@@ -545,12 +557,10 @@ var vue = new Vue({
                     // change color of type
                     else if (item == "participation") {
                         var color;
-                        if (tmpItem.participation == "closed") {
+                        if (tmpItem.participation == "closed")
                             color = `text-danger`
-                        }
-                        else {
+                        else
                             color = `text-success`;
-                        }
 
                         // fill
                         tmpContent += `
@@ -570,6 +580,50 @@ var vue = new Vue({
 
                     show = true;
                 }
+
+                // check for stakeholder detail view
+                // Add Amount of Projects that he is included in
+                if(this.showType == "stakeholder"){
+                    var projectCounter = 0;
+                    var activeProjectCounter = 0;
+
+                    // get current date
+                    var currentDate = new Date();
+                    var itemDate;
+
+                    for(item in this.children){
+                        for(subitem in this.children[item].participants){
+                            if(this.children[item].participants[subitem] == tmpItem.id){
+                                projectCounter++;
+
+                                // check if project is still running
+                                itemDate = new Date(this.children[item]["end (optional)"]);
+
+                                if (isNaN(itemDate.getTime()) | itemDate.getTime() > currentDate.getTime())
+                                    activeProjectCounter++;
+
+                                break;
+                            }
+                            if(this.children[item]["end (optional)"] != ""){
+
+                            }
+                        }
+                    }
+
+                    // fill content
+                    tmpContent += `
+                    <tr>
+                        <th id="singleArticle">Anzahl Projekte</th>
+                        <td id="singleArticle">` + projectCounter + `</td>
+                    </tr>
+                    <tr>
+                        <th id="singleArticle">Anzahl <br>aktiver Projekte</th>
+                        <td id="singleArticle">` + activeProjectCounter + `</td>
+                    </tr>`;
+                }
+
+
+                // close table div
                 tmpContent += `</div>`;
             }
             else {
