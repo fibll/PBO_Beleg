@@ -483,7 +483,8 @@ var vue = new Vue({
 
                     // handle special properties ---
                     // don't show if it got array structure
-                    if(Array.isArray(tmpItem[item])){
+                    // exception for participants
+                    if(Array.isArray(tmpItem[item]) & item != "participants"){
                         ;
                     }
                     // get readable ids (all)
@@ -572,8 +573,20 @@ var vue = new Vue({
                     else if (item == "participants") {
                         tmpContent += `
                                 <tr>
-                                    <th id="showParticipants">` + item + `</th>
-                                    <td id="showParticipants">` + tmpItem[item] + `</td>
+                                    <th id="showParticipants">` + this.capitalFirstLetter(item) + `</th>
+                                    <td id="showParticipants">`;
+                                    
+                        // go through stakeholder and compare
+                        for(stakeItem in this.stakeholder){
+                            for(participantsItem in tmpItem[item]){
+                                if(this.stakeholder[stakeItem].id == tmpItem[item][participantsItem]){
+                                    tmpContent += `<li id="singleArticle">` + this.stakeholder[stakeItem].name + "</li>";
+                                }
+                            }
+                        }
+
+                        tmpContent += `
+                                    </td>
                                 </tr>`;
                     }
                     // show the rest normaly
@@ -622,11 +635,11 @@ var vue = new Vue({
                     // fill content
                     tmpContent += `
                     <tr>
-                        <th id="singleArticle">Gesamtanzahl Projekte</th>
+                        <th id="singleArticle">Amount of projects</th>
                         <td id="singleArticle">` + projectCounter + `</td>
                     </tr>
                     <tr>
-                        <th id="singleArticle">Aktive Projekte</th>
+                        <th id="singleArticle">Active projects</th>
                         <td id="singleArticle">`;
 
                     // fill project-list with working projects
@@ -676,7 +689,7 @@ var vue = new Vue({
                 this.noSortItem3 = false;
                 this.noFilter1 = false;
                 activeFilter1 = true;
-                this.filterLabel1 = "Open group";
+                this.filterLabel1 = "Open groups";
             }
             else if (event.target.id == "sidebarSystem") {
                 this.listElement4 = true;
