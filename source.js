@@ -2,21 +2,23 @@
 + Suche
 + Sortierung:
     - Mehrere eigene Sortiermöglichkeiten
-    + Stats:
-        * Prozesse: Zeitleiste in Jahren, wann starteten Projekte (andere Farbe wann endeten sie)
-        * Stakeholder: Wie viele Mitarbeiter haben wie viele Projekte (Bars)
+    - durch hover wird die richtige ID angezeigt
+    -> ist problem, weil v-html nicht mit vue-html code (v-on="mouseover: ...") funktioniert
 
 + Detailansicht:
     - Zusatzinfos:
         * Prozesse: Wie viele Arbeiten daran + Zeitraum + Kurze Info wann das nächste Projekt ausläuft.
-        * Stakeholder: An wie vielen Projekten sind sie beteiligt
-    - Unterpunkte in der Detailansicht behandeln, id sollte name oder city anzeigen
+
     - Punkte mit mehreren Antworten (Hauptprozess-> Children) nicht anzeigen
+
+    - Klickbar:
+        * Participations bei Prozessen -> Content view mit den Stakeholdern
 
 + Kontakt Leiste mit Infos aus json file
 
-+ durch hover wird die richtige ID angezeigt
-    -> ist problem, weil v-html nicht mit vue-html code (v-on="mouseover: ...") funktioniert
++ Stats:
+    * Prozesse: Zeitleiste in Jahren, wann starteten Projekte (andere Farbe wann endeten sie)
+    * Stakeholder: Wie viele Mitarbeiter haben wie viele Projekte (Bars)
 
 + Bilder hinzufügen
 
@@ -421,21 +423,8 @@ var vue = new Vue({
                 // then do nothing
                 return;
             }
-            else {
-                this.noBackButton = false;
-
-                // search for element in data source
-                // necessary cause it could be differently sorted
-                for (var i = 0; i < tmpList.length; i++) {
-                    if (tmpList[i].id == event.target.id) {
-                        tmpItem = tmpList[i];
-                        break;
-                    }
-                }
-            }
-
             // change to content view with the participants of the project
-            if (event.target.id == "showParticipants") {
+            else if (event.target.id == "showParticipants") {
                 // get all stakeholder which are participants into a tempArray
                 // go through stakeholder
                 /*
@@ -447,8 +436,19 @@ var vue = new Vue({
                     }
                 }
                 */
-
                 return;
+            }
+            else {
+                this.noBackButton = false;
+
+                // search for element in data source
+                // necessary cause it could be differently sorted
+                for (var i = 0; i < tmpList.length; i++) {
+                    if (tmpList[i].id == event.target.id) {
+                        tmpItem = tmpList[i];
+                        break;
+                    }
+                }
             }
 
             // fill content
@@ -479,15 +479,12 @@ var vue = new Vue({
                         }
                     }
 
-                    // handle special properties
-                    if (item == "participants") {
-                        tmpContent += `
-                                <tr>
-                                    <th id="showParticipants">` + item + `</th>
-                                    <td id="showParticipants">` + tmpItem[item] + `</td>
-                                </tr>`;
+                    // handle special properties ---
+                    // don't show if it got array structure
+                    if(Array.isArray(tmpItem[item])){
+                        ;
                     }
-                    // get readable ids
+                    // get readable ids (all)
                     else if (item == "id") {
                         var tmpList = tmpItem.id.split("/");
                         var readableID = this.capitalFirstLetter(tmpList[tmpList.length - 2]) + "/" + Number(tmpList[tmpList.length - 1]);
@@ -499,7 +496,7 @@ var vue = new Vue({
                                     <td id="singleArticle">` + readableID + `</td>
                                 </tr>`;
                     }
-                    // replace id with name
+                    // replace initiator id with name (process)
                     else if (item == "initiator") {
                         var initiatorName;
 
@@ -519,7 +516,7 @@ var vue = new Vue({
                                     <td id="singleArticle">` + initiatorName + `</td>
                                 </tr>`;
                     }
-                    // replace id with city
+                    // replace location id with city (process)
                     else if (item == "location") {
                         var locationCity;
 
@@ -539,8 +536,8 @@ var vue = new Vue({
                                     <td id="singleArticle">` + locationCity + `</td>
                                 </tr>`;
                     }
-                    // change color of type
-                    else if (item == "type") {
+                    // change color of type (stakeholder) not in the case of the three single options
+                    else if (item == "type" & event != "single") {
                         var color;
                         if (tmpItem.type == "group closed")
                             color = `text-danger`
@@ -554,7 +551,7 @@ var vue = new Vue({
                                     <td id="singleArticle" class="` + color + `">` + tmpItem.type + `</td>
                                 </tr>`;
                     }
-                    // change color of type
+                    // change color of participation (process)
                     else if (item == "participation") {
                         var color;
                         if (tmpItem.participation == "closed")
@@ -569,6 +566,15 @@ var vue = new Vue({
                                     <td id="singleArticle" class="` + color + `">` + tmpItem.participation + `</td>
                                 </tr>`;
                     }
+                    // make participants clickable, to show later the participants in a content view
+                    else if (item == "participants") {
+                        tmpContent += `
+                                <tr>
+                                    <th id="showParticipants">` + item + `</th>
+                                    <td id="showParticipants">` + tmpItem[item] + `</td>
+                                </tr>`;
+                    }
+                    // show the rest normaly
                     else if (show) {
 
                         tmpContent += `
@@ -586,6 +592,7 @@ var vue = new Vue({
                 if(this.showType == "stakeholder"){
                     var projectCounter = 0;
                     var activeProjectCounter = 0;
+                    var workingProjects = [];
 
                     // get current date
                     var currentDate = new Date();
@@ -593,19 +600,19 @@ var vue = new Vue({
 
                     for(item in this.children){
                         for(subitem in this.children[item].participants){
+                            // is the stakeholder included ?
                             if(this.children[item].participants[subitem] == tmpItem.id){
                                 projectCounter++;
 
                                 // check if project is still running
                                 itemDate = new Date(this.children[item]["end (optional)"]);
 
-                                if (isNaN(itemDate.getTime()) | itemDate.getTime() > currentDate.getTime())
+                                if (isNaN(itemDate.getTime()) | itemDate.getTime() > currentDate.getTime()) {
                                     activeProjectCounter++;
-
+                                    // save name of project in list
+                                    workingProjects.push(this.children[item].name);
+                                }
                                 break;
-                            }
-                            if(this.children[item]["end (optional)"] != ""){
-
                             }
                         }
                     }
@@ -613,12 +620,20 @@ var vue = new Vue({
                     // fill content
                     tmpContent += `
                     <tr>
-                        <th id="singleArticle">Anzahl Projekte</th>
+                        <th id="singleArticle">Gesamtanzahl Projekte</th>
                         <td id="singleArticle">` + projectCounter + `</td>
                     </tr>
                     <tr>
-                        <th id="singleArticle">Anzahl <br>aktiver Projekte</th>
-                        <td id="singleArticle">` + activeProjectCounter + `</td>
+                        <th id="singleArticle">Aktive Projekte</th>
+                        <td id="singleArticle">`;
+
+                    // fill project-list with working projects
+                    for(item in workingProjects)
+                    {
+                        tmpContent += `<li id="singleArticle">` + workingProjects[item] + "</li>";                     
+                    }
+                    tmpContent += `
+                        </td>
                     </tr>`;
                 }
 
