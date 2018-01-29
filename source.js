@@ -1,15 +1,12 @@
 /* to do:
 + Suche
 + Sortierung:
-    - Mehrere eigene Sortiermöglichkeiten
     - durch hover wird die richtige ID angezeigt
     -> ist problem, weil v-html nicht mit vue-html code (v-on="mouseover: ...") funktioniert
 
 + Detailansicht:
     - Zusatzinfos:
         * Prozesse: Zeitraum + Kurze Info wann das nächste Projekt ausläuft.
-
-    - Punkte mit mehreren Antworten (Hauptprozess-> Children) nicht anzeigen
 
     - Klickbar:
         * Participations bei Prozessen -> Content view mit den Stakeholdern
@@ -18,13 +15,9 @@
 
 + Stats:
     * Prozesse: Zeitleiste in Jahren, wann starteten Projekte (andere Farbe wann endeten sie)
-    * Stakeholder: Wie viele Mitarbeiter haben wie viele Projekte (Bars)
+    * Stakeholder: Wie viele Mitarbeiter haben wie viele Projekte (Säulen Diagramm)
 
 + Bilder hinzufügen
-
-
-FIX: header bei detailansicht von locations "undefined"
-
 
 questions:
 */
@@ -639,17 +632,23 @@ var vue = new Vue({
                     tmpContent += `
                     <tr>
                         <th id="singleArticle">Amount of projects</th>
-                        <td id="singleArticle">` + projectCounter + `</td>
+                        <td id="singleArticle">` + projectCounter;
+
+                    // fill project-list with working projects if they got one, otherwise don't show that line
+                    if(projectCounter > 0){
+                        tmpContent += `
+                        </td>
                     </tr>
                     <tr>
                         <th id="singleArticle">Active projects</th>
                         <td id="singleArticle">`;
-
-                    // fill project-list with working projects
-                    for(item in workingProjects)
-                    {
-                        tmpContent += `<li id="singleArticle">` + workingProjects[item] + "</li>";                     
+                    
+                        for(item in workingProjects)
+                        {
+                            tmpContent += `<li id="singleArticle">` + workingProjects[item] + "</li>";                     
+                        }
                     }
+
                     tmpContent += `
                         </td>
                     </tr>`;
