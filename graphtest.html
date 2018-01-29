@@ -1,0 +1,126 @@
+<head>
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/highcharts-more.js"></script>
+	<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+</head>
+
+<body>
+	<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+	<!-- http://jsfiddle.net/xPSXQ/1/ -->
+
+	<!-- https://www.highcharts.com/demo/columnrange / http://jsfiddle.net/r8xd2j8v/ -->
+</body>
+
+<script>
+	Highcharts.chart('container', {
+		chart: {
+			type: 'columnrange',
+			inverted: true
+		},
+		title: {
+			text: 'Fortschritt der Prozesse'
+		},
+		// subtitle: {
+		// 	text: '--'
+		// },
+		xAxis: {
+			categories: [
+				'11',
+				'12',
+				'13',
+				'14',
+				'15',
+				'16',
+				'17',
+				'18',
+				'19',
+				'110',
+				'111',
+				'112'
+			]
+		},
+		yAxis: {
+			type: 'datetime',
+			title: {
+				text: 'Datum'
+			}
+		},
+		tooltip: {
+			headerFormat: '<b> Process/{point.key} </b> <br > ',
+			pointFormat: '{point.low:%d.%m.%Y} bis {point.high:%d.%m.%Y}',
+		},
+		// plotOptions: {
+		// 	columnrange: {
+		// 		dataLabels: {
+		// 			enabled: false,
+		// 			format: '{y}°C'
+		// 		}
+		// 	}
+		// },
+		legend: {
+			enabled: false
+		},
+		series: [{
+			name: 'Prozess',
+			data: [
+				//[Date.parse('2012-12-18T11:11:00+01:00'), Date.now()],
+				// [Date.parse('2013-01-05T11:11:00+01:00'), Date.now()],
+				// [Date.parse('2015-01-14T11:11:00+01:00'), Date.now()],
+				// [Date.parse('2015-02-17T11:11:00+01:00'), Date.now()],
+				// [Date.parse('2015-03-01T11:11:00+01:00'), Date.parse('2015-11-27T11:11:00+01:00')],
+				// [Date.parse('2013-09-01T11:11:00+01:00'), Date.now()],
+				// [Date.parse('2015-04-07T11:11:00+01:00'), Date.now()],
+				// [Date.parse('2013-09-27T11:11:00+01:00'), Date.now()],
+				// [Date.parse('2014-06-24T11:11:00+01:00'), Date.now()],
+				// [Date.parse('2017-03-15T11:11:00+01:00'), Date.now()],
+				// [Date.parse('2014-01-11T11:11:00+01:00'), Date.now()],
+				// [Date.parse('2013-04-01T11:11:00+01:00'), Date.now()] 
+				{
+					low: Date.parse('2012-12-18T11:11:00+01:00'),
+					high: Date.now()
+				},
+				{
+					low: Date.parse('2013-01-05T11:11:00+01:00'),
+					high: Date.now()
+				},
+				{
+					low: Date.parse('2015-01-14T11:11:00+01:00'),
+					high: Date.now()
+				},
+				{
+					low: Date.parse('2015-02-17T11:11:00+01:00'),
+					high: Date.now()
+				},
+				{
+					low: Date.parse('2015-03-01T11:11:00+01:00'),
+					high: Date.parse('2015-11-27T11:11:00+01:00'),
+					color: "green"
+				},
+				{
+					low: Date.parse('2013-09-01T11:11:00+01:00'),
+					high: Date.now()
+				},
+				{
+					low: Date.parse('2015-04-07T11:11:00+01:00'),
+					high: Date.now()
+				}, {
+					low: Date.parse('2013-09-27T11:11:00+01:00'),
+					high: Date.now()
+				}, {
+					low: Date.parse('2014-06-24T11:11:00+01:00'),
+					high: Date.now()
+				}, {
+					low: Date.parse('2017-03-15T11:11:00+01:00'),
+					high: Date.now()
+				}, {
+					low: Date.parse('2014-01-11T11:11:00+01:00'),
+					high: Date.now()
+				}, {
+					low: Date.parse('2013-04-01T11:11:00+01:00'),
+					high: Date.now()
+				}
+			],
+		}]
+	});
+</script>
