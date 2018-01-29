@@ -7,7 +7,7 @@
 
 + Detailansicht:
     - Zusatzinfos:
-        * Prozesse: Wie viele Arbeiten daran + Zeitraum + Kurze Info wann das nächste Projekt ausläuft.
+        * Prozesse: Zeitraum + Kurze Info wann das nächste Projekt ausläuft.
 
     - Punkte mit mehreren Antworten (Hauptprozess-> Children) nicht anzeigen
 
@@ -21,6 +21,9 @@
     * Stakeholder: Wie viele Mitarbeiter haben wie viele Projekte (Bars)
 
 + Bilder hinzufügen
+
+
+FIX: header bei detailansicht von locations "undefined"
 
 
 questions:
@@ -460,7 +463,7 @@ var vue = new Vue({
                 var header;
 
                 // name or city
-                if (this.showType == "location")
+                if (this.showType == "locations")
                     header = tmpItem.city;
                 else
                     header = tmpItem.name
