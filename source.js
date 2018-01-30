@@ -19,6 +19,8 @@
 
 + Bilder hinzufügen
 
++ Alles auf Deutsch umstellen
+
 questions:
 */
 
