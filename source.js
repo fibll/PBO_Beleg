@@ -21,6 +21,8 @@
 
 + Alles auf Deutsch umstellen
 
++ Vergleich: locale compare, to_lower (für Umlaute, Groß-/Kleinschreibung)
+
 questions:
 */
 
@@ -106,20 +108,15 @@ var vue = new Vue({
         setDefaultListToShow: function () {
             if (this.showType == "stakeholder") {
                 this.listToShow = this.stakeholder;
-            }
-            else if (this.showType == "locations") {
+            } else if (this.showType == "locations") {
                 this.listToShow = this.locations;
-            }
-            else if (this.showType == "system") {
+            } else if (this.showType == "system") {
                 this.listToShow = [this.jsonData.system];
-            }
-            else if (this.showType == "entrypoint") {
+            } else if (this.showType == "entrypoint") {
                 this.listToShow = [this.jsonData.entrypoint];
-            }
-            else if (this.showType == "mainprocess") {
+            } else if (this.showType == "mainprocess") {
                 this.listToShow = [this.jsonData.mainprocess];
-            }
-            else {
+            } else {
                 // processes
                 this.listToShow = this.children;
             }
@@ -154,7 +151,8 @@ var vue = new Vue({
 
             var tmpContentList = ["ID", readableID,
                 "Location", tmpLocation,
-                "Initiator", tmpInitiator];
+                "Initiator", tmpInitiator
+            ];
 
             newListItem = `
             <div class="card border-primary mb-3 text-black" style="width: 20rem;">
@@ -167,7 +165,7 @@ var vue = new Vue({
                 newListItem += `
                         <tr>
                             <th id="` + this.listToShow[i].id + `">` + tmpContentList[index] + `</th>
-                            <td id="`+ this.listToShow[i].id + `">` + tmpContentList[index + 1] + `</td>
+                            <td id="` + this.listToShow[i].id + `">` + tmpContentList[index + 1] + `</td>
                         </tr>`;
             }
             newListItem += `
@@ -243,11 +241,9 @@ var vue = new Vue({
 
                 if (this.showType == "locations") {
                     newListItem = this.fillContentLocations(i, newListItem);
-                }
-                else if (this.showType == "stakeholder") {
+                } else if (this.showType == "stakeholder") {
                     newListItem = this.fillContentStakeholder(i, newListItem);
-                }
-                else {
+                } else {
                     newListItem = this.fillContentProcesses(i, newListItem);
                 }
 
@@ -266,7 +262,7 @@ var vue = new Vue({
 
                 if (aId < bId)
                     return -1;
-                if (aId >= bId)
+                if (aId > bId)
                     return 1;
                 return 0;
             }
@@ -274,7 +270,7 @@ var vue = new Vue({
             function compareName(a, b) {
                 if (a.name < b.name)
                     return -1;
-                if (a.name >= b.name)
+                if (a.name > b.name)
                     return 1;
                 return 0;
             }
@@ -282,7 +278,7 @@ var vue = new Vue({
             function compareCity(a, b) {
                 if (a.city < b.city)
                     return -1;
-                if (a.city >= b.city)
+                if (a.city > b.city)
                     return 1;
                 return 0;
             }
@@ -290,7 +286,7 @@ var vue = new Vue({
             function compareLocation(a, b) {
                 if (a.location < b.location)
                     return -1;
-                if (a.location >= b.location)
+                if (a.location > b.location)
                     return 1;
                 return 0;
             }
@@ -298,7 +294,7 @@ var vue = new Vue({
             function compareStakeholder(a, b) {
                 if (a.stakeholder < b.stakeholder)
                     return -1;
-                if (a.stakeholder >= b.stakeholder)
+                if (a.stakeholder > b.stakeholder)
                     return 1;
                 return 0;
             }
@@ -321,7 +317,7 @@ var vue = new Vue({
                     return 1;
                 if (dateA.getTime() < dateB.getTime())
                     return -1;
-                if (dateA.getTime() >= dateB.getTime())
+                if (dateA.getTime() > dateB.getTime())
                     return 1;
                 else
                     return 0;
@@ -331,7 +327,7 @@ var vue = new Vue({
             function compareInitiator(a, b) {
                 if (a.initiator < b.initiator)
                     return -1;
-                if (a.initiator >= b.initiator)
+                if (a.initiator > b.initiator)
                     return 1;
                 return 0;
             }
@@ -339,22 +335,16 @@ var vue = new Vue({
 
             if (this.sortBy == "name") {
                 return this.listToShow.sort(compareName);
-            }
-            else if (this.sortBy == "location") {
+            } else if (this.sortBy == "location") {
                 return this.listToShow.sort(compareLocation);
-            }
-            else if (this.sortBy == "stakeholder") {
+            } else if (this.sortBy == "stakeholder") {
                 return this.listToShow.sort(compareStakeholder);
-            }
-            else if (this.sortBy == "city") {
+            } else if (this.sortBy == "city") {
                 return this.listToShow.sort(compareCity);
-            }
-
-            else if (this.sortBy == "sortbarCol3") {
+            } else if (this.sortBy == "sortbarCol3") {
                 if (this.showType == "stakeholder") {
                     return this.listToShow.sort(compareType);
-                }
-                else {
+                } else {
                     return this.listToShow.sort(compareEndDate)
                 }
             }
@@ -410,11 +400,9 @@ var vue = new Vue({
 
                 if (this.showType == "system") {
                     tmpItem = this.jsonData.system;
-                }
-                else if (this.showType == "entrypoint") {
+                } else if (this.showType == "entrypoint") {
                     tmpItem = this.jsonData.entrypoint;
-                }
-                else {
+                } else {
                     tmpItem = this.jsonData.process;
                 }
             }
@@ -437,8 +425,7 @@ var vue = new Vue({
                 }
                 */
                 return;
-            }
-            else {
+            } else {
                 this.noBackButton = false;
 
                 // search for element in data source
@@ -482,8 +469,7 @@ var vue = new Vue({
                     // handle special properties ---
                     // don't show if it got array structure
                     // exception for participants
-                    if(Array.isArray(tmpItem[item]) & item != "participants"){
-                        ;
+                    if (Array.isArray(tmpItem[item]) & item != "participants") {;
                     }
                     // get readable ids (all)
                     else if (item == "id") {
@@ -573,11 +559,11 @@ var vue = new Vue({
                                 <tr>
                                     <th id="showParticipants">` + this.capitalFirstLetter(item) + `</th>
                                     <td id="showParticipants">`;
-                                    
+
                         // go through stakeholder and compare
-                        for(stakeItem in this.stakeholder){
-                            for(participantsItem in tmpItem[item]){
-                                if(this.stakeholder[stakeItem].id == tmpItem[item][participantsItem]){
+                        for (stakeItem in this.stakeholder) {
+                            for (participantsItem in tmpItem[item]) {
+                                if (this.stakeholder[stakeItem].id == tmpItem[item][participantsItem]) {
                                     tmpContent += `<li id="singleArticle">` + this.stakeholder[stakeItem].name + "</li>";
                                 }
                             }
@@ -602,7 +588,7 @@ var vue = new Vue({
 
                 // check for stakeholder detail view
                 // Add Amount of Projects that he is included in
-                if(this.showType == "stakeholder"){
+                if (this.showType == "stakeholder") {
                     var projectCounter = 0;
                     var activeProjectCounter = 0;
                     var workingProjects = [];
@@ -611,10 +597,10 @@ var vue = new Vue({
                     var currentDate = new Date();
                     var itemDate;
 
-                    for(item in this.children){
-                        for(subitem in this.children[item].participants){
+                    for (item in this.children) {
+                        for (subitem in this.children[item].participants) {
                             // is the stakeholder included ?
-                            if(this.children[item].participants[subitem] == tmpItem.id){
+                            if (this.children[item].participants[subitem] == tmpItem.id) {
                                 projectCounter++;
 
                                 // check if project is still running
@@ -637,17 +623,16 @@ var vue = new Vue({
                         <td id="singleArticle">` + projectCounter;
 
                     // fill project-list with working projects if they got one, otherwise don't show that line
-                    if(projectCounter > 0){
+                    if (projectCounter > 0) {
                         tmpContent += `
                         </td>
                     </tr>
                     <tr>
                         <th id="singleArticle">Active projects</th>
                         <td id="singleArticle">`;
-                    
-                        for(item in workingProjects)
-                        {
-                            tmpContent += `<li id="singleArticle">` + workingProjects[item] + "</li>";                     
+
+                        for (item in workingProjects) {
+                            tmpContent += `<li id="singleArticle">` + workingProjects[item] + "</li>";
                         }
                     }
 
@@ -659,8 +644,7 @@ var vue = new Vue({
 
                 // close table div
                 tmpContent += `</div>`;
-            }
-            else {
+            } else {
                 console.log("Nothing was found");
 
                 tmpContent += `
@@ -684,8 +668,7 @@ var vue = new Vue({
                 this.listElement2 = true;
                 this.showType = "locations";
                 this.sortLabel2 = "City";
-            }
-            else if (event.target.id == "sidebarStakeholder") {
+            } else if (event.target.id == "sidebarStakeholder") {
                 this.listElement3 = true;
                 this.showType = "stakeholder";
                 this.sortLabel2 = "Name";
@@ -694,20 +677,16 @@ var vue = new Vue({
                 this.noFilter1 = false;
                 activeFilter1 = true;
                 this.filterLabel1 = "Open groups";
-            }
-            else if (event.target.id == "sidebarSystem") {
+            } else if (event.target.id == "sidebarSystem") {
                 this.listElement4 = true;
                 this.showType = "system";
-            }
-            else if (event.target.id == "sidebarEntrypoint") {
+            } else if (event.target.id == "sidebarEntrypoint") {
                 this.listElement5 = true;
                 this.showType = "entrypoint";
-            }
-            else if (event.target.id == "sidebarMainprocess") {
+            } else if (event.target.id == "sidebarMainprocess") {
                 this.listElement6 = true;
                 this.showType = "mainprocess";
-            }
-            else {
+            } else {
                 this.listElement1 = true;
                 this.showType = "processes";
                 this.sortLabel2 = "Name";
@@ -723,8 +702,7 @@ var vue = new Vue({
             this.setDefaultListToShow();
             if (this.listElement4 | this.listElement5 | this.listElement6) {
                 this.clickHandlerArticle("single");
-            }
-            else {
+            } else {
                 // fill the content space
                 this.fillContent();
             }
@@ -745,16 +723,13 @@ var vue = new Vue({
                 if (this.showType == "locations") {
                     this.sortBy = "city";
                 }
-            }
-            else if (event.target.id == "sortbarCol3") {
+            } else if (event.target.id == "sortbarCol3") {
                 this.activeSort3 = true;
                 this.sortBy = "sortbarCol3";
-            }
-            else if (event.target.id == "sortbarCol4") {
+            } else if (event.target.id == "sortbarCol4") {
                 this.activeSort4 = true;
                 this.sortBy = "sortbarCol4";
-            }
-            else {
+            } else {
                 this.activeSort1 = true;
                 this.sortBy = "id";
             }
@@ -777,8 +752,7 @@ var vue = new Vue({
                     }
                     // reset list
                     this.outtakenFilter1 = [];
-                }
-                else {
+                } else {
                     this.activeFilter1 = true;
 
                     // build new listToShow
@@ -820,8 +794,7 @@ var vue = new Vue({
                     }
                     // reset list
                     this.outtakenFilter2 = [];
-                }
-                else {
+                } else {
                     this.activeFilter2 = true;
 
                     // build new listToShow
@@ -837,8 +810,7 @@ var vue = new Vue({
 
                             if (isNaN(itemDate.getTime()) | itemDate.getTime() > currentDate.getTime()) {
                                 tmpList.push(this.listToShow[item]);
-                            }
-                            else {
+                            } else {
                                 this.outtakenFilter2.push(this.listToShow[item]);
                             }
 
