@@ -97,7 +97,7 @@
 
                 <!-- content-->
                 <div id="content" class="row">
-                    <div class="col-md-auto mt-2" v-for="item in contentList">
+                    <div class="col-md mt-2" v-for="item in contentList">
                         <a href="#" class="list-group-item-action" v-on:click="clickHandlerArticle" v-html="item">
                         </a>
                     </div>
@@ -110,11 +110,11 @@
 <script src="source.js"></script>
 
 <script>
-    $(document).ready(function(){
-        $("button").click(function(){
+    $(document).ready(function () {
+        $("button").click(function () {
             $("#menu").fadeOut("slow");
         });
-        $("button").click(function(){
+        $("button").click(function () {
             $("#menu").fadeIn("slow");
         });
     });
