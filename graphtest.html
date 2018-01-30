@@ -43,7 +43,20 @@
 		yAxis: {
 			type: 'datetime',
 			title: {
-				text: 'Datum'
+				text: ''
+			}
+		},
+		plotOptions: {
+			series: {
+				cursor: 'pointer',
+				animation: false,
+				point: {
+					events: {
+						click: function () {
+							alert('Process/' + this.category);
+						}
+					}
+				}
 			}
 		},
 		tooltip: {
