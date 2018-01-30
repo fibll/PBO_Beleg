@@ -1,8 +1,8 @@
 /* to do:
-+ Suche
-+ Sortierung:
-    - durch hover wird die richtige ID angezeigt
-    -> ist problem, weil v-html nicht mit vue-html code (v-on="mouseover: ...") funktioniert
+
++ Contentansicht:
+    - Locations sollten einen oder zwei weitere Unterpunkte haben
+    - Stakeholder eventuell auch einen mehr
 
 + Detailansicht:
     - Zusatzinfos:
@@ -22,6 +22,8 @@
 + Alles auf Deutsch umstellen
 
 + Vergleich: locale compare, to_lower (für Umlaute, Groß-/Kleinschreibung)
+
++ class="col-md-auto" problem behandeln
 
 questions:
 */
@@ -79,6 +81,7 @@ var vue = new Vue({
         contentList: [],
 
         // test
+        participantsData: [],
         sortbarListProcesses: ["ID", "Name"],
         sortbarListLocations: ["ID", "Stadt"],
         sortbarListStakeholder: ["ID", "Name"],
@@ -120,6 +123,34 @@ var vue = new Vue({
                 // processes
                 this.listToShow = this.children;
             }
+        },
+
+        setStakeholderSettings: function () {
+            this.resetBars();
+
+            this.listElement3 = true;
+            this.showType = "stakeholder";
+            this.sortLabel2 = "Name";
+            this.sortLabel3 = "Type";
+            this.noSortItem3 = false;
+            this.noFilter1 = false;
+            this.activeFilter1 = false;
+            this.filterLabel1 = "Open groups";  
+        },
+
+        setProcessSettings: function () {
+            this.resetBars();
+            
+            this.listElement1 = true;
+            this.showType = "processes";
+            this.sortLabel2 = "Name";
+            this.sortLabel3 = "Enddate";
+            this.noSortItem3 = false;
+            this.noFilter1 = false;
+            this.noFilter2 = false;
+            this.activeFilter1 = false;
+            this.activeFilter2 = false;
+            this.filterLabel1 = "Open for stakeholder";
         },
 
         fillContentProcesses: function (i, newListItem) {
@@ -413,17 +444,39 @@ var vue = new Vue({
             }
             // change to content view with the participants of the project
             else if (event.target.id == "showParticipants") {
-                // get all stakeholder which are participants into a tempArray
-                // go through stakeholder
-                /*
-                console.log(tmpList);
+                // reset this.listToShow
+                this.listToShow = [];
 
-                for (indexStake in this.stakeholder) {
-                    for (indexPart in tmpItem.participants) {
-                        ;
+                // fill this.listToShow with the stakeholder (participants)
+                // go through participants(ids)
+                for(participantIndex in participantsData.participants){
+                    // go through stakeholder
+                    for(stakeholderIndex in this.stakeholder){
+
+                        // compare ids
+                        if(participantsData.participants[participantIndex] == this.stakeholder[stakeholderIndex].id){
+                            console.log("match");
+                            // add to this.listToShow if id are the same
+                            this.listToShow.push(this.stakeholder[stakeholderIndex]);
+                            break;
+                        }
                     }
                 }
-                */
+
+                // set this.showType to stakeholder
+                this.showType = "stakeholder";
+                
+                // set the sorrounding to stakeholder as well
+                // - Sidebar to stakeholder
+                // - sort/filter bar to stakeholder
+                this.setStakeholderSettings();
+
+                // call fillContent()
+                this.fillContent();
+
+                // clear participantsData
+                participantsData = [];
+
                 return;
             } else {
                 this.noBackButton = false;
@@ -555,6 +608,9 @@ var vue = new Vue({
                     }
                     // make participants clickable, to show later the participants in a content view
                     else if (item == "participants") {
+                        // save data for possible click action
+                        participantsData = tmpItem;
+
                         tmpContent += `
                                 <tr>
                                     <th id="showParticipants">` + this.capitalFirstLetter(item) + `</th>
@@ -564,7 +620,7 @@ var vue = new Vue({
                         for (stakeItem in this.stakeholder) {
                             for (participantsItem in tmpItem[item]) {
                                 if (this.stakeholder[stakeItem].id == tmpItem[item][participantsItem]) {
-                                    tmpContent += `<li id="singleArticle">` + this.stakeholder[stakeItem].name + "</li>";
+                                    tmpContent += `<li id="showParticipants">` + this.stakeholder[stakeItem].name + "</li>";
                                 }
                             }
                         }
@@ -669,14 +725,7 @@ var vue = new Vue({
                 this.showType = "locations";
                 this.sortLabel2 = "City";
             } else if (event.target.id == "sidebarStakeholder") {
-                this.listElement3 = true;
-                this.showType = "stakeholder";
-                this.sortLabel2 = "Name";
-                this.sortLabel3 = "Type";
-                this.noSortItem3 = false;
-                this.noFilter1 = false;
-                activeFilter1 = true;
-                this.filterLabel1 = "Open groups";
+                this.setStakeholderSettings();
             } else if (event.target.id == "sidebarSystem") {
                 this.listElement4 = true;
                 this.showType = "system";
@@ -687,16 +736,7 @@ var vue = new Vue({
                 this.listElement6 = true;
                 this.showType = "mainprocess";
             } else {
-                this.listElement1 = true;
-                this.showType = "processes";
-                this.sortLabel2 = "Name";
-                this.sortLabel3 = "Enddate";
-                this.noSortItem3 = false;
-                this.noFilter1 = false;
-                this.noFilter2 = false;
-                activeFilter1 = true;
-                activeFilter2 = true;
-                this.filterLabel1 = "Open for stakeholder";
+                this.setProcessSettings();
             }
             // set the data source for the content
             this.setDefaultListToShow();
