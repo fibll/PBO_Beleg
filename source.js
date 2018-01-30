@@ -9,9 +9,7 @@
         * Prozesse: Zeitraum + Kurze Info wann das nächste Projekt ausläuft.
 
     - Klickbar:
-        * Participations bei Prozessen -> Content view mit den Stakeholdern
-
-+ Kontakt Leiste mit Infos aus json file
+        * Prozesse: Initiator?
 
 + Stats:
     * Prozesse: Zeitleiste in Jahren, wann starteten Projekte (andere Farbe wann endeten sie)
@@ -79,9 +77,10 @@ var vue = new Vue({
         sortBy: "id",
         listToShow: [],
         contentList: [],
+        participantsData: [],
+        activeProjectsData: [],
 
         // test
-        participantsData: [],
         sortbarListProcesses: ["ID", "Name"],
         sortbarListLocations: ["ID", "Stadt"],
         sortbarListStakeholder: ["ID", "Name"],
@@ -140,7 +139,7 @@ var vue = new Vue({
 
         setProcessSettings: function () {
             this.resetBars();
-            
+
             this.listElement1 = true;
             this.showType = "processes";
             this.sortLabel2 = "Name";
@@ -442,26 +441,29 @@ var vue = new Vue({
                 // then do nothing
                 return;
             }
+            // change to content view with the projects of the stakeholder
+            else if (event.target.id == "showProjects") {
+                // reset this.listToShow
+                this.listToShow = this.activeProjectsData;
+
+                // set this.showType to process
+                this.showType = "processes";
+                
+                // set the sorrounding to process as well
+                this.setProcessSettings();
+
+                // call fillContent()
+                this.fillContent();
+
+                // clear activeProjectsData
+                this.activeProjectsData = [];
+
+                return;
+            }
             // change to content view with the participants of the project
             else if (event.target.id == "showParticipants") {
                 // reset this.listToShow
-                this.listToShow = [];
-
-                // fill this.listToShow with the stakeholder (participants)
-                // go through participants(ids)
-                for(participantIndex in participantsData.participants){
-                    // go through stakeholder
-                    for(stakeholderIndex in this.stakeholder){
-
-                        // compare ids
-                        if(participantsData.participants[participantIndex] == this.stakeholder[stakeholderIndex].id){
-                            console.log("match");
-                            // add to this.listToShow if id are the same
-                            this.listToShow.push(this.stakeholder[stakeholderIndex]);
-                            break;
-                        }
-                    }
-                }
+                this.listToShow = this.participantsData;
 
                 // set this.showType to stakeholder
                 this.showType = "stakeholder";
@@ -475,7 +477,7 @@ var vue = new Vue({
                 this.fillContent();
 
                 // clear participantsData
-                participantsData = [];
+                this.participantsData = [];
 
                 return;
             } else {
@@ -609,7 +611,7 @@ var vue = new Vue({
                     // make participants clickable, to show later the participants in a content view
                     else if (item == "participants") {
                         // save data for possible click action
-                        participantsData = tmpItem;
+                        this.participantsData = [];
 
                         tmpContent += `
                                 <tr>
@@ -621,6 +623,9 @@ var vue = new Vue({
                             for (participantsItem in tmpItem[item]) {
                                 if (this.stakeholder[stakeItem].id == tmpItem[item][participantsItem]) {
                                     tmpContent += `<li id="showParticipants">` + this.stakeholder[stakeItem].name + "</li>";
+
+                                    // save to this.participantsData to later show a content view (with a click)
+                                    this.participantsData.push(this.stakeholder[stakeItem]);
                                 }
                             }
                         }
@@ -666,6 +671,9 @@ var vue = new Vue({
                                     activeProjectCounter++;
                                     // save name of project in list
                                     workingProjects.push(this.children[item].name);
+
+                                    // save whole project information for the possibility of clicking on the list and get to the content view
+                                    this.activeProjectsData.push(this.children[item]);
                                 }
                                 break;
                             }
@@ -684,11 +692,11 @@ var vue = new Vue({
                         </td>
                     </tr>
                     <tr>
-                        <th id="singleArticle">Active projects</th>
-                        <td id="singleArticle">`;
+                        <th id="showProjects">Active projects</th>
+                        <td id="showProjects">`;
 
                         for (item in workingProjects) {
-                            tmpContent += `<li id="singleArticle">` + workingProjects[item] + "</li>";
+                            tmpContent += `<li id="showProjects">` + workingProjects[item] + "</li>";
                         }
                     }
 
