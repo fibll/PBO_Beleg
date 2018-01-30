@@ -15,22 +15,19 @@
     <!-- VUE -->
     <script src="lib/vue.js"></script>
 
-    <!-- vis.js -->
-    <script src="vis/dist/vis.js"></script>
-    <link href="vis/dist/vis.css" rel="stylesheet" type="text/css" />
-
     <!-- jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 
 
-<body class="mx-2 my-2 bg-light">
+<body class="mx-3 my-2 bg-light">
     <div id="app">
-        <div id="top">
-            <h1 class="display1">{{jsonData.system.name}}</h1>
-            <h2 class="display2">Process: {{jsonData.process.name}}</h2>
-        </div>
-        <br>
+        <nav class="navbar navbar-light">
+            <a class="navbar-brand" href="#">
+                {{jsonData.system.name}}
+                <span class="small ml-3">Prozess: {{jsonData.process.name}}</span>
+            </a>
+        </nav>
 
         <!-- Searchbar  -->
         <!-- <div id=searchbar>Searchbar</div> -->
@@ -42,29 +39,29 @@
                 <nav id=menu>
                     <div class="list-group">
                         <a id="sidebarProcesses" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement1}" v-on:click="clickHandlerSidebar">Prozesse</a>
-                        <a id="sidebarLocations" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement2}" v-on:click="clickHandlerSidebar">Locations</a>
+                        <a id="sidebarLocations" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement2}" v-on:click="clickHandlerSidebar">Orte</a>
                         <a id="sidebarStakeholder" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement3}"
                             v-on:click="clickHandlerSidebar">Stakeholder</a>
-                        <a id="sidebarSystem" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement4}" v-on:click="clickHandlerSidebar">System</a>
                         <!--
+                        <a id="sidebarSystem" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement4}" v-on:click="clickHandlerSidebar">System</a>
                             <a id="sidebarEntrypoint" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement5}"
                             v-on:click="clickHandlerSidebar">Entrypoint</a>
                         -->
                         <a id="sidebarMainprocess" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement6}"
-                            v-on:click="clickHandlerSidebar">Mainprocess</a>
+                            v-on:click="clickHandlerSidebar">Hauptprozess</a>
                     </div>
                 </nav>
             </div>
 
             <!-- Informationarea -->
-            <div class="col-md">
+            <div class="col-md mb-3">
                 <div class="row">
 
                     <!-- Sortbar -->
                     <div id="sortbar" v-if="!noSortbar">
                         <ul class="nav nav-pills">
                             <li>
-                                <a class="nav-link">Sort by:</a>
+                                <a class="nav-link">Sortiere nach:</a>
                             </li>
                             <li class="nav-item">
                                 <a id="sortbarCol1" class="nav-link" href="#" v-bind:class="{ active: activeSort1}" v-on:click="clickHandlerSortbar">{{sortLabel1}}</a>
@@ -97,12 +94,16 @@
 
                 <!-- content-->
                 <div id="content" class="row">
-                    <div class="col-md mt-2" v-for="item in contentList">
+                    <div class="col-md-auto mt-2" v-for="item in contentList">
                         <a href="#" class="list-group-item-action" v-on:click="clickHandlerArticle" v-html="item">
                         </a>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="footer navbar fixed-bottom bg-light">
+            © {{jsonData.system.contact}} ({{jsonData.system.email}}}
+            <a href="#">{{jsonData.system.website}}</a>
         </div>
     </div>
 </body>
