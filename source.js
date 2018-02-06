@@ -10,6 +10,7 @@
 
     - Klickbar:
         * Prozesse: Initiator?
+        * Message an den Nutzer das er nun in einer speziellen Kontent Auswahl ist
 
 + Stats:
     * Prozesse: Zeitleiste in Jahren, wann starteten Projekte (andere Farbe wann endeten sie)
@@ -71,6 +72,10 @@ var vue = new Vue({
         noFilter2: false,
         outtakenFilter1: [],
         outtakenFilter2: [],
+
+        // info message if special content is selected
+        selectedContentView: false,
+        selectedContentViewMessage: "",
 
         // show
         showType: "processes",
@@ -409,6 +414,7 @@ var vue = new Vue({
             this.activeFilter2 = false;
             this.noFilter1 = true;
             this.noFilter2 = true;
+            this.selectedContentView = false;
 
             this.sortBy = "id";
         },
@@ -455,6 +461,9 @@ var vue = new Vue({
                 // call fillContent()
                 this.fillContent();
 
+                // set content view select message
+                this.selectedContentView = true;
+
                 // clear activeProjectsData
                 this.activeProjectsData = [];
 
@@ -475,6 +484,9 @@ var vue = new Vue({
 
                 // call fillContent()
                 this.fillContent();
+                            
+                // set content view select message
+                this.selectedContentView = true;
 
                 // clear participantsData
                 this.participantsData = [];
@@ -613,6 +625,9 @@ var vue = new Vue({
                         // save data for possible click action
                         this.participantsData = [];
 
+                        // save name of project for selected content message
+                        this.selectedContentViewMessage = "Auswahl der Stakeholder des Projektes: " + tmpItem.name;
+
                         tmpContent += `
                                 <tr>
                                     <th id="showParticipants">` + this.capitalFirstLetter(item) + `</th>
@@ -654,6 +669,9 @@ var vue = new Vue({
                     var activeProjectCounter = 0;
                     var workingProjects = [];
 
+                    // save name of project for selected content message
+                    this.selectedContentViewMessage = "Auswahl der Projekte des Stakeholder: " + tmpItem.name;
+
                     // get current date
                     var currentDate = new Date();
                     var itemDate;
@@ -694,6 +712,8 @@ var vue = new Vue({
                     <tr>
                         <th id="showProjects">Active projects</th>
                         <td id="showProjects">`;
+                        // <th id="showProjects">Active projects<br><br><button id="showProjects" class="btn">Details</button></th>
+                    
 
                         for (item in workingProjects) {
                             tmpContent += `<li id="showProjects">` + workingProjects[item] + "</li>";
