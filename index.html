@@ -95,11 +95,26 @@
                 <!-- Back Button -->
                 <button class="btn btn-primary" v-if="!noBackButton" v-on:click="fillContent" style="width: 10rem">Back</button>
 
-                <!-- content-->
-                <div id="content" class="row">
+                <!-- content view -->
+                <div id="content" class="row" v-if="contentView">
                     <div class="col-md-auto mt-2" v-for="item in contentList">
                         <a href="#" class="list-group-item-action" v-on:click="clickHandlerArticle" v-html="item">
                         </a>
+                    </div>
+                </div>
+
+                <!-- detail view -->
+                <div id="content" class="row" v-if="!contentView">
+                    <div class="col-md-auto mt-2">
+                        <div class="card border-primary mb-3 text-black" style="max-width: 45rem">
+                            <div id="detailHeader" class="card-header">{{detailHeader}}</div>
+                            <div id="detailBody" class="card-body" v-html="contentList[0]">
+                            </div>
+                        </div>
+                    <!--
+                        <a href="#" class="list-group-item-action" v-on:click="clickHandlerArticle" v-html="contentList[0]">
+                        </a>
+                    -->
                     </div>
                 </div>
             </div>

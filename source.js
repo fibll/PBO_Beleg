@@ -84,6 +84,10 @@ var vue = new Vue({
         contentList: [],
         participantsData: [],
         activeProjectsData: [],
+        contentView: true,
+
+        // detail view
+        detailHeader: "Error",
 
         // test
         sortbarListProcesses: ["ID", "Name"],
@@ -139,7 +143,8 @@ var vue = new Vue({
             this.noSortItem3 = false;
             this.noFilter1 = false;
             this.activeFilter1 = false;
-            this.filterLabel1 = "Open groups";  
+            this.filterLabel1 = "Open groups";
+            this.contentView = true;
         },
 
         setProcessSettings: function () {
@@ -267,6 +272,7 @@ var vue = new Vue({
             this.noBackButton = true;
             this.noSortbar = false;
             this.contentList = [];
+            this.contentView = true;
             var newListItem = "";
 
             // sort listToShow
@@ -423,12 +429,13 @@ var vue = new Vue({
         clickHandlerArticle: function (event) {
 
             this.noSortbar = true;
+            this.contentView = false;
             var tmpList = this.listToShow;
             var tmpItem = null;
             var tmpTypeSingle = false;
 
             // begin of html phrase
-            var tmpContent = `<div class="card border-primary mb-3 text-black" style="max-width: 45rem">`;
+            var tmpContent;// = `<div class="card border-primary mb-3 text-black" style="max-width: 45rem">`;
 
             // if one of the single article sidebar items like 'system'
             if (event == "single") {
@@ -509,17 +516,19 @@ var vue = new Vue({
             if (tmpItem != null) {
                 var blockList = ["childs", "reference (optional)", "transformation", "connection", "contact (optional)", "geoCoords (optional)", "parent", "stakeholder", "locations"];
                 var show = true;
-                var header;
 
                 // name or city
                 if (this.showType == "locations")
-                    header = tmpItem.city;
+                    this.detailHeader = tmpItem.city;
                 else
-                    header = tmpItem.name
+                    this.detailHeader = tmpItem.name
+
+                //tmpContent += `
+                //<div id="singleArticle" class="card-header">` + header + `</div>
+                //<div id="singleArticle" class="card-body">
+                //    <table class="table">`;
 
                 tmpContent += `
-                    <div id="singleArticle" class="card-header">` + header + `</div>
-                    <div id="singleArticle" class="card-body">
                         <table class="table">`;
 
                 // fill with all the attributes
@@ -727,17 +736,20 @@ var vue = new Vue({
 
 
                 // close table div
-                tmpContent += `</div>`;
+                //tmpContent += `</div>`;
+
             } else {
                 console.log("Nothing was found");
 
-                tmpContent += `
-                <div class="card-header">Error</div>
-                <div class="card-body">Something did go wrong, please reload the page.</div>`;
+                this.detailHeader = "Error";
+
+                //tmpContent += `
+                //<div class="card-header">Error</div>
+                //<div class="card-body">Something did go wrong, please reload the page.</div>`;
             }
 
             // end of html phrase
-            tmpContent += `</div>`;
+            //tmpContent += `</div>`;
 
             // set content as item in the contentList
             this.contentList = [];
