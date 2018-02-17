@@ -98,8 +98,7 @@
                 <!-- content view -->
                 <div id="content" class="row" v-if="contentView">
                     <div class="col-md-auto mt-2" v-for="item in contentList">
-                        <a href="#" class="list-group-item-action" v-on:click="clickHandlerArticle" v-html="item">
-                        </a>
+                        <a href="#" class="list-group-item-action" v-on:click="clickHandlerArticle" v-html="item"></a>
                     </div>
                 </div>
 
@@ -107,8 +106,17 @@
                 <div id="content" class="row" v-if="!contentView">
                     <div class="col-md-auto mt-2">
                         <div class="card border-primary mb-3 text-black" style="max-width: 45rem">
-                            <div id="detailHeader" class="card-header">{{detailHeader}}</div>
-                            <div id="detailBody" class="card-body" v-html="contentList[0]">
+                            <div id="detailHeader" class="card-header">{{detailCardHeader}}</div>
+                            <div id="detailBody" class="card-body">
+                                <table class="table">
+                                    <tbody v-html="contentList[0]"></tbody>
+                                    <tfoot v-if="detailTableClickable" v-html="detailTableClickRow"></tfoot>
+                                    <!-- Die Version wirft den clickable content an den Anfang, trotz 'tfoot' tag
+                                        <tfoot>
+                                            <a href="#" class="list-group-item-action" v-on:click="clickHandlerArticle" v-if="detailTableClickable" v-html="detailTableClickRow"></a>
+                                        </tfoot>
+                                    -->
+                                </table>
                             </div>
                         </div>
                     <!--

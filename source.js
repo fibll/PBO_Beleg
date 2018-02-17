@@ -87,7 +87,9 @@ var vue = new Vue({
         contentView: true,
 
         // detail view
-        detailHeader: "Error",
+        detailCardHeader: "Error",
+        detailTableClickable: false,
+        detailTableClickRow: "Something did go wrong",
 
         // test
         sortbarListProcesses: ["ID", "Name"],
@@ -433,9 +435,12 @@ var vue = new Vue({
             var tmpList = this.listToShow;
             var tmpItem = null;
             var tmpTypeSingle = false;
+            this.detailTableClickable = false;
+
 
             // begin of html phrase
-            var tmpContent;// = `<div class="card border-primary mb-3 text-black" style="max-width: 45rem">`;
+            var tmpContent = "";
+            // = `<div class="card border-primary mb-3 text-black" style="max-width: 45rem">`;
 
             // if one of the single article sidebar items like 'system'
             if (event == "single") {
@@ -519,17 +524,16 @@ var vue = new Vue({
 
                 // name or city
                 if (this.showType == "locations")
-                    this.detailHeader = tmpItem.city;
+                    this.detailCardHeader = tmpItem.city;
                 else
-                    this.detailHeader = tmpItem.name
+                    this.detailCardHeader = tmpItem.name
 
                 //tmpContent += `
                 //<div id="singleArticle" class="card-header">` + header + `</div>
                 //<div id="singleArticle" class="card-body">
                 //    <table class="table">`;
 
-                tmpContent += `
-                        <table class="table">`;
+                //tmpContent += `<table class="table">`;
 
                 // fill with all the attributes
                 for (item in tmpItem) {
@@ -631,13 +635,17 @@ var vue = new Vue({
                     }
                     // make participants clickable, to show later the participants in a content view
                     else if (item == "participants") {
+                        // enable clickable entry in detail table and reset row content
+                        this.detailTableClickable = true;
+                        this.detailTableClickRow = "";
+
                         // save data for possible click action
                         this.participantsData = [];
 
                         // save name of project for selected content message
                         this.selectedContentViewMessage = "Auswahl der Stakeholder des Projektes: " + tmpItem.name;
 
-                        tmpContent += `
+                        this.detailTableClickRow += `
                                 <tr>
                                     <th id="showParticipants">` + this.capitalFirstLetter(item) + `</th>
                                     <td id="showParticipants">`;
@@ -646,7 +654,7 @@ var vue = new Vue({
                         for (stakeItem in this.stakeholder) {
                             for (participantsItem in tmpItem[item]) {
                                 if (this.stakeholder[stakeItem].id == tmpItem[item][participantsItem]) {
-                                    tmpContent += `<li id="showParticipants">` + this.stakeholder[stakeItem].name + "</li>";
+                                    this.detailTableClickRow += `<li id="showParticipants">` + this.stakeholder[stakeItem].name + "</li>";
 
                                     // save to this.participantsData to later show a content view (with a click)
                                     this.participantsData.push(this.stakeholder[stakeItem]);
@@ -654,7 +662,7 @@ var vue = new Vue({
                             }
                         }
 
-                        tmpContent += `
+                        this.detailTableClickRow += `
                                     </td>
                                 </tr>`;
                     }
@@ -741,7 +749,7 @@ var vue = new Vue({
             } else {
                 console.log("Nothing was found");
 
-                this.detailHeader = "Error";
+                this.detailCardHeader = "Error";
 
                 //tmpContent += `
                 //<div class="card-header">Error</div>
