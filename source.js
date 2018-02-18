@@ -519,7 +519,7 @@ var vue = new Vue({
 
             // fill content
             if (tmpItem != null) {
-                var blockList = ["childs", "reference (optional)", "transformation", "connection", "contact (optional)", "geoCoords (optional)", "parent", "stakeholder", "locations"];
+                var blockList = ["_comment", "childs", "reference (optional)", "transformation", "connection", "contact (optional)", "geoCoords (optional)", "parent", "stakeholder", "locations"];
                 var show = true;
 
                 // name or city
