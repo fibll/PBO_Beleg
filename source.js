@@ -646,7 +646,6 @@ var vue = new Vue({
                         this.selectedContentViewMessage = "Auswahl der Stakeholder des Projektes: " + tmpItem.name;
 
                         this.detailTableClickRow += `
-                                <tr>
                                     <th id="showParticipants">` + this.capitalFirstLetter(item) + `</th>
                                     <td id="showParticipants">`;
 
@@ -663,8 +662,7 @@ var vue = new Vue({
                         }
 
                         this.detailTableClickRow += `
-                                    </td>
-                                </tr>`;
+                                    </td>`;
                     }
                     // show the rest normaly
                     else if (show) {

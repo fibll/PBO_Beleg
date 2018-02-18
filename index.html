@@ -110,7 +110,9 @@
                             <div id="detailBody" class="card-body">
                                 <table class="table">
                                     <tbody v-html="contentList[0]"></tbody>
-                                    <tfoot v-if="detailTableClickable" v-html="detailTableClickRow"></tfoot>
+                                    <tfoot v-if="detailTableClickable">
+                                        <tr style="cursor: pointer" v-on:click="clickHandlerArticle" v-html="detailTableClickRow"></tr>
+                                    </tfoot>
                                     <!-- Die Version wirft den clickable content an den Anfang, trotz 'tfoot' tag
                                         <tfoot>
                                             <a href="#" class="list-group-item-action" v-on:click="clickHandlerArticle" v-if="detailTableClickable" v-html="detailTableClickRow"></a>
