@@ -680,6 +680,10 @@ var vue = new Vue({
                 // check for stakeholder detail view
                 // Add Amount of Projects that he is included in
                 if (this.showType == "stakeholder") {
+                    // enable clickable entry in detail table and reset row content
+                    this.detailTableClickable = true;
+                    this.detailTableClickRow = "";
+                    
                     var projectCounter = 0;
                     var activeProjectCounter = 0;
                     var workingProjects = [];
@@ -723,21 +727,19 @@ var vue = new Vue({
                     if (projectCounter > 0) {
                         tmpContent += `
                         </td>
-                    </tr>
-                    <tr>
+                    </tr>`;
+
+                    this.detailTableClickRow = `
                         <th id="showProjects">Active projects</th>
-                        <td id="showProjects">`;
-                        // <th id="showProjects">Active projects<br><br><button id="showProjects" class="btn">Details</button></th>
-                    
+                        <td id="showProjects">`;                    
 
                         for (item in workingProjects) {
-                            tmpContent += `<li id="showProjects">` + workingProjects[item] + "</li>";
+                            this.detailTableClickRow += `<li id="showProjects">` + workingProjects[item] + "</li>";
                         }
                     }
 
-                    tmpContent += `
-                        </td>
-                    </tr>`;
+                    this.detailTableClickRow += `
+                        </td>`;
                 }
 
 
