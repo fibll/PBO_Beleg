@@ -1,5 +1,7 @@
 /* to do:
 
++ Überschrift(Beispiel-System) nicht klickbar machen
+
 + Contentansicht:
     - Locations sollten einen oder zwei weitere Unterpunkte haben
     - Stakeholder eventuell auch einen mehr
@@ -10,7 +12,8 @@
 
     - Klickbar:
         * Prozesse: Initiator?
-        * Message an den Nutzer das er nun in einer speziellen Kontent Auswahl ist
+
+    - Zeitangaben leserlich machen
 
 + Vergleich: locale compare, to_lower (für Umlaute, Groß-/Kleinschreibung)
 
@@ -79,10 +82,12 @@ var vue = new Vue({
         graphView: false,
 
         // detail view
-        detailCardHeader: "Error",
+        detailCardHeader: "",
         detailTableClickable: false,
-        detailTableClickRow: "Something did go wrong",
+        detailTableClickRow: "",
         detailAttachment: "",
+        detailCardHeaderError: "Fehler",
+        detailCardBodyError: "Bitte laden Sie die Seite neu und versuchen Sie es erneut.",
 
         // graphs
         graphProcessNames: [],
@@ -530,13 +535,23 @@ var vue = new Vue({
             var tmpItem = null;
             var tmpTypeSingle = false;
             this.detailTableClickable = false;
+            this.detailAttachment = "";
+            this.detailCardHeader = this.detailCardHeaderError;
+            this.contentList[0] = this.detailCardBodyError;
 
 
             // begin of html phrase
             var tmpContent = "";
 
+            // Error case
+            if(!event.target.id) {
+                this.detailCardHeader = this.detailCardHeaderError;
+                this.contentList[0] = this.detailCardBodyError;
+                return ;
+                
+            } 
             // if one of the single article sidebar items like 'system'
-            if (event.target.id == "single") {
+            else if (event.target.id == "single") {
                 this.noBackButton = true;
 
                 if (this.showType == "system") {
@@ -856,12 +871,6 @@ var vue = new Vue({
                 //console.log("Something was found at " + event.target.id);
             } else {
                 console.log("Nothing was found at " + event.target.id);
-
-                this.detailCardHeader = "Error";
-
-                //tmpContent += `
-                //<div class="card-header">Error</div>
-                //<div class="card-body">Something did go wrong, please reload the page.</div>`;
             }
 
             // end of html phrase
