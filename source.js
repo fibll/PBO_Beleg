@@ -97,7 +97,8 @@ var vue = new Vue({
         // #778899
         // #87aed3
         // #868e96 (bg-secondary from bootstrap)
-        cardColor: "#868e96",
+        // #5b6066 (bg-secondary a bit darker)
+        cardColor: "#5b6066",
         cardHeaderTextColor: "white",
 
         sortbarListProcesses: ["ID", "Name"],
@@ -1172,7 +1173,8 @@ var vue = new Vue({
                                     }, vue.children, "process");
                                 }
                             }
-                        }
+                        },
+                        pointWidth: 9
                     }
                 },
                 tooltip: {
