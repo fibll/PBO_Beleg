@@ -95,7 +95,7 @@
 
                 <!-- new row for button -->
                 <!-- Back Button -->
-                <button class="btn btn-primary" v-if="!noBackButton" v-on:click="fillContent" style="width: 10rem">Back</button>
+                <button class="btn btn-primary" v-if="!noBackButton" v-on:click="fillContent" style="width: 10rem">Zurück</button>
 
                 <!-- content view -->
                 <div id="content" class="row" v-if="contentView">
@@ -125,9 +125,9 @@
                     </div>
                 </div>
 
-                <div v-bind:class="{ 'd-none': !graphView }">
-                    <div id="processGraph">Prozessgraph</div>
-                    <div id="stakeholderGraph">Stakeholdergraph</div>
+                <div class="row m-2 mb-3" v-bind:class="{ 'd-none': !graphView }">
+                    <div class="w-100" id="processGraph">Prozessgraph</div>
+                    <div class="w-100" id="stakeholderGraph">Stakeholdergraph</div>
                 </div>
             </div>
         </div>

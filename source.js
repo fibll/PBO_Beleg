@@ -97,9 +97,9 @@ var vue = new Vue({
         // graphs
         graphProcessNames: [],
         graphProcessData: [],
+        graphStakeholderNames: [],
+        graphStakeholderData: [],
         showGraphs: false,
-        showProcessGraph: false,
-        showStakeholderGraph: false,
 
         // test
         // possible card colors:
@@ -146,8 +146,7 @@ var vue = new Vue({
             } else if (this.showType == "mainprocess") {
                 this.listToShow = [this.jsonData.mainprocess];
             } else if (this.showType == "statistics") {
-                this.listToShow = [];
-                this.getgraphProcessData();
+                this.drawGraphs();
             } else {
                 // processes
                 this.listToShow = this.children;
@@ -314,28 +313,37 @@ var vue = new Vue({
         },
 
         fillContent: function () {
-
             this.noBackButton = true;
-            this.noSortbar = false;
-            this.contentList = [];
-            this.contentView = true;
-            var newListItem = "";
+            if (this.showGraphs) {
+                // back from detail view to graphs
+                this.clickHandlerSidebar({
+                    target: {
+                        id: "sidebarStatistics"
+                    }
+                });
+            } else {
+                // normal content (back from detail view to normal content)
+                this.noSortbar = false;
+                this.contentList = [];
+                this.contentView = true;
+                var newListItem = "";
 
-            // sort listToShow
-            this.listToShow = this.sortArray();
+                // sort listToShow
+                this.listToShow = this.sortArray();
 
-            for (var i = 0; i < this.listToShow.length; i++) {
+                for (var i = 0; i < this.listToShow.length; i++) {
 
-                if (this.showType == "locations") {
-                    newListItem = this.fillContentLocations(i, newListItem);
-                } else if (this.showType == "stakeholder") {
-                    newListItem = this.fillContentStakeholder(i, newListItem);
-                } else {
-                    newListItem = this.fillContentProcesses(i, newListItem);
+                    if (this.showType == "locations") {
+                        newListItem = this.fillContentLocations(i, newListItem);
+                    } else if (this.showType == "stakeholder") {
+                        newListItem = this.fillContentStakeholder(i, newListItem);
+                    } else {
+                        newListItem = this.fillContentProcesses(i, newListItem);
+                    }
+
+                    // add it to list
+                    this.contentList.push(newListItem);
                 }
-
-                // add it to list
-                this.contentList.push(newListItem);
             }
         },
 
@@ -474,6 +482,12 @@ var vue = new Vue({
             this.noSortbar = true;
         },
 
+        clickHandlerArticleGraph: function (event, listToShow, showType) {
+            this.listToShow = listToShow;
+            this.showType = showType;
+            this.clickHandlerArticle(event);
+        },
+
         // click handler
         clickHandlerArticle: function (event) {
             this.noSortbar = true;
@@ -490,7 +504,7 @@ var vue = new Vue({
             var tmpContent = "";
 
             // if one of the single article sidebar items like 'system'
-            if (event == "single") {
+            if (event.target.id == "single") {
                 this.noBackButton = true;
 
                 if (this.showType == "system") {
@@ -559,7 +573,6 @@ var vue = new Vue({
                 for (var i = 0; i < tmpList.length; i++) {
                     if (tmpList[i].id == event.target.id) {
                         tmpItem = tmpList[i];
-                        console.log("Something was found at " + event.target.id);
                         break;
                     }
                 }
@@ -793,7 +806,7 @@ var vue = new Vue({
 
                 // close table div
                 //tmpContent += `</div>`;
-
+                console.log("Something was found at " + event.target.id);
             } else {
                 console.log("Nothing was found at " + event.target.id);
 
@@ -817,6 +830,7 @@ var vue = new Vue({
             this.contentView = false;
             this.detailView = false;
             this.graphView = false;
+            this.showGraphs = false;
 
             // set showType and sidebar item active
             if (event.target.id == "sidebarLocations") {
@@ -837,6 +851,7 @@ var vue = new Vue({
             } else if (event.target.id == "sidebarStatistics") {
                 this.listElement7 = true;
                 this.graphView = true;
+                this.showGraphs = true;
                 this.showType = "statistics";
             } else {
                 this.setProcessSettings();
@@ -847,7 +862,11 @@ var vue = new Vue({
                 // graph
                 this.graphView = true;
             } else if (this.listElement4 | this.listElement5 | this.listElement6) {
-                this.clickHandlerArticle("single");
+                this.clickHandlerArticle({
+                    target: {
+                        id: "single"
+                    }
+                });
             } else {
                 // fill the content space
                 this.fillContent();
@@ -973,20 +992,23 @@ var vue = new Vue({
             return string.charAt(0).toUpperCase() + string.slice(1);
         },
 
-        getgraphProcessData() {
+        drawGraphs() {
             this.graphProcessNames = [];
             this.graphProcessData = [];
-            // Fülle Prozesse und Daten:
-            for (item in this.children) {
+            this.graphStakeholderNames = [];
+            this.graphStakeholderData = [];
+            // Speichere Prozess-Infos
+            for (process in this.children) {
+                // Speichere Prozess
                 this.graphProcessNames.push({
-                    category: this.children[item].id.split("/")[this.children[item].id.split("/").length - 1],
-                    link: this.children[item].id
+                    category: this.children[process].name,
+                    link: this.children[process].id
                 });
-                // this.children[item].id.split("/")[this.children[item].id.split("/").length - 1]
-                var startDate = Date.parse(this.children[item]["start"]);
+                // this.children[process].id.split("/")[this.children[process].id.split("/").length - 1]
+                var startDate = Date.parse(this.children[process]["start"]);
                 var endDate = Date.now();
-                if (this.children[item]["end (optional)"]) {
-                    endDate = Date.parse(this.children[item]["end (optional)"]);
+                if (this.children[process]["end (optional)"]) {
+                    endDate = Date.parse(this.children[process]["end (optional)"]);
                 };
                 this.graphProcessData.push({
                     low: startDate,
@@ -994,8 +1016,29 @@ var vue = new Vue({
                     // color: "green"
                 })
             };
-            this.showProcessGraph = true;
+            // Speicher Stakeholder-Infos
+            var projectCounter;
+            for (stakeholder in this.stakeholder) {
+                // count projects
+                projectCounter = 0;
+                for (item in this.children) {
+                    for (subitem in this.children[item].participants) {
+                        if (this.children[item].participants[subitem] == this.stakeholder[stakeholder].id) {
+                            projectCounter++;
+                            break;
+                        }
+                    }
+                }
+                // save stakeholder information
+                this.graphStakeholderNames.push({
+                    category: this.stakeholder[stakeholder].name,
+                    link: this.stakeholder[stakeholder].id
+                });
+
+                this.graphStakeholderData.push(projectCounter)
+            }
             this.drawProcessesGraph();
+            this.drawStakeholderGraph();
         },
 
         drawProcessesGraph() {
@@ -1027,18 +1070,18 @@ var vue = new Vue({
                         point: {
                             events: {
                                 click: function () {
-                                    vue.clickHandlerArticle({
+                                    vue.clickHandlerArticleGraph({
                                         target: {
                                             id: this.category.link
                                         }
-                                    });
+                                    }, vue.children, "process");
                                 }
                             }
                         }
                     }
                 },
                 tooltip: {
-                    headerFormat: '<b> Process/{point.key.category} </b> <br > ',
+                    headerFormat: '<b> {point.key.category} </b> <br > ',
                     pointFormat: '{point.low:%d.%m.%Y} bis {point.high:%d.%m.%Y}',
                 },
                 legend: {
@@ -1051,8 +1094,60 @@ var vue = new Vue({
             });
         },
 
-        test() {
-            alert("hallo");
+        drawStakeholderGraph() {
+            Highcharts.chart('stakeholderGraph', {
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: 'Prozesse pro Stakeholder'
+                },
+                xAxis: {
+                    categories: this.graphStakeholderNames,
+                    //visible: false,
+                    labels: {
+                        formatter: function () {
+                            return this.value.category;
+                        },
+                    }
+                },
+                yAxis: {
+                    type: 'number',
+                    allowDecimals: false,
+                    title: {
+                        text: ''
+                    }
+                },
+                plotOptions: {
+                    series: {
+                        cursor: 'pointer',
+                        animation: false,
+                        minPointLength: 5,
+                        point: {
+                            events: {
+                                click: function () {
+                                    vue.clickHandlerArticleGraph({
+                                        target: {
+                                            id: this.category.link
+                                        }
+                                    }, vue.stakeholder, "stakeholder");
+                                }
+                            }
+                        }
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<b> {point.key.category} </b> <br > ',
+                    pointFormat: 'Wirkt an {point.y} Prozessen mit',
+                },
+                legend: {
+                    enabled: false
+                },
+                series: [{
+                    name: 'Stakeholder',
+                    data: this.graphStakeholderData
+                }]
+            });
         }
     },
 
