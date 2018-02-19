@@ -92,10 +92,11 @@ var vue = new Vue({
         detailTableClickRow: "Something did go wrong",
 
         // test
+        cardColor: "primary",
+        cardHeaderTextColor: "white",
         sortbarListProcesses: ["ID", "Name"],
         sortbarListLocations: ["ID", "Stadt"],
         sortbarListStakeholder: ["ID", "Name"],
-        name: "foo",
     },
 
     // stuff that takes more logic power
@@ -207,8 +208,8 @@ var vue = new Vue({
             }
 
             newListItem = `
-            <div class="card border-primary mb-3 text-black" style="width: 20rem;">
-                <div id="` + this.listToShow[i].id + `" class="card-header bg-primary text-white">` + shortName + `</div>
+            <div class="card border-` + this.cardColor + ` mb-3 text-black" style="width: 20rem;">
+                <div id="` + this.listToShow[i].id + `" class="card-header bg-` + this.cardColor + ` text-` + this.cardHeaderTextColor + `">` + shortName + `</div>
                 <div id="` + this.listToShow[i].id + `" class="card-body">
                     <table class="table">`;
 
@@ -243,8 +244,8 @@ var vue = new Vue({
             }
 
             newListItem = `
-            <div class="card border-primary mb-3 text-black" style="width: 20rem">
-                <div id="` + this.listToShow[i].id + `" class="card-header bg-primary text-white">` + shortCity + `</div>
+            <div class="card border-` + this.cardColor + ` mb-3 text-black" style="width: 20rem">
+                <div id="` + this.listToShow[i].id + `" class="card-header bg-` + this.cardColor + ` text-` + this.cardHeaderTextColor + `">` + shortCity + `</div>
                 <div id="` + this.listToShow[i].id + `" class="card-body">
                     <table class="table">
                         <tr>
@@ -279,8 +280,8 @@ var vue = new Vue({
             }
 
             newListItem = `
-            <div class="card border-primary mb-3 text-black" style="width: 20rem">
-                <div id="` + this.listToShow[i].id + `" class="card-header bg-primary text-white">` + shortName + `</div>
+            <div class="card border-` + this.cardColor + ` mb-3 text-black" style="width: 20rem">
+                <div id="` + this.listToShow[i].id + `" class="card-header bg-` + this.cardColor + ` text-` + this.cardHeaderTextColor + `">` + shortName + `</div>
                 <div id="` + this.listToShow[i].id + `" class="card-body">
                     <table class="table">
                         <tr>
@@ -468,7 +469,6 @@ var vue = new Vue({
 
             // begin of html phrase
             var tmpContent = "";
-            // = `<div class="card border-primary mb-3 text-black" style="max-width: 45rem">`;
 
             // if one of the single article sidebar items like 'system'
             if (event == "single") {
