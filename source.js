@@ -12,10 +12,6 @@
         * Prozesse: Initiator?
         * Message an den Nutzer das er nun in einer speziellen Kontent Auswahl ist
 
-+ Stats:
-    * Prozesse: Zeitleiste in Jahren, wann starteten Projekte (andere Farbe wann endeten sie)
-    * Stakeholder: Wie viele Mitarbeiter haben wie viele Projekte (Säulen Diagramm)
-
 + Bilder hinzufügen
 
 + Alles auf Deutsch umstellen
@@ -57,7 +53,7 @@ var vue = new Vue({
         // labels
         sortLabel1: "ID",
         sortLabel2: "Name",
-        sortLabel3: "Enddate",
+        sortLabel3: "Enddatum",
         sortLabel4: "Initiator",
 
         // hiding
@@ -65,8 +61,8 @@ var vue = new Vue({
         noSortItem4: true,
 
         // filter
-        filterLabel1: "Open for stakeholder",
-        filterLabel2: "Active",
+        filterLabel1: "Offen für Stakeholder",
+        filterLabel2: "Aktiv",
         activeFilter1: false,
         activeFilter2: false,
         noFilter1: false,
@@ -93,6 +89,7 @@ var vue = new Vue({
         detailCardHeader: "Error",
         detailTableClickable: false,
         detailTableClickRow: "Something did go wrong",
+        detailAttachment: "",
 
         // graphs
         graphProcessNames: [],
@@ -112,6 +109,43 @@ var vue = new Vue({
         sortbarListProcesses: ["ID", "Name"],
         sortbarListLocations: ["ID", "Stadt"],
         sortbarListStakeholder: ["ID", "Name"],
+
+        // attachments (images/pdfs)
+        attachments: {
+            //"https://process.stadt.de/process/0": "28 Vermessung.pdf",
+            //"https://process.stadt.de/process/0": "5 Plazeichnung dummy.jpg",
+            "https://process.stadt.de/process/11": "1 Grundsatzbeschluss.pdf",
+            "https://process.stadt.de/process/15": "22 Baubeginn Erschliessungsstraße dummy.jpg",
+            "https://process.stadt.de/process/16": "11 erschliessungsplanung dummy.jpg",
+            "https://process.stadt.de/process/111": "10 Verkauf.pdf",
+            "https://process.stadt.de/process/112": "2 Wettbewerbsauslobung.pdf",
+            //"https://process.stadt.de/process/112": "7 Pressemitteilung wettbewerb.pdf",
+            "https://process.stadt.de/process/113": "3 Rückfragenkolloquium.pdf",
+            "https://process.stadt.de/process/114": "4 Wettbewerbsbearbeitung.pdf",
+            "https://process.stadt.de/process/115": "5 Jurysitzung.pdf",
+            "https://process.stadt.de/process/117": "6 Aufstellungsbeschluss.pdf",
+            //"https://process.stadt.de/process/117": "8 Aufstellungsbeschluss.pdf",
+            "https://process.stadt.de/process/118": "12 Städtbaulicher Vertrag.pdf",
+            "https://process.stadt.de/process/120": "9  Veröffentlichung im Stadtanzeiger.pdf",
+            "https://process.stadt.de/process/122": "13 Vorentwurf Bebauungsplan dummy.jpeg",
+            "https://process.stadt.de/process/127": "16 Beschluss Auslage.pdf",
+            "https://process.stadt.de/process/128": "17 Beschluss Auslage.pdf",
+            "https://process.stadt.de/process/129": "18  Veröffentlichung im Stadtanzeiger.pdf",
+            "https://process.stadt.de/process/132": "14 Stellungnahme.pdf",
+            //"https://process.stadt.de/process/132": "20 Stellungnahme Bürger.pdf",
+            //"https://process.stadt.de/process/132": "21 Abwägungsprotokoll dummy.pdf",
+            //"https://process.stadt.de/process/132": "24 Stellungnahme.pdf",
+            //"https://process.stadt.de/process/132": "26 Stellungnahme Bürger.pdf",
+            //"https://process.stadt.de/process/132": "27 Abwägungsprotokoll dummy Kopie.pdf",
+            //"https://process.stadt.de/process/133": "23 Entwurf überarbeitet dummy Kopie.jpg",
+            "https://process.stadt.de/process/133": "15 Entwurf dummy.jpg",
+            "https://process.stadt.de/process/138": "25 Veröffentlichung im Stadtanzeiger.pdf",
+            "https://process.stadt.de/process/140": "19 Stellungnahme .pdf",
+            "https://process.stadt.de/process/141": "29 Satzungsbeschluss.pdf",
+            "https://process.stadt.de/process/142": "30 Satzungsbeschluss.pdf",
+            "https://process.stadt.de/process/143": "31 Veröffentlichung im Stadtanzeiger.pdf",
+            "https://process.stadt.de/process/144": "32 Baubeginn dummy.jpg"
+        },
     },
 
     // stuff that takes more logic power
@@ -159,11 +193,11 @@ var vue = new Vue({
             this.listElement3 = true;
             this.showType = "stakeholder";
             this.sortLabel2 = "Name";
-            this.sortLabel3 = "Type";
+            this.sortLabel3 = "Status";
             this.noSortItem3 = false;
             this.noFilter1 = false;
             this.activeFilter1 = false;
-            this.filterLabel1 = "Open groups";
+            this.filterLabel1 = "Offene Gruppen";
             this.contentView = true;
             this.detailView = false;
         },
@@ -174,13 +208,13 @@ var vue = new Vue({
             this.listElement1 = true;
             this.showType = "processes";
             this.sortLabel2 = "Name";
-            this.sortLabel3 = "Enddate";
+            this.sortLabel3 = "Enddatum";
             this.noSortItem3 = false;
             this.noFilter1 = false;
             this.noFilter2 = false;
             this.activeFilter1 = false;
             this.activeFilter2 = false;
-            this.filterLabel1 = "Open for stakeholder";
+            this.filterLabel1 = "Offen für Stakeholder";
         },
 
         fillContentProcesses: function (i, newListItem) {
@@ -213,7 +247,7 @@ var vue = new Vue({
             }
 
             var tmpContentList = ["ID", readableID,
-                "Location", tmpLocation,
+                "Ort", tmpLocation,
                 "Initiator", tmpInitiator
             ];
 
@@ -304,8 +338,8 @@ var vue = new Vue({
                             <td id="` + this.listToShow[i].id + `">` + readableID + `</td>
                         </tr>
                         <tr>
-                            <th id="` + this.listToShow[i].id + `">Type</th>
-                            <td id="` + this.listToShow[i].id + `" class="` + color + `">` + this.listToShow[i].type + `</td>
+                            <th id="` + this.listToShow[i].id + `">Status</th>
+                            <td id="` + this.listToShow[i].id + `" class="` + color + `">` + this.localize(this.listToShow[i].type) + `</td>
                         </tr>
                     </table>
                 </div>
@@ -645,7 +679,7 @@ var vue = new Vue({
                         // fill
                         tmpContent += `
                                 <tr>
-                                    <th id="singleArticle">` + this.capitalFirstLetter(item) + `</th>
+                                    <th id="singleArticle">` + this.localize(this.capitalFirstLetter(item)) + `</th>
                                     <td id="singleArticle">` + initiatorName + `</td>
                                 </tr>`;
                     }
@@ -665,7 +699,7 @@ var vue = new Vue({
                         // fill
                         tmpContent += `
                                 <tr>
-                                    <th id="singleArticle">` + this.capitalFirstLetter(item) + `</th>
+                                    <th id="singleArticle">` + this.localize(this.capitalFirstLetter(item)) + `</th>
                                     <td id="singleArticle">` + locationCity + `</td>
                                 </tr>`;
                     }
@@ -680,8 +714,8 @@ var vue = new Vue({
                         // fill
                         tmpContent += `
                                 <tr>
-                                    <th id="singleArticle">Type</th>
-                                    <td id="singleArticle" class="` + color + `">` + tmpItem.type + `</td>
+                                    <th id="singleArticle">` + this.localize("Type") + `</th>
+                                    <td id="singleArticle" class="` + color + `">` + this.localize(tmpItem.type) + `</td>
                                 </tr>`;
                     }
                     // change color of participation (process)
@@ -695,8 +729,8 @@ var vue = new Vue({
                         // fill
                         tmpContent += `
                                 <tr>
-                                    <th id="singleArticle">Participation</th>
-                                    <td id="singleArticle" class="` + color + `">` + tmpItem.participation + `</td>
+                                    <th id="singleArticle">` + this.localize("Participation") + `</th>
+                                    <td id="singleArticle" class="` + color + `">` + this.localize(tmpItem.participation) + `</td>
                                 </tr>`;
                     }
                     // make participants clickable, to show later the participants in a content view
@@ -712,7 +746,7 @@ var vue = new Vue({
                         this.selectedContentViewMessage = "Auswahl der Stakeholder des Projektes: " + tmpItem.name;
 
                         this.detailTableClickRow += `
-                                    <th id="showParticipants">` + this.capitalFirstLetter(item) + `</th>
+                                    <th id="showParticipants">` + this.localize(this.capitalFirstLetter(item)) + `</th>
                                     <td id="showParticipants">`;
 
                         // go through stakeholder and compare
@@ -735,7 +769,7 @@ var vue = new Vue({
 
                         tmpContent += `
                                 <tr>
-                                    <th id="singleArticle">` + this.capitalFirstLetter(item) + `</th>
+                                    <th id="singleArticle">` + this.localize(this.capitalFirstLetter(item)) + `</th>
                                     <td id="singleArticle">` + tmpItem[item] + `</td>
                                 </tr>`;
                     }
@@ -786,7 +820,7 @@ var vue = new Vue({
                     // fill content
                     tmpContent += `
                     <tr>
-                        <th id="singleArticle">Amount of projects</th>
+                        <th id="singleArticle">Anzahl der Projekte</th>
                         <td id="singleArticle">` + projectCounter;
 
                     // fill project-list with working projects if they got one, otherwise don't show that line
@@ -796,7 +830,7 @@ var vue = new Vue({
                     </tr>`;
 
                         this.detailTableClickRow = `
-                        <th id="showProjects">Active projects</th>
+                        <th id="showProjects">Aktive Projekte</th>
                         <td id="showProjects">`;
 
                         for (item in workingProjects) {
@@ -811,7 +845,20 @@ var vue = new Vue({
 
                 // close table div
                 //tmpContent += `</div>`;
-                console.log("Something was found at " + event.target.id);
+                // search for pictures or pdf
+                if (this.attachments[event.target.id]) {
+                    this.detailAttachment = "<h5>Anhang</h5>";
+                    attachment = this.attachments[event.target.id];
+                    if (attachment.endsWith(".pdf")) {
+                        this.detailAttachment += "<embed src='Anlagen/" + attachment + "' class='w-100' height='500px' type='application/pdf'>";
+
+                    } else {
+                        this.detailAttachment += "<div class='text-center'><img src='Anlagen/" + attachment + "' class='img-fluid'></div>";
+                    }
+                } else {
+                    this.detailAttachment = "";
+                }
+                //console.log("Something was found at " + event.target.id);
             } else {
                 console.log("Nothing was found at " + event.target.id);
 
@@ -824,6 +871,7 @@ var vue = new Vue({
 
             // end of html phrase
             //tmpContent += `</div>`;
+
 
             // set content as item in the contentList
             this.contentList = [];
@@ -841,7 +889,7 @@ var vue = new Vue({
             if (event.target.id == "sidebarLocations") {
                 this.listElement2 = true;
                 this.showType = "locations";
-                this.sortLabel2 = "City";
+                this.sortLabel2 = "Stadt";
             } else if (event.target.id == "sidebarStakeholder") {
                 this.setStakeholderSettings();
             } else if (event.target.id == "sidebarSystem") {
@@ -997,6 +1045,29 @@ var vue = new Vue({
             return string.charAt(0).toUpperCase() + string.slice(1);
         },
 
+        localize: function (string) {
+            string = string.replace("Description", "Beschreibung");
+            string = string.replace("Start", "Anfang");
+            string = string.replace("End (optional)", "Ende (optional)");
+            string = string.replace("Created", "Erstellt");
+            string = string.replace("Modified", "Verändert");
+            string = string.replace("Participation", "Mitwirkung");
+            string = string.replace("Participants", "Mitwirkende");
+            string = string.replace("Address", "Adresse");
+            string = string.replace("Zip", "PLZ");
+            string = string.replace("City", "Stadt");
+            string = string.replace("Room (optional)", "Raum (optional)");
+            string = string.replace("Type", "Status");
+            string = string.replace("group closed", "geschlossen");
+            // someone can't write opened...
+            string = string.replace("group openend", "offen");
+            string = string.replace("group opened", "offen");
+            string = string.replace("group opend", "offen");
+            string = string.replace("partial opened", "teilweise offen");
+            string = string.replace("closed", "geschlossen");
+            return string;
+        },
+
         drawGraphs() {
             this.graphProcessNames = [];
             this.graphProcessData = [];
@@ -1014,12 +1085,22 @@ var vue = new Vue({
                 var endDate = Date.now();
                 if (this.children[process]["end (optional)"]) {
                     endDate = Date.parse(this.children[process]["end (optional)"]);
-                };
-                this.graphProcessData.push({
-                    low: startDate,
-                    high: endDate
-                    // color: "green"
-                })
+                    this.graphProcessData.push({
+                        low: startDate,
+                        high: endDate,
+                        // states: {
+                        //     hover: {
+                        //         color: "green"
+                        //     }
+                        // },
+                        // color: "lightblue"
+                    })
+                } else {
+                    this.graphProcessData.push({
+                        low: startDate,
+                        high: endDate
+                    })
+                }
             };
             // Speicher Stakeholder-Infos
             var projectCounter;
@@ -1162,7 +1243,6 @@ var vue = new Vue({
         // get json stuff
         var self = this;
         $.getJSON("data/process.json", function (data) {
-
             // read in data
             self.jsonData = data;
             self.children = self.jsonData.process.childs;

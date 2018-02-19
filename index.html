@@ -110,24 +110,23 @@
                 </div>
 
                 <!-- detail view -->
-                <div id="content" class="row" v-if="detailView">
-                    <div class="col-md-auto mt-2">
-                        <div class="card mb-3 text-black" v-bind:style="{ 'border-color': cardColor, 'max-width': '45rem' }">
-                            <div id="detailHeader" class="card-header text-white" v-bind:style="{ 'background-color': cardColor }">{{detailCardHeader}}</div>
-                            <div id="detailBody" class="card-body">
-                                <table class="table">
-                                    <tbody v-html="contentList[0]"></tbody>
-                                    <tfoot v-if="detailTableClickable">
-                                        <tr style="cursor: pointer" v-on:click="clickHandlerArticle" v-html="detailTableClickRow"></tr>
-                                    </tfoot>
-                                </table>
-                            </div>
+                <div id="content" class="w-100 mt-2" v-if="detailView">
+                    <div class="w-100 card mb-3 text-black" v-bind:style="{ 'border-color': cardColor}">
+                        <div id="detailHeader" class="card-header text-white" v-bind:style="{ 'background-color': cardColor }">{{detailCardHeader}}</div>
+                        <div id="detailBody" class="card-body">
+                            <table class="table">
+                                <tbody v-html="contentList[0]"></tbody>
+                                <tfoot v-if="detailTableClickable">
+                                    <tr style="cursor: pointer" v-on:click="clickHandlerArticle" v-html="detailTableClickRow"></tr>
+                                </tfoot>
+                            </table>
+                            <div id="detailAttachment" v-html="detailAttachment"></div>
                         </div>
-                        <!--
+                    </div>
+                    <!--
                         <a href="#" class="list-group-item-action" v-on:click="clickHandlerArticle" v-html="contentList[0]">
                         </a>
                     -->
-                    </div>
                 </div>
 
                 <div class="row m-2 mb-3" v-bind:class="{ 'd-none': !graphView }">
