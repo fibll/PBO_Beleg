@@ -12,15 +12,8 @@
         * Prozesse: Initiator?
         * Message an den Nutzer das er nun in einer speziellen Kontent Auswahl ist
 
-+ Bilder hinzufügen
-
-+ Alles auf Deutsch umstellen
-
 + Vergleich: locale compare, to_lower (für Umlaute, Groß-/Kleinschreibung)
 
-+ class="col-md-auto" problem behandeln
-
-questions:
 */
 
 var vue = new Vue({
@@ -103,7 +96,8 @@ var vue = new Vue({
         // #6D8BA8
         // #778899
         // #87aed3
-        cardColor: "#6D8BA8",
+        // #868e96 (bg-secondary from bootstrap)
+        cardColor: "#868e96",
         cardHeaderTextColor: "white",
 
         sortbarListProcesses: ["ID", "Name"],
