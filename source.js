@@ -784,7 +784,8 @@ var vue = new Vue({
                         } else {
                             var tmpDate = new Date(tmpItem[item]);
 
-                            readableDate = tmpDate.getHours() + ":" + tmpDate.getMinutes() + " Uhr " + "(UTC" + (tmpDate.getTimezoneOffset() / 60) + ") <br>" + this.days[tmpDate.getDay()] + " den " + tmpDate.getDate() + "." + (tmpDate.getMonth() + 1) + "." + tmpDate.getFullYear();
+                            readableDate = (tmpDate.getDate() + "").padStart(2, "0") + "." + (tmpDate.getMonth() + 1 + "").padStart(2, "0") + "." + tmpDate.getFullYear() + " (" + this.days[tmpDate.getDay()] + ")<br>" +
+                                tmpDate.getHours() + ":" + tmpDate.getMinutes() + " Uhr " + "(UTC" + (tmpDate.getTimezoneOffset() / 60) + ")";
 
                             // fill
                             tmpContent += `
