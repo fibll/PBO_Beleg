@@ -541,12 +541,12 @@ var vue = new Vue({
             var tmpContent = "";
 
             // Error case
-            if(!event.target.id) {
+            if (!event.target.id) {
                 this.detailCardHeader = this.detailCardHeaderError;
                 this.contentList[0] = this.detailCardBodyError;
-                return ;
-                
-            } 
+                return;
+
+            }
             // if one of the single article sidebar items like 'system'
             else if (event.target.id == "single") {
                 this.noBackButton = true;
@@ -773,19 +773,18 @@ var vue = new Vue({
                     }
                     // get readable time
                     else if (item == "start" || item == "created" || item == "modified" || item == "end (optional)") {
-                        
+
                         // error fill
-                        if(!tmpItem[item]){
+                        if (!tmpItem[item]) {
                             tmpContent += `
                             <tr>
                                 <th id="singleArticle">` + this.localize(this.capitalFirstLetter(item)) + `</th>
                                 <td id="singleArticle">` + "" + `</td>
                             </tr>`;
-                        }
-                        else {
+                        } else {
                             var tmpDate = new Date(tmpItem[item]);
-                        
-                            readableDate = tmpDate.getHours() + ":" + tmpDate.getMinutes() + " Uhr " + "(UTC" + (tmpDate.getTimezoneOffset()/60) + ") <br>" + this.days[tmpDate.getDay()] + " den " + tmpDate.getDate() + "." + (tmpDate.getMonth()+1) + "." + tmpDate.getFullYear();
+
+                            readableDate = tmpDate.getHours() + ":" + tmpDate.getMinutes() + " Uhr " + "(UTC" + (tmpDate.getTimezoneOffset() / 60) + ") <br>" + this.days[tmpDate.getDay()] + " den " + tmpDate.getDate() + "." + (tmpDate.getMonth() + 1) + "." + tmpDate.getFullYear();
 
                             // fill
                             tmpContent += `

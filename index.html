@@ -117,7 +117,7 @@
                         <div id="detailBody" class="card-body">
                             <table class="table">
                                 <tbody v-html="contentList[0]"></tbody>
-                                <tfoot v-if="detailTableClickable">
+                                <tfoot class="text-primary" v-if="detailTableClickable">
                                     <tr style="cursor: pointer" v-on:click="clickHandlerArticle" v-html="detailTableClickRow"></tr>
                                 </tfoot>
                             </table>
