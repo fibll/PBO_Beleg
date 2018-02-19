@@ -1075,9 +1075,17 @@ var vue = new Vue({
             this.graphStakeholderData = [];
             // Speichere Prozess-Infos
             for (process in this.children) {
+                // get short name
+                var shortName;
+                if (this.children[process].name.length > 25) {
+                    shortName = this.children[process].name.substr(0, 22) + "...";
+                } else {
+                    shortName = this.children[process].name;
+                }
                 // Speichere Prozess
                 this.graphProcessNames.push({
                     category: this.children[process].name,
+                    short: shortName,
                     link: this.children[process].id
                 });
                 // this.children[process].id.split("/")[this.children[process].id.split("/").length - 1]
@@ -1138,8 +1146,13 @@ var vue = new Vue({
                 },
                 xAxis: {
                     categories: this.graphProcessNames,
+                    // labels: {
+                    //     enabled: false
+                    // },
                     labels: {
-                        enabled: false
+                        formatter: function () {
+                            return this.value.short;
+                        },
                     },
                     visible: false
                 },
