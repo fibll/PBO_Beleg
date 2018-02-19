@@ -105,8 +105,8 @@
                 <!-- detail view -->
                 <div id="content" class="row" v-if="!contentView">
                     <div class="col-md-auto mt-2">
-                        <div class="card border-primary mb-3 text-black" style="max-width: 45rem">
-                            <div id="detailHeader" class="card-header bg-primary text-white">{{detailCardHeader}}</div>
+                        <div class="card mb-3 text-black" v-bind:style="{ 'border-color': cardColor, 'max-width': '45rem' }">
+                            <div id="detailHeader" class="card-header text-white" v-bind:style="{ 'background-color': cardColor }">{{detailCardHeader}}</div>
                             <div id="detailBody" class="card-body">
                                 <table class="table">
                                     <tbody v-html="contentList[0]"></tbody>

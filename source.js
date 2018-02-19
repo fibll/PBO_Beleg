@@ -92,8 +92,13 @@ var vue = new Vue({
         detailTableClickRow: "Something did go wrong",
 
         // test
-        cardColor: "primary",
+        // possible card colors:
+        // #6D8BA8
+        // #778899
+        // #87aed3
+        cardColor: "#6D8BA8",
         cardHeaderTextColor: "white",
+
         sortbarListProcesses: ["ID", "Name"],
         sortbarListLocations: ["ID", "Stadt"],
         sortbarListStakeholder: ["ID", "Name"],
@@ -208,8 +213,8 @@ var vue = new Vue({
             }
 
             newListItem = `
-            <div class="card border-` + this.cardColor + ` mb-3 text-black" style="width: 20rem;">
-                <div id="` + this.listToShow[i].id + `" class="card-header bg-` + this.cardColor + ` text-` + this.cardHeaderTextColor + `">` + shortName + `</div>
+            <div class="card mb-3 text-black" style="width: 20rem; border-color: ` + this.cardColor + `;">
+                <div id="` + this.listToShow[i].id + `" class="card-header text-` + this.cardHeaderTextColor + `" style="background-color: ` + this.cardColor + `;">` + shortName + `</div>
                 <div id="` + this.listToShow[i].id + `" class="card-body">
                     <table class="table">`;
 
@@ -244,8 +249,8 @@ var vue = new Vue({
             }
 
             newListItem = `
-            <div class="card border-` + this.cardColor + ` mb-3 text-black" style="width: 20rem">
-                <div id="` + this.listToShow[i].id + `" class="card-header bg-` + this.cardColor + ` text-` + this.cardHeaderTextColor + `">` + shortCity + `</div>
+            <div class="card mb-3 text-black" style="width: 20rem; border-color: ` + this.cardColor + `;">
+                <div id="` + this.listToShow[i].id + `" class="card-header text-` + this.cardHeaderTextColor + `" style="background-color: ` + this.cardColor + `;">` + shortCity + `</div>
                 <div id="` + this.listToShow[i].id + `" class="card-body">
                     <table class="table">
                         <tr>
@@ -280,8 +285,8 @@ var vue = new Vue({
             }
 
             newListItem = `
-            <div class="card border-` + this.cardColor + ` mb-3 text-black" style="width: 20rem">
-                <div id="` + this.listToShow[i].id + `" class="card-header bg-` + this.cardColor + ` text-` + this.cardHeaderTextColor + `">` + shortName + `</div>
+            <div class="card mb-3 text-black" style="width: 20rem; border-color: ` + this.cardColor + `;">
+                <div id="` + this.listToShow[i].id + `" class="card-header text-` + this.cardHeaderTextColor + `" style="background-color: ` + this.cardColor + `;">` + shortName + `</div>
                 <div id="` + this.listToShow[i].id + `" class="card-body">
                     <table class="table">
                         <tr>
