@@ -15,11 +15,10 @@
     <!-- VUE -->
     <script src="lib/vue.js"></script>
 
-    <!-- jquery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-    <!-- CSS (override of some Bootstrap colors) -->
-    <!-- <link type="text/css" rel="stylesheet" href="style.css"> -->
+    <!-- Highcharts -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
 </head>
 
 
@@ -38,23 +37,23 @@
         <div class="row">
 
             <!-- Sidebar  -->
-            <div class=col-md-3>
-                <nav id=menu>
-                    <div class="list-group">
-                        <a id="sidebarProcesses" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement1}" v-on:click="clickHandlerSidebar">Prozesse</a>
-                        <a id="sidebarLocations" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement2}" v-on:click="clickHandlerSidebar">Orte</a>
-                        <a id="sidebarStakeholder" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement3}"
-                            v-on:click="clickHandlerSidebar">Stakeholder</a>
-                        <!--
-                        <a id="sidebarSystem" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement4}" v-on:click="clickHandlerSidebar">System</a>
-                            <a id="sidebarEntrypoint" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement5}"
-                            v-on:click="clickHandlerSidebar">Entrypoint</a>
-                        -->
-                        <a id="sidebarMainprocess" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement6}"
-                            v-on:click="clickHandlerSidebar">Hauptprozess</a>
-                    </div>
-                </nav>
-            </div>
+            <nav id=menu class=col-md-3>
+                <div class="list-group">
+                    <a id="sidebarProcesses" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement1}" v-on:click="clickHandlerSidebar">Prozesse</a>
+                    <a id="sidebarLocations" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement2}" v-on:click="clickHandlerSidebar">Orte</a>
+                    <a id="sidebarStakeholder" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement3}"
+                        v-on:click="clickHandlerSidebar">Stakeholder</a>
+                    <!--
+                    <a id="sidebarSystem" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement4}" v-on:click="clickHandlerSidebar">System</a>
+                        <a id="sidebarEntrypoint" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement5}"
+                        v-on:click="clickHandlerSidebar">Entrypoint</a>
+                    -->
+                    <a id="sidebarMainprocess" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement6}"
+                        v-on:click="clickHandlerSidebar">Hauptprozess</a>
+                    <a id="sidebarStatistics" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement7}"
+                        v-on:click="clickHandlerSidebar">Statistiken</a>
+                </div>
+            </nav>
 
             <!-- Informationarea -->
             <div class="col-md mb-3">
@@ -106,7 +105,7 @@
                 </div>
 
                 <!-- detail view -->
-                <div id="content" class="row" v-if="!contentView">
+                <div id="content" class="row" v-if="detailView">
                     <div class="col-md-auto mt-2">
                         <div class="card mb-3 text-black" v-bind:style="{ 'border-color': cardColor, 'max-width': '45rem' }">
                             <div id="detailHeader" class="card-header text-white" v-bind:style="{ 'background-color': cardColor }">{{detailCardHeader}}</div>
@@ -119,11 +118,16 @@
                                 </table>
                             </div>
                         </div>
-                    <!--
+                        <!--
                         <a href="#" class="list-group-item-action" v-on:click="clickHandlerArticle" v-html="contentList[0]">
                         </a>
                     -->
                     </div>
+                </div>
+
+                <div v-bind:class="{ 'd-none': !graphView }">
+                    <div id="processGraph">Prozessgraph</div>
+                    <div id="stakeholderGraph">Stakeholdergraph</div>
                 </div>
             </div>
         </div>

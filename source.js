@@ -43,6 +43,7 @@ var vue = new Vue({
         listElement4: false,
         listElement5: false,
         listElement6: false,
+        listElement7: false,
 
         // sort active
         activeSort1: true,
@@ -85,11 +86,20 @@ var vue = new Vue({
         participantsData: [],
         activeProjectsData: [],
         contentView: true,
+        detailView: false,
+        graphView: false,
 
         // detail view
         detailCardHeader: "Error",
         detailTableClickable: false,
         detailTableClickRow: "Something did go wrong",
+
+        // graphs
+        graphProcessNames: [],
+        graphProcessData: [],
+        showGraphs: false,
+        showProcessGraph: false,
+        showStakeholderGraph: false,
 
         // test
         // possible card colors:
@@ -135,6 +145,9 @@ var vue = new Vue({
                 this.listToShow = [this.jsonData.entrypoint];
             } else if (this.showType == "mainprocess") {
                 this.listToShow = [this.jsonData.mainprocess];
+            } else if (this.showType == "statistics") {
+                this.listToShow = [];
+                this.getgraphProcessData();
             } else {
                 // processes
                 this.listToShow = this.children;
@@ -205,10 +218,9 @@ var vue = new Vue({
             ];
 
             // if name is too long it is shortened
-            if(this.listToShow[i].name.length > 35){
+            if (this.listToShow[i].name.length > 35) {
                 shortName = this.listToShow[i].name.substr(0, 32) + "...";
-            }
-            else{
+            } else {
                 shortName = this.listToShow[i].name;
             }
 
@@ -241,10 +253,9 @@ var vue = new Vue({
             var shortCity = "";
 
             // if name is too long it is shortened
-            if(this.listToShow[i].city.length > 35){
+            if (this.listToShow[i].city.length > 35) {
                 shortCity = this.listToShow[i].city.substr(0, 32) + "...";
-            }
-            else{
+            } else {
                 shortCity = this.listToShow[i].city;
             }
 
@@ -277,10 +288,9 @@ var vue = new Vue({
                 color = `text-success`;
 
             // if name is too long it is shortened
-            if(this.listToShow[i].name.length > 35){
+            if (this.listToShow[i].name.length > 35) {
                 shortName = this.listToShow[i].name.substr(0, 32) + "...";
-            }
-            else{
+            } else {
                 shortName = this.listToShow[i].name;
             }
 
@@ -443,6 +453,7 @@ var vue = new Vue({
             this.listElement4 = false;
             this.listElement5 = false;
             this.listElement6 = false;
+            this.listElement7 = false;
 
             this.activeSort1 = true,
                 this.activeSort2 = false,
@@ -459,13 +470,16 @@ var vue = new Vue({
             this.selectedContentView = false;
 
             this.sortBy = "id";
+
+            this.noSortbar = true;
         },
 
         // click handler
         clickHandlerArticle: function (event) {
-
             this.noSortbar = true;
             this.contentView = false;
+            this.detailView = true;
+            this.graphView = false;
             var tmpList = this.listToShow;
             var tmpItem = null;
             var tmpTypeSingle = false;
@@ -499,7 +513,7 @@ var vue = new Vue({
 
                 // set this.showType to process
                 this.showType = "processes";
-                
+
                 // set the sorrounding to process as well
                 this.setProcessSettings();
 
@@ -521,7 +535,7 @@ var vue = new Vue({
 
                 // set this.showType to stakeholder
                 this.showType = "stakeholder";
-                
+
                 // set the sorrounding to stakeholder as well
                 // - Sidebar to stakeholder
                 // - sort/filter bar to stakeholder
@@ -529,7 +543,7 @@ var vue = new Vue({
 
                 // call fillContent()
                 this.fillContent();
-                            
+
                 // set content view select message
                 this.selectedContentView = true;
 
@@ -545,6 +559,7 @@ var vue = new Vue({
                 for (var i = 0; i < tmpList.length; i++) {
                     if (tmpList[i].id == event.target.id) {
                         tmpItem = tmpList[i];
+                        console.log("Something was found at " + event.target.id);
                         break;
                     }
                 }
@@ -716,7 +731,7 @@ var vue = new Vue({
                     // enable clickable entry in detail table and reset row content
                     this.detailTableClickable = true;
                     this.detailTableClickRow = "";
-                    
+
                     var projectCounter = 0;
                     var activeProjectCounter = 0;
                     var workingProjects = [];
@@ -762,9 +777,9 @@ var vue = new Vue({
                         </td>
                     </tr>`;
 
-                    this.detailTableClickRow = `
+                        this.detailTableClickRow = `
                         <th id="showProjects">Active projects</th>
-                        <td id="showProjects">`;                    
+                        <td id="showProjects">`;
 
                         for (item in workingProjects) {
                             this.detailTableClickRow += `<li id="showProjects">` + workingProjects[item] + "</li>";
@@ -780,7 +795,7 @@ var vue = new Vue({
                 //tmpContent += `</div>`;
 
             } else {
-                console.log("Nothing was found");
+                console.log("Nothing was found at " + event.target.id);
 
                 this.detailCardHeader = "Error";
 
@@ -799,6 +814,9 @@ var vue = new Vue({
 
         clickHandlerSidebar: function (event) {
             this.resetBars();
+            this.contentView = false;
+            this.detailView = false;
+            this.graphView = false;
 
             // set showType and sidebar item active
             if (event.target.id == "sidebarLocations") {
@@ -816,12 +834,19 @@ var vue = new Vue({
             } else if (event.target.id == "sidebarMainprocess") {
                 this.listElement6 = true;
                 this.showType = "mainprocess";
+            } else if (event.target.id == "sidebarStatistics") {
+                this.listElement7 = true;
+                this.graphView = true;
+                this.showType = "statistics";
             } else {
                 this.setProcessSettings();
             }
             // set the data source for the content
             this.setDefaultListToShow();
-            if (this.listElement4 | this.listElement5 | this.listElement6) {
+            if (this.listElement7) {
+                // graph
+                this.graphView = true;
+            } else if (this.listElement4 | this.listElement5 | this.listElement6) {
                 this.clickHandlerArticle("single");
             } else {
                 // fill the content space
@@ -947,6 +972,88 @@ var vue = new Vue({
         capitalFirstLetter: function (string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
         },
+
+        getgraphProcessData() {
+            this.graphProcessNames = [];
+            this.graphProcessData = [];
+            // Fülle Prozesse und Daten:
+            for (item in this.children) {
+                this.graphProcessNames.push({
+                    category: this.children[item].id.split("/")[this.children[item].id.split("/").length - 1],
+                    link: this.children[item].id
+                });
+                // this.children[item].id.split("/")[this.children[item].id.split("/").length - 1]
+                var startDate = Date.parse(this.children[item]["start"]);
+                var endDate = Date.now();
+                if (this.children[item]["end (optional)"]) {
+                    endDate = Date.parse(this.children[item]["end (optional)"]);
+                };
+                this.graphProcessData.push({
+                    low: startDate,
+                    high: endDate
+                    // color: "green"
+                })
+            };
+            this.showProcessGraph = true;
+            this.drawProcessesGraph();
+        },
+
+        drawProcessesGraph() {
+            Highcharts.chart('processGraph', {
+                chart: {
+                    type: 'columnrange',
+                    inverted: true
+                },
+                title: {
+                    text: 'Fortschritt der Prozesse'
+                },
+                xAxis: {
+                    categories: this.graphProcessNames,
+                    labels: {
+                        enabled: false
+                    },
+                    visible: false
+                },
+                yAxis: {
+                    type: 'datetime',
+                    title: {
+                        text: ''
+                    }
+                },
+                plotOptions: {
+                    series: {
+                        cursor: 'pointer',
+                        animation: false,
+                        point: {
+                            events: {
+                                click: function () {
+                                    vue.clickHandlerArticle({
+                                        target: {
+                                            id: this.category.link
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<b> Process/{point.key.category} </b> <br > ',
+                    pointFormat: '{point.low:%d.%m.%Y} bis {point.high:%d.%m.%Y}',
+                },
+                legend: {
+                    enabled: false
+                },
+                series: [{
+                    name: 'Prozess',
+                    data: this.graphProcessData
+                }]
+            });
+        },
+
+        test() {
+            alert("hallo");
+        }
     },
 
     // function called in the beginning
