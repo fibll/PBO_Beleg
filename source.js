@@ -165,6 +165,7 @@ var vue = new Vue({
             this.activeFilter1 = false;
             this.filterLabel1 = "Open groups";
             this.contentView = true;
+            this.detailView = false;
         },
 
         setProcessSettings: function () {
@@ -315,6 +316,7 @@ var vue = new Vue({
         fillContent: function () {
             this.noBackButton = true;
             if (this.showGraphs) {
+                this.selectedContentView = false;
                 // back from detail view to graphs
                 this.clickHandlerSidebar({
                     target: {
@@ -326,6 +328,7 @@ var vue = new Vue({
                 this.noSortbar = false;
                 this.contentList = [];
                 this.contentView = true;
+                this.detailView = false;
                 var newListItem = "";
 
                 // sort listToShow
@@ -527,6 +530,7 @@ var vue = new Vue({
 
                 // set this.showType to process
                 this.showType = "processes";
+                this.showGraphs = false;
 
                 // set the sorrounding to process as well
                 this.setProcessSettings();
@@ -549,6 +553,7 @@ var vue = new Vue({
 
                 // set this.showType to stakeholder
                 this.showType = "stakeholder";
+                this.showGraphs = false;
 
                 // set the sorrounding to stakeholder as well
                 // - Sidebar to stakeholder
