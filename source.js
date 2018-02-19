@@ -171,6 +171,8 @@ var vue = new Vue({
             var tmpLocation = "";
             var tmpInitiator = "";
 
+            var shortName = "";
+
             // convert id to readableId
             var tmpList = this.listToShow[i].id.split("/");
             var readableID = this.capitalFirstLetter(tmpList[tmpList.length - 2]) + "/" + Number(tmpList[tmpList.length - 1]);
@@ -196,9 +198,17 @@ var vue = new Vue({
                 "Initiator", tmpInitiator
             ];
 
+            // if name is too long it is shortened
+            if(this.listToShow[i].name.length > 35){
+                shortName = this.listToShow[i].name.substr(0, 32) + "...";
+            }
+            else{
+                shortName = this.listToShow[i].name;
+            }
+
             newListItem = `
             <div class="card border-primary mb-3 text-black" style="width: 20rem;">
-                <div id="` + this.listToShow[i].id + `" class="card-header">` + this.listToShow[i].name + `</div>
+                <div id="` + this.listToShow[i].id + `" class="card-header bg-primary text-white">` + shortName + `</div>
                 <div id="` + this.listToShow[i].id + `" class="card-body">
                     <table class="table">`;
 
@@ -222,10 +232,19 @@ var vue = new Vue({
             // convert id to readableId
             var tmpList = this.listToShow[i].id.split("/");
             var readableID = this.capitalFirstLetter(tmpList[tmpList.length - 2]) + "/" + Number(tmpList[tmpList.length - 1]);
+            var shortCity = "";
+
+            // if name is too long it is shortened
+            if(this.listToShow[i].city.length > 35){
+                shortCity = this.listToShow[i].city.substr(0, 32) + "...";
+            }
+            else{
+                shortCity = this.listToShow[i].city;
+            }
 
             newListItem = `
             <div class="card border-primary mb-3 text-black" style="width: 20rem">
-                <div id="` + this.listToShow[i].id + `" class="card-header">` + this.listToShow[i].city + `</div>
+                <div id="` + this.listToShow[i].id + `" class="card-header bg-primary text-white">` + shortCity + `</div>
                 <div id="` + this.listToShow[i].id + `" class="card-body">
                     <table class="table">
                         <tr>
@@ -240,6 +259,7 @@ var vue = new Vue({
 
         fillContentStakeholder: function (i, newListItem) {
             var color = "";
+            var shortName = "";
 
             // convert id to readableId
             var tmpList = this.listToShow[i].id.split("/");
@@ -250,9 +270,17 @@ var vue = new Vue({
             else
                 color = `text-success`;
 
+            // if name is too long it is shortened
+            if(this.listToShow[i].name.length > 35){
+                shortName = this.listToShow[i].name.substr(0, 32) + "...";
+            }
+            else{
+                shortName = this.listToShow[i].name;
+            }
+
             newListItem = `
             <div class="card border-primary mb-3 text-black" style="width: 20rem">
-                <div id="` + this.listToShow[i].id + `" class="card-header">` + this.listToShow[i].name + `</div>
+                <div id="` + this.listToShow[i].id + `" class="card-header bg-primary text-white">` + shortName + `</div>
                 <div id="` + this.listToShow[i].id + `" class="card-body">
                     <table class="table">
                         <tr>
