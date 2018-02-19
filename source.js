@@ -1154,7 +1154,9 @@ var vue = new Vue({
                     type: 'datetime',
                     title: {
                         text: ''
-                    }
+                    },
+                    startOnTick: false,
+                    endOnTick: false
                 },
                 plotOptions: {
                     series: {
