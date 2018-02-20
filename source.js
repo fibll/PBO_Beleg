@@ -891,7 +891,7 @@ var vue = new Vue({
                         <td id="showProjects" data-toggle="tooltip" title="Auswahl der Projekte des Stakeholders anzeigen">`;
 
                         for (item in workingProjects) {
-                            this.detailTableClickRow += `<li id="showProjects"><span  id="showParticipants" class="text-primary">` + workingProjects[item] + "</span></li>";
+                            this.detailTableClickRow += `<li id="showProjects"><span  id="showProjects" class="text-primary">` + workingProjects[item] + "</span></li>";
                         }
                     }
 
