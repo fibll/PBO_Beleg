@@ -537,6 +537,8 @@ var vue = new Vue({
             this.contentList[0] = this.detailCardBodyError;
 
 
+            console.log("clicked " + event.target.id);
+
             // begin of html phrase
             var tmpContent = "";
 
@@ -545,7 +547,6 @@ var vue = new Vue({
                 this.detailCardHeader = this.detailCardHeaderError;
                 this.contentList[0] = this.detailCardBodyError;
                 return;
-
             }
             // if one of the single article sidebar items like 'system'
             else if (event.target.id == "single") {
@@ -755,13 +756,13 @@ var vue = new Vue({
 
                         this.detailTableClickRow += `
                                     <th id="showParticipants" class="text-black">` + this.localize(this.capitalFirstLetter(item)) + `</th>
-                                    <td id="showParticipants" class="text-primary">`;
+                                    <td id="showParticipants"  data-toggle="tooltip" title="Auswahl der Stakeholder des Projektes anzeigen">`;
 
                         // go through stakeholder and compare
                         for (stakeItem in this.stakeholder) {
                             for (participantsItem in tmpItem[item]) {
                                 if (this.stakeholder[stakeItem].id == tmpItem[item][participantsItem]) {
-                                    this.detailTableClickRow += `<li id="showParticipants">` + this.stakeholder[stakeItem].name + "</li>";
+                                    this.detailTableClickRow += `<li id="showParticipants"><span id="showParticipants" class="text-primary">` + this.stakeholder[stakeItem].name + "</span></li>";
 
                                     // save to this.participantsData to later show a content view (with a click)
                                     this.participantsData.push(this.stakeholder[stakeItem]);
@@ -773,7 +774,7 @@ var vue = new Vue({
                                     </td>`;
 
                         // handle case of no participants
-                        if(this.participantsData.length <= 0){
+                        if (this.participantsData.length <= 0) {
                             this.detailTableClickable = false;
                             this.detailTableClickRow = "";
                         }
@@ -869,10 +870,10 @@ var vue = new Vue({
 
                         this.detailTableClickRow = `
                         <th id="showProjects" class="text-black">Aktive Projekte</th>
-                        <td id="showProjects" class="text-primary">`;
+                        <td id="showProjects" data-toggle="tooltip" title="Auswahl der Projekte des Stakeholders anzeigen">`;
 
                         for (item in workingProjects) {
-                            this.detailTableClickRow += `<li id="showProjects">` + workingProjects[item] + "</li>";
+                            this.detailTableClickRow += `<li id="showProjects"><span  id="showParticipants" class="text-primary">` + workingProjects[item] + "</span></li>";
                         }
                     }
 
@@ -880,7 +881,7 @@ var vue = new Vue({
                         </td>`;
 
                     // handle case of no participants
-                    if(this.activeProjectsData.length <= 0){
+                    if (this.activeProjectsData.length <= 0) {
                         this.detailTableClickable = false;
                         this.detailTableClickRow = "";
                     }
@@ -1090,7 +1091,7 @@ var vue = new Vue({
             string = string.replace("Created", "Erstellt");
             string = string.replace("Modified", "Verändert");
             string = string.replace("Participation", "Mitwirkung");
-            string = string.replace("Participants", "Mitwirkende");
+            string = string.replace("Participants", "Stakeholder");
             string = string.replace("Address", "Adresse");
             string = string.replace("Zip", "PLZ");
             string = string.replace("City", "Stadt");
@@ -1277,8 +1278,8 @@ var vue = new Vue({
                     }
                 },
                 tooltip: {
-                    headerFormat: '<b> {point.key.category} </b> <br > ',
-                    pointFormat: 'Wirkt an {point.y} Prozessen mit',
+                    headerFormat: '<b> {point.key.category} </b><br>',
+                    pointFormat: 'wirkt an {point.y} Prozessen mit.',
                 },
                 legend: {
                     enabled: false
