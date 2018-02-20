@@ -1103,6 +1103,7 @@ var vue = new Vue({
         },
 
         localize: function (string) {
+            // translate text by replacing strings
             string = string.replace("Description", "Beschreibung");
             string = string.replace("Start", "Anfang");
             string = string.replace("End (optional)", "Ende (optional)");
@@ -1130,7 +1131,7 @@ var vue = new Vue({
             this.graphProcessData = [];
             this.graphStakeholderNames = [];
             this.graphStakeholderData = [];
-            // Speichere Prozess-Infos
+            // prepare process information for graph
             for (process in this.children) {
                 // get short name
                 var shortName;
@@ -1139,15 +1140,16 @@ var vue = new Vue({
                 } else {
                     shortName = this.children[process].name;
                 }
-                // Speichere Prozess
+                // add processes (x-axis)
                 this.graphProcessNames.push({
                     category: this.children[process].name,
                     short: shortName,
                     link: this.children[process].id
                 });
-                // this.children[process].id.split("/")[this.children[process].id.split("/").length - 1]
+                // add process date ranges (y-axis)
                 var startDate = Date.parse(this.children[process]["start"]);
                 var endDate = Date.now();
+                // optional (unused): finished processes in different color
                 if (this.children[process]["end (optional)"]) {
                     endDate = Date.parse(this.children[process]["end (optional)"]);
                     this.graphProcessData.push({
@@ -1167,7 +1169,7 @@ var vue = new Vue({
                     })
                 }
             };
-            // Speicher Stakeholder-Infos
+            // prepare stakeholder information for graph
             var projectCounter;
             for (stakeholder in this.stakeholder) {
                 // count projects
@@ -1180,19 +1182,22 @@ var vue = new Vue({
                         }
                     }
                 }
-                // save stakeholder information
+                // add project count (x-axis)
+                this.graphStakeholderData.push(projectCounter)
+
+                // add stakeholder information (y-axis)
                 this.graphStakeholderNames.push({
                     category: this.stakeholder[stakeholder].name,
                     link: this.stakeholder[stakeholder].id
                 });
-
-                this.graphStakeholderData.push(projectCounter)
             }
+            // draw both graphs
             this.drawProcessesGraph();
             this.drawStakeholderGraph();
         },
 
         drawProcessesGraph() {
+            // draw process graph into element with id processGraph
             Highcharts.chart('processGraph', {
                 chart: {
                     type: 'columnrange',
@@ -1254,6 +1259,7 @@ var vue = new Vue({
         },
 
         drawStakeholderGraph() {
+            // draw stakeholder graph in element with id stakeholderGraph
             Highcharts.chart('stakeholderGraph', {
                 chart: {
                     type: 'bar'
