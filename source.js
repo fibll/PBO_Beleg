@@ -742,6 +742,7 @@ var vue = new Vue({
                     }
                     // make participants clickable, to show later the participants in a content view
                     else if (item == "participants") {
+
                         // enable clickable entry in detail table and reset row content
                         this.detailTableClickable = true;
                         this.detailTableClickRow = "";
@@ -753,8 +754,8 @@ var vue = new Vue({
                         this.selectedContentViewMessage = "Auswahl der Stakeholder des Projektes: " + tmpItem.name;
 
                         this.detailTableClickRow += `
-                                    <th id="showParticipants">` + this.localize(this.capitalFirstLetter(item)) + `</th>
-                                    <td id="showParticipants">`;
+                                    <th id="showParticipants" class="text-black">` + this.localize(this.capitalFirstLetter(item)) + `</th>
+                                    <td id="showParticipants" class="text-primary">`;
 
                         // go through stakeholder and compare
                         for (stakeItem in this.stakeholder) {
@@ -770,6 +771,12 @@ var vue = new Vue({
 
                         this.detailTableClickRow += `
                                     </td>`;
+
+                        // handle case of no participants
+                        if(this.participantsData.length <= 0){
+                            this.detailTableClickable = false;
+                            this.detailTableClickRow = "";
+                        }
                     }
                     // get readable time
                     else if (item == "start" || item == "created" || item == "modified" || item == "end (optional)") {
@@ -861,8 +868,8 @@ var vue = new Vue({
                     </tr>`;
 
                         this.detailTableClickRow = `
-                        <th id="showProjects">Aktive Projekte</th>
-                        <td id="showProjects">`;
+                        <th id="showProjects" class="text-black">Aktive Projekte</th>
+                        <td id="showProjects" class="text-primary">`;
 
                         for (item in workingProjects) {
                             this.detailTableClickRow += `<li id="showProjects">` + workingProjects[item] + "</li>";
@@ -871,6 +878,12 @@ var vue = new Vue({
 
                     this.detailTableClickRow += `
                         </td>`;
+
+                    // handle case of no participants
+                    if(this.activeProjectsData.length <= 0){
+                        this.detailTableClickable = false;
+                        this.detailTableClickRow = "";
+                    }
                 }
 
 
