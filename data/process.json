@@ -2198,6 +2198,17 @@
       ],
       "locations": [
         {
+          "id": "https://process.stadt.de/location/42",
+          "address": "Friedrich-List-Platz 1",
+          "zip": "01069",
+          "city": "Dresden",
+          "room (optional)": "Z 146a",
+          "geoCoords (optional)": {
+            "lat": "51°02'15.2\"N",
+            "lng": "13°44'06.4\"E"
+          }
+        },
+		{
           "id": "https://process.stadt.de/location/1",
           "address": "",
           "zip": "",

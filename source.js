@@ -1,9 +1,5 @@
 /* to do:
 
-+ Contentansicht:
-    - Locations sollten einen oder zwei weitere Unterpunkte haben
-    - Stakeholder eventuell auch einen mehr
-
 + Detailansicht:
     - Zusatzinfos:
         * Prozesse: Zeitraum + Kurze Info wann das nächste Projekt ausläuft.
@@ -298,7 +294,14 @@ var vue = new Vue({
                         <tr>
                             <th id="` + this.listToShow[i].id + `">ID</th>
                             <td id="` + this.listToShow[i].id + `">` + readableID + `</td>
-                        </tr>
+                        </tr>`;
+            if (this.listToShow[i].address) {
+                newListItem += `<tr>
+                            <th id="` + this.listToShow[i].id + `">Adresse</th>
+                            <td id="` + this.listToShow[i].id + `">` + this.listToShow[i].address + `</td>
+                        </tr>`;
+            }
+            newListItem += `
                     </table>
                 </div>
             <div>`;
@@ -325,6 +328,17 @@ var vue = new Vue({
                 shortName = this.listToShow[i].name;
             }
 
+            var projectCounter = 0;
+            for (item in this.children) {
+                for (subitem in this.children[item].participants) {
+                    // is the stakeholder included ?
+                    if (this.children[item].participants[subitem] == this.listToShow[i].id) {
+                        projectCounter++;
+                        break;
+                    }
+                }
+            }
+
             newListItem = `
             <div class="card mb-3 text-black" style="width: 20rem; border-color: ` + this.cardColor + `;">
                 <div id="` + this.listToShow[i].id + `" class="card-header text-` + this.cardHeaderTextColor + `" style="background-color: ` + this.cardColor + `;">` + shortName + `</div>
@@ -337,6 +351,10 @@ var vue = new Vue({
                         <tr>
                             <th id="` + this.listToShow[i].id + `">Status</th>
                             <td id="` + this.listToShow[i].id + `" class="` + color + `">` + this.localize(this.listToShow[i].type) + `</td>
+                        </tr>
+                        <tr>
+                            <th id="` + this.listToShow[i].id + `">Projekte</th>
+                            <td id="` + this.listToShow[i].id + `">` + projectCounter + `</td>
                         </tr>
                     </table>
                 </div>
