@@ -24,3 +24,7 @@ Als Ausgangsdaten zur Darstellung wurde ein vorgegebener Datensatz im JSON-Forma
 - Übersetzung der englischen JSON-Schlüssel
 - Graphische Statistik mit klickbaren Balken zur entsprechender Detailansicht
 - und viele mehr
+
+## Bearbeiter ##
+- Falk-Jonatan-Strube (s74053)
+- Simon Retsch (s74077)

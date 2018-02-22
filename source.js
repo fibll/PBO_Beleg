@@ -252,15 +252,15 @@ var vue = new Vue({
             }
 
             newListItem = `
-            <div class="card mb-3 text-black" style="width: 20rem; border-color: ` + this.cardColor + `;">
+            <div id="` + this.listToShow[i].id + `" class="card mb-3 text-black" style="width: 20rem; border-color: ` + this.cardColor + `;">
                 <div id="` + this.listToShow[i].id + `" class="card-header text-` + this.cardHeaderTextColor + `" style="background-color: ` + this.cardColor + `;">` + shortName + `</div>
                 <div id="` + this.listToShow[i].id + `" class="card-body">
-                    <table class="table">`;
+                    <table id="` + this.listToShow[i].id + `" class="table">`;
 
             // set content in for loop cause it would look to complicated in the code with setting the id all the time
             for (var index = 0; index < tmpContentList.length; index += 2) {
                 newListItem += `
-                        <tr>
+                        <tr id="` + this.listToShow[i].id + `" >
                             <th id="` + this.listToShow[i].id + `">` + tmpContentList[index] + `</th>
                             <td id="` + this.listToShow[i].id + `">` + tmpContentList[index + 1] + `</td>
                         </tr>`;
@@ -287,16 +287,16 @@ var vue = new Vue({
             }
 
             newListItem = `
-            <div class="card mb-3 text-black" style="width: 20rem; border-color: ` + this.cardColor + `;">
+            <div id="` + this.listToShow[i].id + `" class="card mb-3 text-black" style="width: 20rem; border-color: ` + this.cardColor + `;">
                 <div id="` + this.listToShow[i].id + `" class="card-header text-` + this.cardHeaderTextColor + `" style="background-color: ` + this.cardColor + `;">` + shortCity + `</div>
                 <div id="` + this.listToShow[i].id + `" class="card-body">
-                    <table class="table">
-                        <tr>
+                    <table id="` + this.listToShow[i].id + `" class="table">
+                        <tr id="` + this.listToShow[i].id + `" >
                             <th id="` + this.listToShow[i].id + `">ID</th>
                             <td id="` + this.listToShow[i].id + `">` + readableID + `</td>
                         </tr>`;
             if (this.listToShow[i].address) {
-                newListItem += `<tr>
+                newListItem += `<tr id="` + this.listToShow[i].id + `" >
                             <th id="` + this.listToShow[i].id + `">Adresse</th>
                             <td id="` + this.listToShow[i].id + `">` + this.listToShow[i].address + `</td>
                         </tr>`;
@@ -340,19 +340,19 @@ var vue = new Vue({
             }
 
             newListItem = `
-            <div class="card mb-3 text-black" style="width: 20rem; border-color: ` + this.cardColor + `;">
+            <div id="` + this.listToShow[i].id + `" class="card mb-3 text-black" style="width: 20rem; border-color: ` + this.cardColor + `;">
                 <div id="` + this.listToShow[i].id + `" class="card-header text-` + this.cardHeaderTextColor + `" style="background-color: ` + this.cardColor + `;">` + shortName + `</div>
                 <div id="` + this.listToShow[i].id + `" class="card-body">
-                    <table class="table">
-                        <tr>
+                    <table id="` + this.listToShow[i].id + `" class="table">
+                        <tr id="` + this.listToShow[i].id + `" >
                             <th id="` + this.listToShow[i].id + `">ID</th>
                             <td id="` + this.listToShow[i].id + `">` + readableID + `</td>
                         </tr>
-                        <tr>
+                        <tr id="` + this.listToShow[i].id + `" >
                             <th id="` + this.listToShow[i].id + `">Status</th>
                             <td id="` + this.listToShow[i].id + `" class="` + color + `">` + this.localize(this.listToShow[i].type) + `</td>
                         </tr>
-                        <tr>
+                        <tr id="` + this.listToShow[i].id + `" >
                             <th id="` + this.listToShow[i].id + `">Projekte</th>
                             <td id="` + this.listToShow[i].id + `">` + projectCounter + `</td>
                         </tr>
