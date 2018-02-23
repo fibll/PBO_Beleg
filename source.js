@@ -4,12 +4,12 @@ var vue = new Vue({
     data: {
         // data
         jsonData: {},
-        children: [],
-        locations: [],
-        stakeholder: [],
+        children: [],       // list with all child process entries of process.json
+        locations: [],      // list with all location entries of process.json
+        stakeholder: [],    // list with all stakeholder entries of process.json
         days: ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"],
 
-        // active
+        // active menu elements (tabs)
         listElement1: true,
         listElement2: false,
         listElement3: false,
@@ -52,15 +52,15 @@ var vue = new Vue({
         selectedContentViewMessage: "",
 
         // show
-        showType: "processes",
-        sortBy: "id",
-        listToShow: [],
-        contentList: [],
-        participantsData: [],
-        activeProjectsData: [],
-        contentView: true,
-        detailView: false,
-        graphView: false,
+        showType: "processes",      // Typeindicator for shown data (processes | locations | stakeholder | mainprocess)
+        sortBy: "id",               // Sortindicator of the content data
+        listToShow: [],             // depending on showType it contains for example all elements of list 'children'
+        contentList: [],            // contains HTML-Code elements which are filled with information from the process.json
+        participantsData: [],       // special list that contain HTML-Code elements with information about all stakeholder in the chosen project
+        activeProjectsData: [],     // special list that contain HTML-Code elements with information about all projects for the chosen stakeholder
+        contentView: true,          // activation of contentView
+        detailView: false,          // activation of detailView
+        graphView: false,           // activation of graphView
 
         cardColor: "#5b6066",
         cardHeaderTextColor: "white",
@@ -117,25 +117,6 @@ var vue = new Vue({
             "https://process.stadt.de/process/144": "32 Baubeginn dummy.jpg"
         },
     },
-
-
-
-    // stuff that takes more logic power
-    /*
-    computed: {
-        sortArray: function () {
-            function compare(a, b) {
-                if (a.name < b.name)
-                    return -1;
-                if (a.name > b.name)
-                    return 1;
-                return 0;
-            }
-
-            return this.listToShow.sort(compare);
-        },
-    },
-    */
 
 
     // methods
