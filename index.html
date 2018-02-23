@@ -31,10 +31,7 @@
             </div>
         </nav>
 
-        <!-- Searchbar  -->
-        <!-- <div id=searchbar>Searchbar</div> -->
-
-        <!-- Sidebar  -->
+        <!-- Menubar  -->
         <ul id=menu class="nav nav-tabs mb-2" role="tablist">
             <li class="nav-item"></li>
             <a id="sidebarProcesses" href="#" class="nav-link" v-bind:class="{ active: listElement1}" v-on:click="clickHandlerSidebar">Prozesse</a>
@@ -45,11 +42,6 @@
             <li class="nav-item"></li>
             <a id="sidebarStakeholder" href="#" class="nav-link" v-bind:class="{ active: listElement3}" v-on:click="clickHandlerSidebar">Stakeholder</a>
             </li>
-            <!--
-                            <a id="sidebarSystem" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement4}" v-on:click="clickHandlerSidebar">System</a>
-                                <a id="sidebarEntrypoint" href="#" class="list-group-item list-group-item-action" v-bind:class="{ active: listElement5}"
-                                v-on:click="clickHandlerSidebar">Entrypoint</a>
-                            -->
             <li class="nav-item"></li>
             <a id="sidebarMainprocess" href="#" class="nav-link" v-bind:class="{ active: listElement6}" v-on:click="clickHandlerSidebar">Hauptprozess</a>
             </li>
@@ -123,10 +115,6 @@
                             <div id="detailAttachment" v-html="detailAttachment"></div>
                         </div>
                     </div>
-                    <!--
-                        <a href="#" class="list-group-item-action" v-on:click="clickHandlerArticle" v-html="contentList[0]">
-                        </a>
-                    -->
                 </div>
 
                 <div class="row m-2 mb-3" v-bind:class="{ 'd-none': !graphView }">
@@ -143,46 +131,4 @@
 </body>
 
 <script src="source.js"></script>
-
-<script>
-    $(document).ready(function () {
-        $("button").click(function () {
-            $("#menu").fadeOut("slow");
-        });
-        $("button").click(function () {
-            $("#menu").fadeIn("slow");
-        });
-    });
-</script>
-
 </html>
-
-
-<!-- <button>Click to fade in boxes</button> -->
-
-<!--
-<div class="row">
-    <div class="col-md">
-        <div id="visualization"></div>
-        <script type="text/javascript">
-            var container = document.getElementById('visualization');
-            var items = [
-                { x: 11, y: 10 },
-                { x: 12, y: 30 },
-                { x: 13, y: 25 },
-                { x: 14, y: 30 },
-                { x: 15, y: 10 },
-                { x: 16, y: 15 },
-                { x: 17, y: 30 }
-            ];
-
-            var dataset = new vis.DataSet(items);
-            var options = {
-                start: 10,
-                end: 18
-            };
-            var graph2d = new vis.Graph2d(container, dataset, options);
-        </script>
-    </div>
-</div>
--->

@@ -1,15 +1,3 @@
-/* to do:
-
-+ Detailansicht:
-    - Zusatzinfos:
-        * Prozesse: Zeitraum + Kurze Info wann das nächste Projekt ausläuft.
-
-    - Klickbar:
-        * Prozesse: Initiator?
-
-+ Vergleich: locale compare, to_lower (für Umlaute, Groß-/Kleinschreibung)
-
-*/
 
 var vue = new Vue({
     el: "#app",
@@ -74,6 +62,9 @@ var vue = new Vue({
         detailView: false,
         graphView: false,
 
+        cardColor: "#5b6066",
+        cardHeaderTextColor: "white",
+
         // detail view
         detailCardHeader: "",
         detailTableClickable: false,
@@ -88,20 +79,6 @@ var vue = new Vue({
         graphStakeholderNames: [],
         graphStakeholderData: [],
         showGraphs: false,
-
-        // test
-        // possible card colors:
-        // #6D8BA8
-        // #778899
-        // #87aed3
-        // #868e96 (bg-secondary from bootstrap)
-        // #5b6066 (bg-secondary a bit darker)
-        cardColor: "#5b6066",
-        cardHeaderTextColor: "white",
-
-        sortbarListProcesses: ["ID", "Name"],
-        sortbarListLocations: ["ID", "Stadt"],
-        sortbarListStakeholder: ["ID", "Name"],
 
         // attachments (images/pdfs)
         attachments: {
@@ -141,6 +118,8 @@ var vue = new Vue({
         },
     },
 
+
+
     // stuff that takes more logic power
     /*
     computed: {
@@ -157,6 +136,7 @@ var vue = new Vue({
         },
     },
     */
+
 
     // methods
     methods: {
@@ -415,33 +395,33 @@ var vue = new Vue({
             }
 
             function compareName(a, b) {
-                if (a.name < b.name)
+                if (a.name.toLowerCase() < b.name.toLowerCase())
                     return -1;
-                if (a.name > b.name)
+                if (a.name.toLowerCase() > b.name.toLowerCase())
                     return 1;
                 return 0;
             }
 
             function compareCity(a, b) {
-                if (a.city < b.city)
+                if (a.city.toLowerCase() < b.city.toLowerCase())
                     return -1;
-                if (a.city > b.city)
+                if (a.city.toLowerCase() > b.city.toLowerCase())
                     return 1;
                 return 0;
             }
 
             function compareLocation(a, b) {
-                if (a.location < b.location)
+                if (a.location.toLowerCase() < b.location.toLowerCase())
                     return -1;
-                if (a.location > b.location)
+                if (a.location.toLowerCase() > b.location.toLowerCase())
                     return 1;
                 return 0;
             }
 
             function compareStakeholder(a, b) {
-                if (a.stakeholder < b.stakeholder)
+                if (a.stakeholder.toLowerCase() < b.stakeholder.toLowerCase())
                     return -1;
-                if (a.stakeholder > b.stakeholder)
+                if (a.stakeholder.toLowerCase() > b.stakeholder.toLowerCase())
                     return 1;
                 return 0;
             }
@@ -472,9 +452,9 @@ var vue = new Vue({
 
 
             function compareInitiator(a, b) {
-                if (a.initiator < b.initiator)
+                if (a.initiator.toLowerCase() < b.initiator.toLowerCase())
                     return -1;
-                if (a.initiator > b.initiator)
+                if (a.initiator.toLowerCase() > b.initiator.toLowerCase())
                     return 1;
                 return 0;
             }
@@ -495,11 +475,6 @@ var vue = new Vue({
                     return this.listToShow.sort(compareEndDate)
                 }
             }
-            /*
-            else if (this.sortBy == "sortbarCol4") {
-                return this.listToShow.sort(compareCity);
-            }
-            */
             else {
                 return this.listToShow.sort(compareID);
             }
@@ -585,7 +560,6 @@ var vue = new Vue({
             }
             // change to content view with the projects of the stakeholder
             else if (event.target.id == "showProjects") {
-                // reset this.listToShow
                 this.listToShow = this.activeProjectsData;
 
                 // set this.showType to process
@@ -653,13 +627,6 @@ var vue = new Vue({
                     this.detailCardHeader = tmpItem.city;
                 else
                     this.detailCardHeader = tmpItem.name
-
-                //tmpContent += `
-                //<div id="singleArticle" class="card-header">` + header + `</div>
-                //<div id="singleArticle" class="card-body">
-                //    <table class="table">`;
-
-                //tmpContent += `<table class="table">`;
 
                 // fill with all the attributes
                 for (item in tmpItem) {
@@ -926,10 +893,6 @@ var vue = new Vue({
                 console.log("Nothing was found at " + event.target.id);
             }
 
-            // end of html phrase
-            //tmpContent += `</div>`;
-
-
             // set content as item in the contentList
             this.contentList = [];
             this.contentList.push(tmpContent);
@@ -1155,12 +1118,6 @@ var vue = new Vue({
                     this.graphProcessData.push({
                         low: startDate,
                         high: endDate,
-                        // states: {
-                        //     hover: {
-                        //         color: "green"
-                        //     }
-                        // },
-                        // color: "lightblue"
                     })
                 } else {
                     this.graphProcessData.push({
